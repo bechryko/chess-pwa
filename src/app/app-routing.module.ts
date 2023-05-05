@@ -1,0 +1,26 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [
+  { 
+    path: 'menu', 
+    loadChildren: () => import('./pages/menu/menu.module').then(m => m.MenuModule) 
+  },
+  { 
+    path: '', 
+    redirectTo: '/menu',
+    pathMatch: 'full'
+  },
+  { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule) },
+  { path: 'game', loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule) },
+  { 
+    path: '**', 
+    loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule) 
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

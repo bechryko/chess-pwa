@@ -1,0 +1,20 @@
+@use 'src/assets/styles/colors' as *;
+
+svg {
+    width: 5rem;
+    fill: $deep-purple-900;
+}
+
+h1, h2 {
+    color: $deep-purple-mixed-black;
+    font-weight: 500;
+    margin: 0.5rem 0 2rem;
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+h2 {
+    font-size: 1.75em;
+}

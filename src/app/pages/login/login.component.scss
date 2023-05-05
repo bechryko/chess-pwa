@@ -1,0 +1,20 @@
+@use 'src/assets/styles/colors' as *;
+
+h2 {
+    color: $deep-purple-mixed-black;
+    font-size: 2.5rem;
+}
+
+mat-form-field {
+    width: 80%;
+    margin-top: 2rem;
+}
+
+mat-tab-group {
+    height: 70%;
+    width: 100%;
+}
+
+.mat-mdc-tab-body-content {
+    overflow: hidden !important;
+}
