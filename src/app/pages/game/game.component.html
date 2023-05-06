@@ -1,1 +1,7 @@
-<p>game works!</p>
+<table class="chessBoard">
+    <tr *ngFor="let row of displayBoard" class="chessRow">
+        <td *ngFor="let piece of row" class="chessTile">
+            <img *ngIf="piece !== null" src="{{piece.getIcon()}}" class="chessPieceIcon">
+        </td>
+    </tr>
+</table>

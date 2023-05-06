@@ -1,0 +1,43 @@
+@use 'src/assets/styles/colors' as *;
+
+$black-chess-tile-color: $deep-purple-400;
+$white-chess-tile-color: $amber-200;
+
+.chessBoard {
+    border-collapse: collapse;
+    .chessRow {
+        margin: 0;
+        .chessTile {
+            width: 2.5rem;
+            height: 2.5rem;
+            margin: 0;
+            .chessPieceIcon {
+                width: 100%;
+                height: 100%;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+        }
+        &:nth-child(odd) {
+            .chessTile {
+                &:nth-child(even) {
+                    background-color: $black-chess-tile-color;
+                }
+                &:nth-child(odd) {
+                    background-color: $white-chess-tile-color;
+                }
+            }
+        }
+        &:nth-child(even) {
+            .chessTile {
+                &:nth-child(odd) {
+                    background-color: $black-chess-tile-color;
+                }
+                &:nth-child(even) {
+                    background-color: $white-chess-tile-color;
+                }
+            }
+        }
+    }
+}
