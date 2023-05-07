@@ -5,6 +5,7 @@ import { Move } from './Move';
 export class Game {
     public pieces: pieces.Piece[];
     public current: PieceColor = PieceColor.WHITE;
+    public castling = {white: {king: true, queen: true}, black: {king: true, queen: true}};
 
     constructor(initEmpty: boolean = false) {
         if(initEmpty) {
@@ -61,6 +62,7 @@ export class Game {
         const king = this.getKing(Game.getOtherColor(color));
         moves = moves.filter(move => !(move.to.x == king.pos.x && move.to.y == king.pos.y));
         return moves;
+        //TODO: filter out moves that put king in check & moves that don't get king out of check
     }
 
     public isInBounds(pos: Position): boolean {
@@ -103,15 +105,8 @@ export class Game {
         if(!piece.getPossibleMoves(this).some(m => m.equals(move))) {
             return false;
         }
-        const targetPiece = this.getPiece(move.to);
-        if(targetPiece != null) {
-            this.pieces.splice(this.pieces.indexOf(targetPiece as pieces.Piece), 1);
-        }
-        piece.step(move);
-        if(piece.type == PieceType.PAWN && (piece.pos.y == 0 || piece.pos.y == 7)) {
-            this.pieces.splice(this.pieces.indexOf(piece), 1);
-            this.pieces.push(new pieces.Queen(piece.color, piece.pos));
-        }
+        piece.step(move, this);
+        //TODO: castling
         this.current = this.current == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
         return true;
     }
@@ -120,6 +115,10 @@ export class Game {
         const game = new Game(true);
         game.pieces = this.pieces.map(piece => piece.copy());
         game.current = this.current;
+        game.castling = {
+            white: { king: this.castling.white.king, queen: this.castling.white.queen },
+            black: { king: this.castling.black.king, queen: this.castling.black.queen }
+        };
         return game;
     }
 

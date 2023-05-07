@@ -10,13 +10,16 @@ export class Piece {
         public movePattern: MovePattern
     ) { }
 
-    public step(move: Move): void {
+    public step(move: Move, game: Game): void {
+        const targetPiece = game.getPiece(move.to);
+        if(targetPiece !== null) {
+            game.pieces.splice(game.pieces.indexOf(targetPiece), 1);
+        }
         this.pos = move.to;
     }
 
     public getPossibleMoves(game: Game): Move[] {
         const moves: Move[] = [];
-        const enemyKing = game.getKing(Game.getOtherColor(this.color));
         for(const direction of this.movePattern.directions) {
             for(let i = 1; i <= this.movePattern.maxSteps; i++) {
                 const move = new Move(this.pos, {
@@ -28,14 +31,12 @@ export class Piece {
                 }
                 const piece = game.getPiece(move.to);
                 if(piece) {
-                    if(piece.color != this.color) {
+                    if(piece.color != this.color && piece.type != PieceType.KING) {
                         moves.push(move);
                     }
                     break;
                 }
-                if(!(move.to.x == enemyKing.pos.x && move.to.y == enemyKing.pos.y)) {
-                    moves.push(move);
-                }
+                moves.push(move);
             }
         }
         return moves;
@@ -82,18 +83,26 @@ export class Pawn extends Piece {
         for(let i = -1; i <= 1; i += 2) {
             if(game.isInBounds({x: this.pos.x + i, y: this.pos.y + moveDirection})) {
                 const piece = game.getPiece({x: this.pos.x + i, y: this.pos.y + moveDirection});
-                if(piece && piece.color != this.color) {
+                if(piece && piece.color != this.color && piece.type != PieceType.KING) {
                     moves.push(new Move(this.pos, {x: this.pos.x + i, y: this.pos.y + moveDirection}));
                 }
             }
         }
         if(this.pos.y == (this.color == PieceColor.WHITE ? 1 : 6)) {
             const move = new Move(this.pos, {x: this.pos.x, y: this.pos.y + moveDirection * 2});
-            if(!game.getPiece(move.to) && !game.getPiece({x: this.pos.x, y: this.pos.y + moveDirection}) && game.isInBounds(move.to)) {
+            if(!game.getPiece(move.to) && !game.getPiece({x: this.pos.x, y: this.pos.y + moveDirection})) {
                 moves.push(move);
             }
         }
         return moves;
+    }
+
+    public override step(move: Move, game: Game): void {
+        super.step(move, game);
+        if(this.pos.y == 0 || this.pos.y == 7) {
+            game.pieces.splice(game.pieces.indexOf(this), 1);
+            game.pieces.push(new Queen(this.color, this.pos));
+        }
     }
 }
 
@@ -103,6 +112,16 @@ export class Rook extends Piece {
             directions: [...Move.HORIZONTAL_MOVE_PATTERNS],
             maxSteps: 8
         });
+    }
+
+    public override step(move: Move, game: Game): void {
+        super.step(move, game);
+        if(move.from.x == 0 && move.from.y == 0) {
+            game.castling[this.color].queen = false;
+        }
+        if(move.from.x == 7 && move.from.y == 0) {
+            game.castling[this.color].king = false;
+        }
     }
 }
 
@@ -139,5 +158,23 @@ export class King extends Piece {
             directions: [...Move.HORIZONTAL_MOVE_PATTERNS, ...Move.DIAGONAL_MOVE_PATTERNS],
             maxSteps: 1
         });
+    }
+
+    public override getPossibleMoves(game: Game): Move[] {
+        const moves = super.getPossibleMoves(game);
+        const castling = game.castling[this.color];
+        if(castling.queen && !game.getPiece({x: 1, y: this.pos.y}) && !game.getPiece({x: 2, y: this.pos.y}) && !game.getPiece({x: 3, y: this.pos.y})) {
+            moves.push(new Move(this.pos, {x: 2, y: this.pos.y}));
+        }
+        if(castling.king && !game.getPiece({x: 5, y: this.pos.y}) && !game.getPiece({x: 6, y: this.pos.y})) {
+            moves.push(new Move(this.pos, {x: 6, y: this.pos.y}));
+        }
+        return moves;
+    }
+
+    public override step(move: Move, game: Game): void {
+        super.step(move, game);
+        game.castling[this.color].queen = false;
+        game.castling[this.color].king = false;
     }
 }

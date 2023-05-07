@@ -35,7 +35,7 @@ export class GameComponent {
         } else if(!this.playerMove(new Move(this.selectedPosition, {x, y}))) {
             this.selectedPosition = {x, y};
         } else {
-            this.aiMove();
+            //this.aiMove();
             this.updateDisplayBoard();
         }
         this.syncSelections();
