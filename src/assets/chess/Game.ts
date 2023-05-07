@@ -47,7 +47,7 @@ export class Game {
         return king;
     }
 
-    private getOtherColor(color: PieceColor): PieceColor {
+    public static getOtherColor(color: PieceColor): PieceColor {
         return color == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
     }
 
@@ -58,7 +58,7 @@ export class Game {
                 moves.push(...piece.getPossibleMoves(this));
             }
         }
-        const king = this.getKing(this.getOtherColor(color));
+        const king = this.getKing(Game.getOtherColor(color));
         moves = moves.filter(move => !(move.to.x == king.pos.x && move.to.y == king.pos.y));
         return moves;
     }

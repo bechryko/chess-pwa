@@ -16,6 +16,7 @@ export class Piece {
 
     public getPossibleMoves(game: Game): Move[] {
         const moves: Move[] = [];
+        const enemyKing = game.getKing(Game.getOtherColor(this.color));
         for(const direction of this.movePattern.directions) {
             for(let i = 1; i <= this.movePattern.maxSteps; i++) {
                 const move = new Move(this.pos, {
@@ -32,7 +33,9 @@ export class Piece {
                     }
                     break;
                 }
-                moves.push(move);
+                if(!(move.to.x == enemyKing.pos.x && move.to.y == enemyKing.pos.y)) {
+                    moves.push(move);
+                }
             }
         }
         return moves;
