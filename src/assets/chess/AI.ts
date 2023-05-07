@@ -10,22 +10,55 @@ export class ChessAI {
         "queen": 9,
         "king": 0
     };
+    static WIN_VALUE = 13_000_000;
+    static THINK_DEPTH = 3;
 
-    static getPossibleMoves(game: Game): Move[] {
-        const moves: Move[] = [];
-        for(const piece of game.pieces) {
-            if(piece.color == game.current) {
-                moves.push(...piece.getPossibleMoves(game));
-            }
+    static bestMove: Move | null = null;
+
+    static heuristicValue(game: Game, distanceInTime: number): number {
+        const checkMate = game.isCheckmate();
+        if(checkMate !== null) {
+            return (checkMate == game.current ? -1 : 1) * (this.WIN_VALUE - distanceInTime);
         }
-        return moves;
-    }
-
-    static heuristicValue(game: Game): number {
+        if(game.isStalemate()) {
+            return 0;
+        }
         let value = 0;
         for(const piece of game.pieces) {
             value += this.PIECE_VALUES[piece.type as string] * (piece.color == game.current ? 1 : -1);
         }
         return value;
+    }
+
+    static negamax(game: Game, depth: number, alpha: number, beta: number, distanceInTime: number): number {
+        if(depth == 0) {
+            return this.heuristicValue(game, distanceInTime);
+        }
+        let value = -Infinity;
+        let bestMove: Move | null = null;
+        for(const move of game.getPossibleMoves(game.current)) {
+            const newGame = game.copy();
+            newGame.makeMove(move);
+            const negamaxValue = -this.negamax(newGame, depth - 1, -beta, -alpha, distanceInTime + 1);
+            if(value < negamaxValue) {
+                value = negamaxValue;
+                bestMove = move;
+            }
+            alpha = Math.max(alpha, value);
+            if(alpha >= beta) {
+                break;
+            }
+        }
+        this.bestMove = bestMove;
+        return value;
+    }
+
+    static getBestMove(game: Game): Move {
+        this.bestMove = null;
+        this.negamax(game, this.THINK_DEPTH, -Infinity, Infinity, 0);
+        if(this.bestMove === null) {
+            this.bestMove = game.getPossibleMoves(game.current)[0];
+        }
+        return this.bestMove;
     }
 }

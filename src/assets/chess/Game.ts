@@ -38,12 +38,37 @@ export class Game {
         return null;
     }
 
+    public getKing(color: PieceColor): pieces.King {
+        const king = this.pieces.find(piece => piece.type == PieceType.KING && piece.color == color) as pieces.King;
+        if(!king) {
+            console.log(this.pieces);
+            throw new Error("King not found");
+        }
+        return king;
+    }
+
+    private getOtherColor(color: PieceColor): PieceColor {
+        return color == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
+    }
+
+    public getPossibleMoves(color: PieceColor): Move[] {
+        let moves: Move[] = [];
+        for(const piece of this.pieces) {
+            if(piece.color == color) {
+                moves.push(...piece.getPossibleMoves(this));
+            }
+        }
+        const king = this.getKing(this.getOtherColor(color));
+        moves = moves.filter(move => !(move.to.x == king.pos.x && move.to.y == king.pos.y));
+        return moves;
+    }
+
     public isInBounds(pos: Position): boolean {
         return pos.x >= 0 && pos.x < 8 && pos.y >= 0 && pos.y < 8;
     }
 
     public isCheck(color: PieceColor): boolean {
-        const king = this.pieces.find(piece => piece.type == PieceType.KING && piece.color == color) as pieces.King;
+        const king = this.getKing(color);
         for(const piece of this.pieces.filter(piece => piece.color != color)) {
             for(const move of piece.getPossibleMoves(this)) {
                 if(move.to.x == king.pos.x && move.to.y == king.pos.y) {
@@ -56,12 +81,18 @@ export class Game {
 
     public isCheckmate(): PieceColor | null {
         for(const color of [PieceColor.WHITE, PieceColor.BLACK]) {
-            const king = this.pieces.find(piece => piece.type == PieceType.KING && piece.color == color) as pieces.King;
-            if(king.getPossibleMoves(this).length == 0) {
+            const king = this.getKing(color);
+            const kingMoves = king.getPossibleMoves(this);
+            const movesAttackingKing = this.getPossibleMoves(color == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE).filter(move => move.to.x == king.pos.x && move.to.y == king.pos.y);
+            if(kingMoves.length == 0 && movesAttackingKing.length > 0) {
                 return color;
             }
         }
         return null;
+    }
+
+    public isStalemate(): boolean {
+        return this.getPossibleMoves(this.current).length == 0;
     }
 
     public makeMove(move: Move): boolean {
@@ -72,7 +103,11 @@ export class Game {
         if(!piece.getPossibleMoves(this).some(m => m.equals(move))) {
             return false;
         }
-        piece.pos = move.to;
+        const targetPiece = this.getPiece(move.to);
+        if(targetPiece != null) {
+            this.pieces.splice(this.pieces.indexOf(targetPiece as pieces.Piece), 1);
+        }
+        piece.step(move);
         if(piece.type == PieceType.PAWN && (piece.pos.y == 0 || piece.pos.y == 7)) {
             this.pieces.splice(this.pieces.indexOf(piece), 1);
             this.pieces.push(new pieces.Queen(piece.color, piece.pos));

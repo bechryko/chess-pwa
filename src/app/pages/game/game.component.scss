@@ -3,6 +3,12 @@
 $black-chess-tile-color: $deep-purple-400;
 $white-chess-tile-color: $amber-200;
 
+* {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
 .chessBoard {
     border-collapse: collapse;
     .chessRow {
@@ -40,4 +46,10 @@ $white-chess-tile-color: $amber-200;
             }
         }
     }
+}
+
+.announcement {
+    color: $deep-purple-mixed-black;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
 }

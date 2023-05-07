@@ -1,7 +1,8 @@
+<p class="announcement">{{announcement}}</p>
 <table class="chessBoard">
-    <tr *ngFor="let row of displayBoard" class="chessRow">
-        <td *ngFor="let piece of row" class="chessTile">
-            <img *ngIf="piece !== null" src="{{piece.getIcon()}}" class="chessPieceIcon">
+    <tr *ngFor="let row of displayBoard; let y = index" class="chessRow">
+        <td *ngFor="let piece of row; let x = index" (click)="onTileClick(x, y)" class="chessTile">
+            <img src="assets/images/chess-{{piece}}.png" alt="" class="chessPieceIcon">
         </td>
     </tr>
 </table>

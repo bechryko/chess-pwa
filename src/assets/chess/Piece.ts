@@ -39,7 +39,7 @@ export class Piece {
     }
 
     public getIcon(): string {
-        return `assets/images/chess-${this.type as string}-${this.color == PieceColor.BLACK ? "black" : "white"}.png`;
+        return `${this.type as string}-${this.color == PieceColor.BLACK ? "black" : "white"}`;
     }
     public getChar(): string {
         if(this.type == PieceType.KNIGHT) {
@@ -60,9 +60,37 @@ export class Piece {
 export class Pawn extends Piece {
     constructor(color: PieceColor, pos: Position) {
         super(color, PieceType.PAWN, pos, {
-            directions: [[0, 1]],
+            directions: [[0, color == PieceColor.WHITE ? 1 : -1]],
             maxSteps: 1
         });
+    }
+
+    public override getPossibleMoves(game: Game): Move[] {
+        const moves = super.getPossibleMoves(game);
+        for(const move of moves) {
+            for(const piece of game.pieces.filter(p => p.color != this.color)) {
+                if(move.to.x == piece.pos.x && move.to.y == piece.pos.y) {
+                    moves.splice(moves.indexOf(move), 1);
+                    break;
+                }
+            }
+        }
+        const moveDirection = this.movePattern.directions[0][1];
+        for(let i = -1; i <= 1; i += 2) {
+            if(game.isInBounds({x: this.pos.x + i, y: this.pos.y + moveDirection})) {
+                const piece = game.getPiece({x: this.pos.x + i, y: this.pos.y + moveDirection});
+                if(piece && piece.color != this.color) {
+                    moves.push(new Move(this.pos, {x: this.pos.x + i, y: this.pos.y + moveDirection}));
+                }
+            }
+        }
+        if(this.pos.y == (this.color == PieceColor.WHITE ? 1 : 6)) {
+            const move = new Move(this.pos, {x: this.pos.x, y: this.pos.y + moveDirection * 2});
+            if(!game.getPiece(move.to) && !game.getPiece({x: this.pos.x, y: this.pos.y + moveDirection}) && game.isInBounds(move.to)) {
+                moves.push(move);
+            }
+        }
+        return moves;
     }
 }
 
