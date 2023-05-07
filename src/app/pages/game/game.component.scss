@@ -1,7 +1,7 @@
 @use 'src/assets/styles/colors' as *;
 
-$black-chess-tile-color: $deep-purple-400;
-$white-chess-tile-color: $amber-200;
+$black-chess-tile-color: $primary-400;
+$white-chess-tile-color: $secondary-200;
 
 * {
     margin-left: auto;
@@ -23,6 +23,9 @@ $white-chess-tile-color: $amber-200;
                 background-size: contain;
                 background-repeat: no-repeat;
                 background-position: center;
+            }
+            &.highlighted {
+                background-color: $secondary-900 !important;
             }
         }
         &:nth-child(odd) {
@@ -49,7 +52,7 @@ $white-chess-tile-color: $amber-200;
 }
 
 .announcement {
-    color: $deep-purple-mixed-black;
+    color: $primary-mixed-black;
     font-size: 2rem;
     margin-bottom: 1.5rem;
 }

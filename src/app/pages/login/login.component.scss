@@ -1,7 +1,7 @@
 @use 'src/assets/styles/colors' as *;
 
 h2 {
-    color: $deep-purple-mixed-black;
+    color: $primary-mixed-black;
     font-size: 2.5rem;
 }
 
@@ -11,10 +11,20 @@ mat-form-field {
 }
 
 mat-tab-group {
-    height: 70%;
+    height: 80%;
     width: 100%;
 }
 
-.mat-mdc-tab-body-content {
-    overflow: hidden !important;
+.tab {
+    overflow: hidden;
+}
+
+.center-content {
+    position: relative;
+    height: 100%;
+}
+
+.alignBottom {
+    position: absolute;
+    bottom: 0;
 }

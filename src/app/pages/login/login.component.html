@@ -2,7 +2,7 @@
     <h2>Login or register</h2>
     <mat-tab-group>
         <mat-tab label="Login">
-            <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" class="center-content">
+            <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" class="center-content tab">
                 <mat-form-field>
                     <mat-label>Email:</mat-label>
                     <input matInput placeholder="Email" formControlName="email" type="email">
@@ -15,7 +15,7 @@
             </form>
         </mat-tab>
         <mat-tab label="Signup">
-            <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()" class="center-content">
+            <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()" class="center-content tab">
                 <mat-form-field>
                     <mat-label>Email:</mat-label>
                     <input matInput placeholder="Email" formControlName="email" type="email">
@@ -36,5 +36,5 @@
             </form>
         </mat-tab>
     </mat-tab-group>
-    <button mat-flat-button color="accent" (click)="goBack()">Back</button>
+    <button mat-flat-button color="accent" (click)="goBack()" class="alignBottom">Back</button>
 </div>

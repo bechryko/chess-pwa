@@ -6,9 +6,9 @@ import { ChessAI } from 'src/assets/chess/AI';
 import { Position } from 'src/assets/chess/utility';
 
 @Component({
-  selector: 'app-game',
-  templateUrl: './game.component.html',
-  styleUrls: ['./game.component.scss']
+    selector: 'app-game',
+    templateUrl: './game.component.html',
+    styleUrls: ['./game.component.scss']
 })
 export class GameComponent {
     private game: any;
