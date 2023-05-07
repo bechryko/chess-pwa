@@ -18,12 +18,11 @@ export class GameComponent {
 
     constructor() {
         this.game = new Game();
-        this.game.printBoard();
         this.displayBoard = [];
         for(let i = 0; i < 8; i++) {
             this.displayBoard.push([]);
             for(let j = 0; j < 8; j++) {
-                this.displayBoard[i].push("empty");
+                this.displayBoard[i].push("");
             }
         }
         this.updateDisplayBoard();
@@ -33,11 +32,13 @@ export class GameComponent {
         //console.log(x, y, this.game.getPiece({x, y}), this.selectedPiece);
         if(!this.selectedPosition) {
             this.selectedPosition = {x, y};
+            this.syncSelections();
             return;
         }
         const success = this.playerMove(new Move(this.selectedPosition, {x, y}));
         if(!success) {
             this.selectedPosition = {x, y};
+            this.syncSelections();
             return;
         }
         //this.aiMove();
@@ -67,6 +68,7 @@ export class GameComponent {
         for(const piece of this.game.pieces) {
             this.displayBoard[piece.pos.y][piece.pos.x] = piece.getIcon();
         }
+        this.syncSelections();
         this.announcement = this.game.current == "white" ? "Világos lép" : "Sötét lép";
         if(this.game.isCheck(this.game.current)) {
             this.announcement += ", sakkban van";
@@ -75,6 +77,26 @@ export class GameComponent {
             this.announcement = "Döntetlen";
         } else if(this.game.isCheckmate()) {
             this.announcement = this.game.current == "white" ? "Sötét nyert" : "Világos nyert";
+        }
+    }
+
+    public syncSelections(): void {
+        const previouslyHighlighted = document.querySelectorAll(".highlighted0, .highlighted1");
+        for(const tile of previouslyHighlighted as any) {
+            tile.classList.remove("highlighted0", "highlighted1");
+        }
+        if(this.selectedPosition) {
+            const highlighted: Position[] = [this.selectedPosition];
+            const piece = this.game.getPiece(this.selectedPosition);
+            if(piece && piece.color == this.game.current) {
+                highlighted.push(...piece.getPossibleMoves(this.game).map((move: { to: Position; }) => move.to));
+            } else {
+                return;
+            }
+            for(const pos of highlighted) {
+                document.querySelector(`.chessBoard .chessRow:nth-child(${pos.y + 1}) .chessTile:nth-child(${pos.x + 1})`)?.classList.add("highlighted" + (pos.y + pos.x) % 2);
+                console.log(document.querySelector(`.chessBoard .chessRow:nth-child(${pos.y + 1}) .chessTile:nth-child(${pos.x + 1})`))
+            }
         }
     }
 }

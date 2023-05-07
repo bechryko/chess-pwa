@@ -24,7 +24,10 @@ $white-chess-tile-color: $secondary-200;
                 background-repeat: no-repeat;
                 background-position: center;
             }
-            &.highlighted {
+            &.highlighted0 {
+                background-color: $secondary-800 !important;
+            }
+            &.highlighted1 {
                 background-color: $secondary-900 !important;
             }
         }
