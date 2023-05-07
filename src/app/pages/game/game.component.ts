@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Game } from 'src/assets/chess/Game';
 import { Move } from 'src/assets/chess/Move';
-import { Piece } from 'src/assets/chess/Piece';
 import { ChessAI } from 'src/assets/chess/AI';
 import { Position } from 'src/assets/chess/utility';
 
@@ -29,20 +28,17 @@ export class GameComponent {
     }
 
     public onTileClick(x: number, y: number): void {
-        //console.log(x, y, this.game.getPiece({x, y}), this.selectedPiece);
         if(!this.selectedPosition) {
             this.selectedPosition = {x, y};
-            this.syncSelections();
-            return;
-        }
-        const success = this.playerMove(new Move(this.selectedPosition, {x, y}));
-        if(!success) {
+        } else if(this.selectedPosition.x == x && this.selectedPosition.y == y) {
+            this.selectedPosition = null;
+        } else if(!this.playerMove(new Move(this.selectedPosition, {x, y}))) {
             this.selectedPosition = {x, y};
-            this.syncSelections();
-            return;
+        } else {
+            this.aiMove();
+            this.updateDisplayBoard();
         }
-        //this.aiMove();
-        this.updateDisplayBoard();
+        this.syncSelections();
     }
 
     private playerMove(move: Move): boolean {
@@ -94,8 +90,7 @@ export class GameComponent {
                 return;
             }
             for(const pos of highlighted) {
-                document.querySelector(`.chessBoard .chessRow:nth-child(${pos.y + 1}) .chessTile:nth-child(${pos.x + 1})`)?.classList.add("highlighted" + (pos.y + pos.x) % 2);
-                console.log(document.querySelector(`.chessBoard .chessRow:nth-child(${pos.y + 1}) .chessTile:nth-child(${pos.x + 1})`))
+                document.querySelector(`.chessBoard .chessRow:nth-child(${8 - pos.y}) .chessTile:nth-child(${pos.x + 1})`)?.classList.add("highlighted" + (pos.y + pos.x) % 2);
             }
         }
     }

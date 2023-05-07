@@ -25,10 +25,10 @@ $white-chess-tile-color: $secondary-200;
                 background-position: center;
             }
             &.highlighted0 {
-                background-color: $secondary-800 !important;
+                background-color: $secondary-900 !important;
             }
             &.highlighted1 {
-                background-color: $secondary-900 !important;
+                background-color: $secondary-800 !important;
             }
         }
         &:nth-child(odd) {

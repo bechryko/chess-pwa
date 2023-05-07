@@ -24,8 +24,8 @@ export class Game {
             this.pieces.push(new pieces.Knight(color, {x: 6, y: baseRow}));
             this.pieces.push(new pieces.Bishop(color, {x: 2, y: baseRow}));
             this.pieces.push(new pieces.Bishop(color, {x: 5, y: baseRow}));
-            this.pieces.push(new pieces.Queen(color, {x: 4, y: baseRow}));
-            this.pieces.push(new pieces.King(color, {x: 3, y: baseRow}));
+            this.pieces.push(new pieces.Queen(color, {x: 3, y: baseRow}));
+            this.pieces.push(new pieces.King(color, {x: 4, y: baseRow}));
         }
     }
 

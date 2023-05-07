@@ -15,7 +15,7 @@ export class ChessAI {
 
     static bestMove: Move | null = null;
 
-    static heuristicValue(game: Game, distanceInTime: number): number {
+    static heuristicValue(game: Game, distanceInTime: number, print: boolean = false): number {
         const checkMate = game.isCheckmate();
         if(checkMate !== null) {
             return (checkMate == game.current ? -1 : 1) * (this.WIN_VALUE - distanceInTime);
@@ -25,8 +25,14 @@ export class ChessAI {
         }
         let value = 0;
         for(const piece of game.pieces) {
-            value += this.PIECE_VALUES[piece.type as string] * (piece.color == game.current ? 1 : -1);
+            value += this.PIECE_VALUES[piece.type as string] * 5 * (piece.color == game.current ? 1 : -1);
         }
+        /*const piecesInCenter = game.pieces.filter(piece => piece.pos.x >= 3 && piece.pos.x <= 4 && piece.pos.y >= 3 && piece.pos.y <= 4);
+        for(const piece of piecesInCenter) {
+            if(print) console.log("center", piece)
+            value += piece.color == game.current ? 1 : -1;
+        }
+        value -= game.pieces.length / 33;*/
         return value;
     }
 
