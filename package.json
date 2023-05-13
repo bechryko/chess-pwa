@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "server": "ng build && http-server -p 8080 -c-1 dist/chess"
   },
   "private": true,
   "dependencies": {
