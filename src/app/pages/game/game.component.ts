@@ -3,6 +3,7 @@ import { Game } from 'src/assets/chess/Game';
 import { Move } from 'src/assets/chess/Move';
 import { ChessAI } from 'src/assets/chess/AI';
 import { Position } from 'src/assets/chess/utility';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-game',
@@ -10,12 +11,12 @@ import { Position } from 'src/assets/chess/utility';
     styleUrls: ['./game.component.scss']
 })
 export class GameComponent {
-    private game: any;
+    public game: any;
     private selectedPosition: Position | null = null;
     public displayBoard: string[][];
     public announcement: string = "";
 
-    constructor() {
+    constructor(private router: Router) {
         this.game = new Game();
         this.displayBoard = [];
         for(let i = 0; i < 8; i++) {
@@ -47,7 +48,7 @@ export class GameComponent {
     }
 
     private aiMove(): void {
-        this.announcement = "Gondolkodik az AI...";
+        this.announcement = "Thinking...";
         const move = ChessAI.getBestMove(this.game);
         //console.log(this.game.current)
         this.game.makeMove(move);
@@ -65,14 +66,14 @@ export class GameComponent {
             this.displayBoard[piece.pos.y][piece.pos.x] = piece.getIcon();
         }
         this.syncSelections();
-        this.announcement = this.game.current == "white" ? "Világos lép" : "Sötét lép";
+        this.announcement = this.game.current == "white" ? "White's turn" : "Black's turn";
         if(this.game.isCheck(this.game.current)) {
-            this.announcement += ", sakkban van";
+            this.announcement += ", check";
         }
         if(this.game.isStalemate()) {
-            this.announcement = "Döntetlen";
+            this.announcement = "Draw!";
         } else if(this.game.isCheckmate()) {
-            this.announcement = this.game.current == "white" ? "Sötét nyert" : "Világos nyert";
+            this.announcement = this.game.current == "white" ? "Black wins!" : "White wins!";
         }
     }
 
@@ -93,5 +94,9 @@ export class GameComponent {
                 document.querySelector(`.chessBoard .chessRow:nth-child(${8 - pos.y}) .chessTile:nth-child(${pos.x + 1})`)?.classList.add("highlighted" + (pos.y + pos.x) % 2);
             }
         }
+    }
+
+    public backToMenu() {
+        this.router.navigateByUrl('/menu/gamemode-chooser');
     }
 }

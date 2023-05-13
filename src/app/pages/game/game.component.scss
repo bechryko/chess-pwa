@@ -52,10 +52,23 @@ $white-chess-tile-color: $secondary-200;
             }
         }
     }
+    &+.announcement {
+        margin-top: 1rem;
+    }
 }
 
 .announcement {
     color: $primary-mixed-black;
     font-size: 2rem;
     margin-bottom: 1.5rem;
+}
+
+.center-content {
+    position: relative;
+    height: 100%;
+}
+
+.alignBottom {
+    position: absolute;
+    bottom: 0;
 }

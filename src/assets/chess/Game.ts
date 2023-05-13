@@ -6,6 +6,7 @@ export class Game {
     public pieces: pieces.Piece[];
     public current: PieceColor = PieceColor.WHITE;
     public castling = {white: {king: true, queen: true}, black: {king: true, queen: true}};
+    public turn: number = 0;
 
     constructor(initEmpty: boolean = false) {
         if(initEmpty) {
@@ -107,7 +108,12 @@ export class Game {
         }
         piece.step(move, this);
         //TODO: castling
-        this.current = this.current == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
+        if(this.current == PieceColor.WHITE) {
+            this.current = PieceColor.BLACK;
+        } else {
+            this.current = PieceColor.WHITE;
+            this.turn++;
+        }
         return true;
     }
 

@@ -1,8 +1,12 @@
-<p class="announcement">{{announcement}}</p>
-<table class="chessBoard">
-    <tr *ngFor="let row of displayBoard | reverse; let y = index" class="chessRow">
-        <td *ngFor="let piece of row; let x = index" (click)="onTileClick(x, 7 - y)" class="chessTile">
-            <img src="assets/images/chess-{{piece}}.png" alt="" class="chessPieceIcon">
-        </td>
-    </tr>
-</table>
+<div class="center-content">
+    <p class="announcement">{{announcement}}</p>
+    <table class="chessBoard">
+        <tr *ngFor="let row of displayBoard | reverse; let y = index" class="chessRow">
+            <td *ngFor="let piece of row; let x = index" (click)="onTileClick(x, 7 - y)" class="chessTile">
+                <img src="assets/images/chess-{{piece}}.png" alt="" class="chessPieceIcon">
+            </td>
+        </tr>
+    </table>
+    <p class="announcement">Turn {{game.turn + 1}}</p>
+    <button mat-flat-button color="accent" (click)="backToMenu()" class="alignBottom">Leave game</button>
+</div>
