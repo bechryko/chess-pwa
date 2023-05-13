@@ -4,108 +4,119 @@ import { Move } from 'src/assets/chess/Move';
 import { ChessAI } from 'src/assets/chess/AI';
 import { PieceColor, Position } from 'src/assets/chess/utility';
 import { Router } from '@angular/router';
+import { Gamemode, LeaderboardElement } from 'src/app/services/model';
+import { LocalDatabaseService } from 'src/app/services/local-database.service';
 
 @Component({
-    selector: 'app-game',
-    templateUrl: './game.component.html',
-    styleUrls: ['./game.component.scss']
+   selector: 'app-game',
+   templateUrl: './game.component.html',
+   styleUrls: ['./game.component.scss']
 })
 export class GameComponent {
-    public game: any;
-    private selectedPosition: Position | null = null;
-    public displayBoard: string[][];
-    public announcement: string = "";
+   public game: any;
+   private selectedPosition: Position | null = null;
+   public displayBoard: string[][];
+   public announcement: string = "";
 
-    constructor(private router: Router) {
-        this.game = new Game();
-        this.displayBoard = [];
-        for(let i = 0; i < 8; i++) {
-            this.displayBoard.push([]);
-            for(let j = 0; j < 8; j++) {
-                this.displayBoard[i].push("");
-            }
-        }
-        this.updateDisplayBoard();
-    }
+   constructor(private router: Router, private dbService: LocalDatabaseService) {
+      this.game = new Game();
+      this.displayBoard = [];
+      for (let i = 0; i < 8; i++) {
+         this.displayBoard.push([]);
+         for (let j = 0; j < 8; j++) {
+            this.displayBoard[i].push("");
+         }
+      }
+      this.updateDisplayBoard();
+   }
 
-    public onTileClick(x: number, y: number): void {
-        if(this.game.ended) {
+   public onTileClick(x: number, y: number): void {
+      if (this.game.ended) {
+         return;
+      }
+      if (!this.selectedPosition) {
+         this.selectedPosition = { x, y };
+      } else if (this.selectedPosition.x == x && this.selectedPosition.y == y) {
+         this.selectedPosition = null;
+      } else if (!this.playerMove(new Move(this.selectedPosition, { x, y }))) {
+         this.selectedPosition = { x, y };
+      } else {
+         //this.aiMove();
+         this.updateDisplayBoard();
+      }
+      this.syncSelections();
+   }
+
+   private playerMove(move: Move): boolean {
+      this.selectedPosition = null;
+      return this.game.makeMove(move);
+   }
+
+   private aiMove(): void {
+      this.announcement = "Thinking...";
+      const move = ChessAI.getBestMove(this.game);
+      //console.log(this.game.current)
+      this.game.makeMove(move);
+      //console.log(this.game.current)
+      //console.log("AI moved", move);
+   }
+
+   public updateDisplayBoard(): void {
+      for (let i = 0; i < 8; i++) {
+         for (let j = 0; j < 8; j++) {
+            this.displayBoard[i][j] = "empty";
+         }
+      }
+      for (const piece of this.game.pieces) {
+         this.displayBoard[piece.pos.y][piece.pos.x] = piece.getIcon();
+      }
+      this.syncSelections();
+      this.announcement = this.game.current == "white" ? "White's turn" : "Black's turn";
+      if (this.game.isCheck(this.game.current)) {
+         this.announcement += ", check";
+      }
+      if (this.game.ended) {
+         if (this.game.getWinner() === true) {
+            this.announcement = "Draw!";
+         } else {
+            this.announcement = this.game.getWinner() == PieceColor.BLACK ? "Black wins!" : "White wins!";
+         }
+      }
+   }
+
+   public syncSelections(): void {
+      const previouslyHighlighted = document.querySelectorAll(".highlighted0, .highlighted1");
+      for (const tile of previouslyHighlighted as any) {
+         tile.classList.remove("highlighted0", "highlighted1");
+      }
+      if (this.selectedPosition) {
+         const highlighted: Position[] = [this.selectedPosition];
+         const piece = this.game.getPiece(this.selectedPosition);
+         if (piece && piece.color == this.game.current) {
+            highlighted.push(...piece.getPossibleMoves(this.game).map((move: { to: Position; }) => move.to));
+         } else {
             return;
-        }
-        if(!this.selectedPosition) {
-            this.selectedPosition = {x, y};
-        } else if(this.selectedPosition.x == x && this.selectedPosition.y == y) {
-            this.selectedPosition = null;
-        } else if(!this.playerMove(new Move(this.selectedPosition, {x, y}))) {
-            this.selectedPosition = {x, y};
-        } else {
-            //this.aiMove();
-            this.updateDisplayBoard();
-        }
-        this.syncSelections();
-    }
+         }
+         for (const pos of highlighted) {
+            document.querySelector(`.chessBoard .chessRow:nth-child(${8 - pos.y}) .chessTile:nth-child(${pos.x + 1})`)?.classList.add("highlighted" + (pos.y + pos.x) % 2);
+         }
+      }
+   }
 
-    private playerMove(move: Move): boolean {
-        this.selectedPosition = null;
-        return this.game.makeMove(move);
-    }
+   public backToMenu() {
+      this.router.navigateByUrl('/menu/gamemode-chooser');
+   }
 
-    private aiMove(): void {
-        this.announcement = "Thinking...";
-        const move = ChessAI.getBestMove(this.game);
-        //console.log(this.game.current)
-        this.game.makeMove(move);
-        //console.log(this.game.current)
-        //console.log("AI moved", move);
-    }
+   public isGameWon(): boolean {
+      return this.game.ended && this.game.getWinner() === PieceColor.WHITE;
+   }
 
-    public updateDisplayBoard(): void {
-        for(let i = 0; i < 8; i++) {
-            for(let j = 0; j < 8; j++) {
-                this.displayBoard[i][j] = "empty";
-            }
-        }
-        for(const piece of this.game.pieces) {
-            this.displayBoard[piece.pos.y][piece.pos.x] = piece.getIcon();
-        }
-        this.syncSelections();
-        this.announcement = this.game.current == "white" ? "White's turn" : "Black's turn";
-        if(this.game.isCheck(this.game.current)) {
-            this.announcement += ", check";
-        }
-        if(this.game.ended) {
-            if(this.game.getWinner() === true) {
-                this.announcement = "Draw!";
-            } else {
-                this.announcement = this.game.getWinner() == PieceColor.BLACK ? "Black wins!" : "White wins!";
-            }
-        }
-    }
-
-    public syncSelections(): void {
-        const previouslyHighlighted = document.querySelectorAll(".highlighted0, .highlighted1");
-        for(const tile of previouslyHighlighted as any) {
-            tile.classList.remove("highlighted0", "highlighted1");
-        }
-        if(this.selectedPosition) {
-            const highlighted: Position[] = [this.selectedPosition];
-            const piece = this.game.getPiece(this.selectedPosition);
-            if(piece && piece.color == this.game.current) {
-                highlighted.push(...piece.getPossibleMoves(this.game).map((move: { to: Position; }) => move.to));
-            } else {
-                return;
-            }
-            for(const pos of highlighted) {
-                document.querySelector(`.chessBoard .chessRow:nth-child(${8 - pos.y}) .chessTile:nth-child(${pos.x + 1})`)?.classList.add("highlighted" + (pos.y + pos.x) % 2);
-            }
-        }
-    }
-
-    public backToMenu() {
-        this.router.navigateByUrl('/menu/gamemode-chooser');
-    }
-
-    public onWin() {
-        //TODO: add win to database
-    }
+   public onWin() {
+      const leaderboardElement: LeaderboardElement = {
+         gamemode: Gamemode.vsAI,
+         name: "bechryko",
+         score: this.game.turn
+      };
+      this.dbService.addItem(leaderboardElement);
+   }
 }

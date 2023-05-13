@@ -2,13 +2,14 @@
     <h2>Leaderboards</h2>
     <mat-tab-group>
         <mat-tab label="Versus AI">
-            <table *ngIf="(leaderboardElements$ | async) as elements">
+            <mat-spinner class="spinner" *ngIf="!leaderboardElements$"></mat-spinner>
+            <table *ngIf="(leaderboardElements$ | async)?.length">
                 <tr>
                     <th>Place</th>
                     <th>Name</th>
                     <th>Turns took to win</th>
                 </tr>
-                <tr *ngFor="let element of elements; let idx = index" class="leaderboardElement">
+                <tr *ngFor="let element of (leaderboardElements$ | async | sort); let idx = index" class="leaderboardElement">
                     <td>{{idx + 1}}.</td>
                     <td>{{element.name}}</td>
                     <td>{{element.score}}</td>

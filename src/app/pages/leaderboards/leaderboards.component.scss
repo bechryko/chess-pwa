@@ -1,10 +1,19 @@
+@use 'src/assets/styles/colors' as *;
+
 mat-tab-group {
     height: 80%;
     width: 100%;
 }
 
 table {
+    width: 100%;
+    border-collapse: collapse;
     tr {
+        font-size: 1.25rem;
+        line-height: 1.5rem;
+        th {
+            border-bottom: $primary-300 solid 2px;
+        }
         th, td {
             width: 30%;
         }
@@ -23,4 +32,9 @@ p.error {
 .alignBottom {
     position: absolute;
     bottom: 0;
+}
+
+.spinner {
+    margin: 1rem auto;
+    width: 2rem;
 }
