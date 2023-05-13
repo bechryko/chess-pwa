@@ -103,6 +103,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "chess:build:production",
+            "firebaseProject": "chess-pwa-b41b8",
+            "firebaseHostingSite": "chess-pwa-b41b8"
+          }
         }
       }
     }

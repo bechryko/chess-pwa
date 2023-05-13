@@ -7,4 +7,5 @@
     <div class="buttons center-content">
         <button mat-flat-button color="accent" routerLink="/menu">Back</button>
     </div>
+    <p class="error" *ngIf="loggedInUser === null">You can only show up on the leaderboards if you are logged in!</p>
 </div>

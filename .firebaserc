@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "chess-pwa-b41b8": {
+      "hosting": {
+        "chess": [
+          "chess-pwa-b41b8"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "chess-pwa-b41b8"
+  }
+}

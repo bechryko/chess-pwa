@@ -63,3 +63,17 @@ button {
     @include buttonStyle();
     background-color: $secondary-700;
 }
+
+a.ad {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 0.5rem;
+}
+
+.error {
+    color: $error;
+    margin: 2rem auto;
+    font-size: 1.5rem;
+    line-height: 2rem;
+}

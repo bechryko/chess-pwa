@@ -29,3 +29,7 @@ $secondary-A100: #FFE57F;
 $secondary-A200: #FFD740;
 $secondary-A400: #FFC400;
 $secondary-A700: #FFAB00;
+
+$secondary-mixed-black: mix($secondary-900, black, 40%);
+
+$error: #5c0000;

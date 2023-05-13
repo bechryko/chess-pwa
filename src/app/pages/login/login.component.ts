@@ -1,6 +1,8 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -21,16 +23,26 @@ export class LoginComponent {
     confirmPassword: new FormControl('')
   });
 
-  constructor(private location: Location) {}
+  constructor(private router: Router, private location: Location, private authService: AuthService) {}
 
   onLoginSubmit() {
-    console.log(this.loginForm.value);
-    //TODO
+    this.authService.login(this.loginForm.value.email ?? "", this.loginForm.value.password ?? "")
+      .then((userCredential) => {
+        this.router.navigateByUrl('/menu');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   onRegisterSubmit() {
-    console.log(this.registerForm.value);
-    //TODO
+    this.authService.register(this.registerForm.value.email ?? "", this.registerForm.value.password ?? "")
+      .then((userCredential) => {
+        this.router.navigateByUrl('/menu');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   goBack() {
