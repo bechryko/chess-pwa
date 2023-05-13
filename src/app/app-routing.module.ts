@@ -13,6 +13,7 @@ const routes: Routes = [
   },
   { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule) },
   { path: 'game', loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule) },
+  { path: 'leaderboards', loadChildren: () => import('./pages/leaderboards/leaderboards.module').then(m => m.LeaderboardsModule) },
   { 
     path: '**', 
     loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule) 

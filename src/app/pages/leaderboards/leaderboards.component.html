@@ -1,0 +1,21 @@
+<div class="center-content">
+    <h2>Leaderboards</h2>
+    <mat-tab-group>
+        <mat-tab label="Versus AI">
+            <table *ngIf="(leaderboardElements$ | async) as elements">
+                <tr>
+                    <th>Place</th>
+                    <th>Name</th>
+                    <th>Turns took to win</th>
+                </tr>
+                <tr *ngFor="let element of elements; let idx = index" class="leaderboardElement">
+                    <td>{{idx + 1}}.</td>
+                    <td>{{element.name}}</td>
+                    <td>{{element.score}}</td>
+                </tr>
+            </table>
+            <p class="error" *ngIf="!(leaderboardElements$ | async)?.length">No one on the leaderboard... Be the first!</p>
+        </mat-tab>
+    </mat-tab-group>
+    <button mat-flat-button color="accent" (click)="goBack()" class="alignBottom">Back</button>
+</div>
