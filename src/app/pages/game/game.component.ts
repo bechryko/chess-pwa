@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Game } from 'src/assets/chess/Game';
 import { Move } from 'src/assets/chess/Move';
 import { ChessAI } from 'src/assets/chess/AI';
-import { Position } from 'src/assets/chess/utility';
+import { PieceColor, Position } from 'src/assets/chess/utility';
 import { Router } from '@angular/router';
 
 @Component({
@@ -29,6 +29,9 @@ export class GameComponent {
     }
 
     public onTileClick(x: number, y: number): void {
+        if(this.game.ended) {
+            return;
+        }
         if(!this.selectedPosition) {
             this.selectedPosition = {x, y};
         } else if(this.selectedPosition.x == x && this.selectedPosition.y == y) {
@@ -70,10 +73,12 @@ export class GameComponent {
         if(this.game.isCheck(this.game.current)) {
             this.announcement += ", check";
         }
-        if(this.game.isStalemate()) {
-            this.announcement = "Draw!";
-        } else if(this.game.isCheckmate()) {
-            this.announcement = this.game.current == "white" ? "Black wins!" : "White wins!";
+        if(this.game.ended) {
+            if(this.game.getWinner() === true) {
+                this.announcement = "Draw!";
+            } else {
+                this.announcement = this.game.getWinner() == PieceColor.BLACK ? "Black wins!" : "White wins!";
+            }
         }
     }
 
@@ -98,5 +103,9 @@ export class GameComponent {
 
     public backToMenu() {
         this.router.navigateByUrl('/menu/gamemode-chooser');
+    }
+
+    public onWin() {
+        //TODO: add win to database
     }
 }

@@ -7,6 +7,7 @@ export class Game {
     public current: PieceColor = PieceColor.WHITE;
     public castling = {white: {king: true, queen: true}, black: {king: true, queen: true}};
     public turn: number = 0;
+    public ended: boolean = false;
 
     constructor(initEmpty: boolean = false) {
         if(initEmpty) {
@@ -61,9 +62,15 @@ export class Game {
             }
         }
         const king = this.getKing(Game.getOtherColor(color));
-        moves = moves.filter(move => !(move.to.x == king.pos.x && move.to.y == king.pos.y));
+        moves = moves
+            .filter(move => !(move.to.x == king.pos.x && move.to.y == king.pos.y))
+            .filter(move => {
+                const newGame = this.copy();
+                const piece = newGame.getPiece(move.from) as pieces.Piece;
+                piece.step(move, newGame);
+                return !newGame.isCheck(color);
+            });
         return moves;
-        //TODO: filter out moves that put king in check & moves that don't get king out of check
     }
 
     public isInBounds(pos: Position): boolean {
@@ -72,8 +79,9 @@ export class Game {
 
     public isCheck(color: PieceColor): boolean {
         const king = this.getKing(color);
-        for(const piece of this.pieces.filter(piece => piece.color != color)) {
-            for(const move of piece.getPossibleMoves(this)) {
+        for(const enemyPiece of this.pieces.filter(piece => piece.color != color)) {
+            const moves = enemyPiece.getPossibleMoves(this);
+            for(const move of moves) {
                 if(move.to.x == king.pos.x && move.to.y == king.pos.y) {
                     return true;
                 }
@@ -84,10 +92,7 @@ export class Game {
 
     public isCheckmate(): PieceColor | null {
         for(const color of [PieceColor.WHITE, PieceColor.BLACK]) {
-            const king = this.getKing(color);
-            const kingMoves = king.getPossibleMoves(this);
-            const movesAttackingKing = this.getPossibleMoves(color == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE).filter(move => move.to.x == king.pos.x && move.to.y == king.pos.y);
-            if(kingMoves.length == 0 && movesAttackingKing.length > 0) {
+            if(this.getPossibleMoves(color).length == 0 && this.isCheck(color)) {
                 return color;
             }
         }
@@ -99,6 +104,9 @@ export class Game {
     }
 
     public makeMove(move: Move): boolean {
+        if(this.ended) {
+            return false;
+        }
         const piece = this.getPiece(move.from) as pieces.Piece;
         if(piece == null || piece.color != this.current) {
             return false;
@@ -107,12 +115,18 @@ export class Game {
             return false;
         }
         piece.step(move, this);
-        //TODO: castling
+        if(piece.type == PieceType.KING && Math.abs(move.from.x - move.to.x) == 2) {
+            const rook = this.getPiece({x: move.to.x == 2 ? 0 : 7, y: move.to.y}) as pieces.Rook;
+            rook.step(new Move(rook.pos, {x: move.to.x == 2 ? 3 : 5, y: move.to.y}), this);
+        }
         if(this.current == PieceColor.WHITE) {
             this.current = PieceColor.BLACK;
         } else {
             this.current = PieceColor.WHITE;
             this.turn++;
+        }
+        if(this.getWinner() !== false) {
+            this.ended = true;
         }
         return true;
     }
@@ -142,5 +156,15 @@ export class Game {
         for(const row of board) {
             console.log(row.join(""));
         }
+    }
+
+    public getWinner(): PieceColor | boolean {
+        if(this.isCheckmate() !== null) {
+            return Game.getOtherColor(this.current);
+        }
+        if(this.isStalemate()) {
+            return true;
+        }
+        return false;
     }
 }

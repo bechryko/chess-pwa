@@ -16,6 +16,13 @@ export class Piece {
             game.pieces.splice(game.pieces.indexOf(targetPiece), 1);
         }
         this.pos = move.to;
+        if(move.to.y == (this.color == PieceColor.WHITE ? 7 : 0)) {
+            if(move.to.x == 0) {
+                game.castling[Game.getOtherColor(this.color)].queen = false;
+            } else if(move.to.x == 7) {
+                game.castling[Game.getOtherColor(this.color)].king = false;
+            }
+        }
     }
 
     public getPossibleMoves(game: Game): Move[] {
@@ -31,7 +38,7 @@ export class Piece {
                 }
                 const piece = game.getPiece(move.to);
                 if(piece) {
-                    if(piece.color != this.color && piece.type != PieceType.KING) {
+                    if(piece.color != this.color) {
                         moves.push(move);
                     }
                     break;
@@ -116,10 +123,10 @@ export class Rook extends Piece {
 
     public override step(move: Move, game: Game): void {
         super.step(move, game);
-        if(move.from.x == 0 && move.from.y == 0) {
+        if(move.from.x == 0) {
             game.castling[this.color].queen = false;
         }
-        if(move.from.x == 7 && move.from.y == 0) {
+        if(move.from.x == 7) {
             game.castling[this.color].king = false;
         }
     }

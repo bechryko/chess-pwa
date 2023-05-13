@@ -11,7 +11,7 @@ export class ChessAI {
         "king": 0
     };
     static WIN_VALUE = 13_000_000;
-    static THINK_DEPTH = 3;
+    static THINK_DEPTH = 2;
 
     static bestMove: Move | null = null;
 
