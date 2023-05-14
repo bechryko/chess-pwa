@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { User } from './services/model';
+import { DatabaseSyncService } from './services/database-sync.service';
 
 @Component({
    selector: 'app-root',
@@ -14,7 +15,7 @@ export class AppComponent {
    loggedInUser?: firebase.default.User | null;
    public username: string = "";
 
-   constructor(private authService: AuthService, private userService: UserService) { }
+   constructor(private authService: AuthService, private userService: UserService, private syncService: DatabaseSyncService) { }
 
    ngOnInit(): void {
       this.authService.isUserLoggedIn().subscribe((user) => {
@@ -26,6 +27,12 @@ export class AppComponent {
          });
       }, error => {
          console.error(error);
+      });
+
+      this.syncService.syncLeaderboardEntries();
+      addEventListener('online', () => {
+         console.log("online")
+         this.syncService.syncLeaderboardEntries();
       });
    }
 }

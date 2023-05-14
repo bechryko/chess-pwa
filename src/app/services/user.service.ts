@@ -10,7 +10,6 @@ import { environment } from 'src/environments/environment';
 export class UserService {
 
    private readonly userTableName = 'Users';
-   private readonly leaderboardTableName = 'Leaderboard';
    private supabase: SupabaseClient;
 
    constructor() {

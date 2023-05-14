@@ -73,7 +73,9 @@ export class LocalDatabaseService {
       const objectStore = this.db.transaction(this.objectStoreName, 'readwrite').objectStore(this.objectStoreName);
       const request = objectStore.add(newItem);
 
-      request.onsuccess = () => this.router.navigateByUrl('/leaderboards');
+      request.onsuccess = () => {
+         this.router.navigateByUrl('/leaderboards');
+      };
       request.onerror = (event) => console.error('Error adding item: ', (event.target as any).error);
    }
 }

@@ -9,6 +9,10 @@ export interface LeaderboardElement {
    score: number;
 }
 
+export interface LeaderboardElementWithId extends LeaderboardElement {
+   id: number;
+}
+
 export interface User {
    id: string;
    name: string;

@@ -6,6 +6,9 @@ import { PieceColor, Position } from 'src/assets/chess/utility';
 import { Router } from '@angular/router';
 import { Gamemode, LeaderboardElement } from 'src/app/services/model';
 import { LocalDatabaseService } from 'src/app/services/local-database.service';
+import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { DatabaseSyncService } from 'src/app/services/database-sync.service';
 
 @Component({
    selector: 'app-game',
@@ -18,7 +21,7 @@ export class GameComponent {
    public displayBoard: string[][];
    public announcement: string = "";
 
-   constructor(private router: Router, private dbService: LocalDatabaseService) {
+   constructor(private router: Router, private dbService: LocalDatabaseService, private userService: UserService, private authService: AuthService, private syncService: DatabaseSyncService) {
       this.game = new Game();
       this.displayBoard = [];
       for (let i = 0; i < 8; i++) {
@@ -41,7 +44,7 @@ export class GameComponent {
       } else if (!this.playerMove(new Move(this.selectedPosition, { x, y }))) {
          this.selectedPosition = { x, y };
       } else {
-         //this.aiMove();
+         this.aiMove();
          this.updateDisplayBoard();
       }
       this.syncSelections();
@@ -112,11 +115,18 @@ export class GameComponent {
    }
 
    public onWin() {
-      const leaderboardElement: LeaderboardElement = {
-         gamemode: Gamemode.vsAI,
-         name: "bechryko",
-         score: this.game.turn
-      };
-      this.dbService.addItem(leaderboardElement);
+      this.authService.isUserLoggedIn().subscribe((user) => {
+         this.userService.getUserName(user?.uid ?? "").then((name) => {
+            const leaderboardElement: LeaderboardElement = {
+               gamemode: Gamemode.vsAI,
+               name: name,
+               score: this.game.turn
+            };
+            this.dbService.addItem(leaderboardElement);
+            if(navigator.onLine) {
+               this.syncService.syncLeaderboardEntries();
+            }
+         });
+      });
    }
 }
