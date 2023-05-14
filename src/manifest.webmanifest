@@ -1,8 +1,8 @@
 {
-  "name": "chess",
-  "short_name": "chess",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "Chess - A PWA",
+  "short_name": "Chess",
+  "theme_color": "#96533d",
+  "background_color": "#FF6F00",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
