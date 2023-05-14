@@ -1,4 +1,7 @@
 <main>
-  <div *ngIf="loggedInUser !== null" class="user-div">Welcome to<br>Chess - A PWA!</div>
-  <router-outlet></router-outlet>
+   <div *ngIf="loggedInUser !== null" class="user-div">
+      <ng-container *ngIf="username !== ''">Welcome {{username}}!</ng-container>
+      <mat-spinner class="spinner" *ngIf="username === ''"></mat-spinner>
+   </div>
+   <router-outlet></router-outlet>
 </main>

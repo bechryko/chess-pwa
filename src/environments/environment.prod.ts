@@ -9,4 +9,6 @@ export const environment = {
       measurementId: 'G-RYPCB4DMS5',
    },
    production: true,
+   supabaseUrl: 'https://ytdctubqczhdyvowuwen.supabase.co',
+   supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0ZGN0dWJxY3poZHl2b3d1d2VuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODQwNjg2NzUsImV4cCI6MTk5OTY0NDY3NX0.6G1mw3yFQbERkmcW3BJK0iheRA3cOZI54391QPQXGDc',
 };
