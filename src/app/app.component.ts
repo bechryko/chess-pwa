@@ -29,7 +29,9 @@ export class AppComponent {
          console.error(error);
       });
 
-      this.syncService.syncLeaderboardEntries();
+      if(navigator.onLine) {
+         this.syncService.syncLeaderboardEntries();
+      }
       addEventListener('online', () => {
          console.log("online")
          this.syncService.syncLeaderboardEntries();

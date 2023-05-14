@@ -18,5 +18,5 @@
             <p class="error" *ngIf="!(leaderboardElements$ | async)?.length">No one on the leaderboard... Be the first!</p>
         </mat-tab>
     </mat-tab-group>
-    <button mat-flat-button color="accent" (click)="goBack()" class="alignBottom">Back</button>
+    <button mat-flat-button color="accent" (click)="toMenu()" class="alignBottom">Back to menu</button>
 </div>

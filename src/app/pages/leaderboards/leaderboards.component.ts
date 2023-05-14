@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 
 import { Observable } from 'rxjs';
 import { LeaderboardElement } from '../../services/model';
 import { LocalDatabaseService } from 'src/app/services/local-database.service';
+import { Router } from '@angular/router';
 
 @Component({
    selector: 'app-leaderboards',
@@ -13,7 +13,7 @@ import { LocalDatabaseService } from 'src/app/services/local-database.service';
 export class LeaderboardsComponent implements OnInit {
    public leaderboardElements$?: Observable<LeaderboardElement[]>;
 
-   constructor(private location: Location, private dbService: LocalDatabaseService) { }
+   constructor(private router: Router, private dbService: LocalDatabaseService) { }
 
    ngOnInit(): void {
       if(this.dbService.isLoaded) {
@@ -23,7 +23,7 @@ export class LeaderboardsComponent implements OnInit {
       }
    }
 
-   public goBack() {
-      this.location.back();
+   public toMenu() {
+      this.router.navigateByUrl('/menu');
    }
 }

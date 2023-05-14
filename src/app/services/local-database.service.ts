@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { LeaderboardElement } from './model';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 
 @Injectable({
    providedIn: 'root'
@@ -12,7 +11,7 @@ export class LocalDatabaseService {
    private db?: IDBDatabase;
    public isLoaded: boolean = false;
 
-   constructor(private swUpdate: SwUpdate, private router: Router) {
+   constructor(private swUpdate: SwUpdate) {
       this.swUpdate.checkForUpdate().then(data => {
          if (data) {
             alert("new version available");
@@ -73,9 +72,6 @@ export class LocalDatabaseService {
       const objectStore = this.db.transaction(this.objectStoreName, 'readwrite').objectStore(this.objectStoreName);
       const request = objectStore.add(newItem);
 
-      request.onsuccess = () => {
-         this.router.navigateByUrl('/leaderboards');
-      };
       request.onerror = (event) => console.error('Error adding item: ', (event.target as any).error);
    }
 }

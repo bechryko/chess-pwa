@@ -116,17 +116,20 @@ export class GameComponent {
 
    public onWin() {
       this.authService.isUserLoggedIn().subscribe((user) => {
-         this.userService.getUserName(user?.uid ?? "").then((name) => {
-            const leaderboardElement: LeaderboardElement = {
-               gamemode: Gamemode.vsAI,
-               name: name,
-               score: this.game.turn
-            };
-            this.dbService.addItem(leaderboardElement);
-            if(navigator.onLine) {
-               this.syncService.syncLeaderboardEntries();
-            }
-         });
+         if(user !== null) {
+            this.userService.getUserName(user?.uid ?? "").then((name) => {
+               const leaderboardElement: LeaderboardElement = {
+                  gamemode: Gamemode.vsAI,
+                  name: name,
+                  score: this.game.turn
+               };
+               this.dbService.addItem(leaderboardElement);
+               if(navigator.onLine) {
+                  this.syncService.syncLeaderboardEntries();
+               }
+            });
+         }
+         this.router.navigateByUrl('/leaderboards');
       });
    }
 }
