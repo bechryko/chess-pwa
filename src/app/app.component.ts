@@ -22,6 +22,7 @@ export class AppComponent {
          this.loggedInUser = user;
          this.userService.getUserName(user?.uid ?? "").then((username: string) => {
             this.username = username;
+            localStorage.setItem("chessPWA-user", JSON.stringify(this.username));
          }).catch((error) => {
             console.error(error);
          });

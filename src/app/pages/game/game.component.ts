@@ -16,7 +16,7 @@ import { DatabaseSyncService } from 'src/app/services/database-sync.service';
    styleUrls: ['./game.component.scss']
 })
 export class GameComponent {
-   public game: any;
+   public game: Game;
    private selectedPosition: Position | null = null;
    public displayBoard: string[][];
    public announcement: string = "";
@@ -96,7 +96,9 @@ export class GameComponent {
          const highlighted: Position[] = [this.selectedPosition];
          const piece = this.game.getPiece(this.selectedPosition);
          if (piece && piece.color == this.game.current) {
-            highlighted.push(...piece.getPossibleMoves(this.game).map((move: { to: Position; }) => move.to));
+            highlighted.push(...this.game.getPossibleMoves(this.game.current)
+               .filter((move: Move) => move.from.x === this.selectedPosition?.x && move.from.y === this.selectedPosition?.y)
+               .map((move: { to: Position; }) => move.to));
          } else {
             return;
          }
@@ -115,21 +117,15 @@ export class GameComponent {
    }
 
    public onWin() {
-      this.authService.isUserLoggedIn().subscribe((user) => {
-         if(user !== null) {
-            this.userService.getUserName(user?.uid ?? "").then((name) => {
-               const leaderboardElement: LeaderboardElement = {
-                  gamemode: Gamemode.vsAI,
-                  name: name,
-                  score: this.game.turn
-               };
-               this.dbService.addItem(leaderboardElement);
-               if(navigator.onLine) {
-                  this.syncService.syncLeaderboardEntries();
-               }
-            });
-         }
-         this.router.navigateByUrl('/leaderboards');
-      });
+      const leaderboardElement: LeaderboardElement = {
+         gamemode: Gamemode.vsAI,
+         name: JSON.parse(localStorage.getItem("chessPWA-user") ?? '"Unknown user"'),
+         score: this.game.turn
+      };
+      this.dbService.addItem(leaderboardElement);
+      if(navigator.onLine) {
+         this.syncService.syncLeaderboardEntries();
+      }
+      this.router.navigateByUrl('/leaderboards');
    }
 }
