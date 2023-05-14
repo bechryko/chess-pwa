@@ -65,6 +65,9 @@ app-root {
     min-height: $height;
     width: clamp(11rem, 50%, 20rem);
     font-size: $height * 0.6 !important;
+    @media (max-height: $bp-medium-height) {
+        margin: 1rem auto;
+    }
 }
 
 .buttons {
