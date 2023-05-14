@@ -12,10 +12,12 @@ table {
         font-size: 1.25rem;
         line-height: 1.5rem;
         th {
-            border-bottom: $primary-300 solid 2px;
-        }
-        th, td {
             width: 30%;
+            border-bottom: $primary-400 solid 2px;
+        }
+        td {
+            width: 30%;
+            border-bottom: $primary-300 solid 2px;
         }
     }
 }

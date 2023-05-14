@@ -6,20 +6,11 @@ mat-form-field {
 }
 
 mat-tab-group {
-    height: 80%;
+    height: 50vh;
     width: 100%;
-}
-
-.tab {
-    overflow: hidden;
 }
 
 .center-content {
     position: relative;
     height: 100%;
-}
-
-.alignBottom {
-    position: absolute;
-    bottom: 0;
 }

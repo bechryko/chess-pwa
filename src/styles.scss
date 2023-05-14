@@ -42,11 +42,11 @@ app-root {
     min-width: 20rem;
 
     @media (min-height: $bp-small-height) {
-        height: 90%;
+        height: 90vh;
         aspect-ratio: 2/3;
     }
     @media (max-width: $bp-small-width) {
-        width: 90%;
+        width: 90vw;
     }
 }
 
@@ -60,24 +60,20 @@ app-root {
 }
 
 @mixin buttonStyle() {
-    $height: 2.2rem;
+    $height: 2.3rem;
     margin: 1.5rem auto;
-    height: $height;
-    width: 50%;
+    min-height: $height;
+    width: clamp(11rem, 50%, 20rem);
     font-size: $height * 0.6 !important;
 }
 
 .buttons {
-    margin: 5rem auto;
+    margin: 5vh auto;
     width: 100%;
-    button {
-        @include buttonStyle();
-    }
 }
 
 button {
     @include buttonStyle();
-    background-color: $secondary-700;
 }
 
 a.ad {
@@ -90,14 +86,24 @@ a.ad {
 .error {
     color: $error;
     margin: 2rem auto;
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 3vh, 2rem);
     line-height: 2rem;
+}
+
+h1 {
+    font-size: 4rem !important;
+    @media (max-height: $bp-small-height) {
+        font-size: 3rem !important;
+    }
 }
 
 h2 {
     color: $primary-mixed-black;
     font-size: 2.75rem !important;
     line-height: 3rem;
+    @media (max-height: $bp-small-height) {
+        font-size: 2rem !important;
+    }
 }
 
 .mat-mdc-tab {

@@ -14,8 +14,6 @@ $white-chess-tile-color: $secondary-200;
     .chessRow {
         margin: 0;
         .chessTile {
-            width: 2.5rem;
-            height: 2.5rem;
             margin: 0;
             .chessPieceIcon {
                 width: 100%;
@@ -66,9 +64,4 @@ $white-chess-tile-color: $secondary-200;
 .center-content {
     position: relative;
     height: 100%;
-}
-
-.alignBottom {
-    position: absolute;
-    bottom: 0;
 }
