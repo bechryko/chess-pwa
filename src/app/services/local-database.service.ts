@@ -14,7 +14,7 @@ export class LocalDatabaseService {
    constructor(private swUpdate: SwUpdate) {
       this.swUpdate.checkForUpdate().then(data => {
          if (data) {
-            alert("new version available");
+            alert("New version of the app is available. Click OK to reload the app.");
             window.location.reload();
          }
       })

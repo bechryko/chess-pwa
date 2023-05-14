@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
-import { User } from './services/model';
 import { DatabaseSyncService } from './services/database-sync.service';
 
 @Component({

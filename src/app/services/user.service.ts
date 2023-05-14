@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-//import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from './model';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from 'src/environments/environment';
