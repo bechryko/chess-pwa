@@ -1,17 +1,98 @@
-$primary-50: #EDE7F6;
-$primary-100: #D1C4E9;
-$primary-200: #B39DDB;
-$primary-300: #9575CD;
-$primary-400: #7E57C2;
-$primary-500: #673AB7;
-$primary-600: #5E35B1;
-$primary-700: #512DA8;
-$primary-800: #4527A0;
-$primary-900: #311B92;
-$primary-A100: #B388FF;
-$primary-A200: #7C4DFF;
-$primary-A400: #651FFF;
-$primary-A700: #6200EA;
+@use '@angular/material' as mat;
+
+$my-primary: mat.define-palette(mat.$brown-palette, 500);
+$my-accent: mat.define-palette(mat.$amber-palette, 500, 500, 500);
+
+$my-theme: mat.define-light-theme((
+   color: (
+      primary: $my-primary,
+      accent: $my-accent,
+   ),
+   density: 0,
+));
+
+@include mat.all-component-themes($my-theme);
+
+$theme: "brown";
+
+$primary-50: null;
+$primary-100: null;
+$primary-200: null;
+$primary-300: null;
+$primary-400: null;
+$primary-500: null;
+$primary-600: null;
+$primary-700: null;
+$primary-800: null;
+$primary-900: null;
+$primary-A100: null;
+$primary-A200: null;
+$primary-A400: null;
+$primary-A700: null;
+
+@if($theme =='deep-purple') {
+   $primary-50: #EDE7F6;
+   $primary-100: #D1C4E9;
+   $primary-200: #B39DDB;
+   $primary-300: #9575CD;
+   $primary-400: #7E57C2;
+   $primary-500: #673AB7;
+   $primary-600: #5E35B1;
+   $primary-700: #512DA8;
+   $primary-800: #4527A0;
+   $primary-900: #311B92;
+   $primary-A100: #B388FF;
+   $primary-A200: #7C4DFF;
+   $primary-A400: #651FFF;
+   $primary-A700: #6200EA;
+}
+
+@if($theme =='red') {
+   $primary-50: #FFEBEE;
+   $primary-100: #FFCDD2;
+   $primary-200: #EF9A9A;
+   $primary-300: #E57373;
+   $primary-400: #EF5350;
+   $primary-500: #F44336;
+   $primary-600: #E53935;
+   $primary-700: #D32F2F;
+   $primary-800: #C62828;
+   $primary-900: #B71C1C;
+   $primary-A100: #FF8A80;
+   $primary-A200: #FF5252;
+   $primary-A400: #FF1744;
+   $primary-A700: #D50000;
+}
+
+@if($theme =='deep-orange') {
+   $primary-50: #FBE9E7;
+   $primary-100: #FFCCBC;
+   $primary-200: #FFAB91;
+   $primary-300: #FF8A65;
+   $primary-400: #FF7043;
+   $primary-500: #FF5722;
+   $primary-600: #F4511E;
+   $primary-700: #E64A19;
+   $primary-800: #D84315;
+   $primary-900: #BF360C;
+   $primary-A100: #FF9E80;
+   $primary-A200: #FF6E40;
+   $primary-A400: #FF3D00;
+   $primary-A700: #DD2C00;
+}
+
+@if($theme =='brown') {
+   $primary-50: #EFEBE9;
+   $primary-100: #D7CCC8;
+   $primary-200: #BCAAA4;
+   $primary-300: #A1887F;
+   $primary-400: #947266;
+   $primary-500: #9c6652;
+   $primary-600: #96533d;
+   $primary-700: #76402f;
+   $primary-800: #5a2b20;
+   $primary-900: #381813;
+}
 
 $primary-mixed-black: mix($primary-900, black, 40%);
 
