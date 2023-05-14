@@ -20,6 +20,8 @@ export class GameComponent {
    private selectedPosition: Position | null = null;
    public displayBoard: string[][];
    public announcement: string = "";
+   public highlighted: Position[] = [];
+   public pve: boolean = localStorage.getItem("chessPWA-gamemode") === 'pve';
 
    constructor(private router: Router, private dbService: LocalDatabaseService, private userService: UserService, private authService: AuthService, private syncService: DatabaseSyncService) {
       this.game = new Game();
@@ -41,13 +43,23 @@ export class GameComponent {
          this.selectedPosition = { x, y };
       } else if (this.selectedPosition.x == x && this.selectedPosition.y == y) {
          this.selectedPosition = null;
-      } else if (!this.playerMove(new Move(this.selectedPosition, { x, y }))) {
-         this.selectedPosition = { x, y };
       } else {
-         this.aiMove();
-         this.updateDisplayBoard();
+         for(const pos of this.highlighted) {
+            if(pos.x == x && pos.y == y) {
+               this.playerMove(new Move(this.selectedPosition, { x, y }));
+               if(this.pve) {
+                  setTimeout(() => {
+                     this.selectedPosition = null;
+                     this.aiMove();
+                     this.updateDisplayBoard();
+                  }, 0);
+               }
+               break;
+            }
+         }
+         this.selectedPosition = { x, y };
       }
-      this.syncSelections();
+      this.updateDisplayBoard();
    }
 
    private playerMove(move: Move): boolean {
@@ -56,7 +68,6 @@ export class GameComponent {
    }
 
    private aiMove(): void {
-      this.announcement = "Thinking...";
       const move = ChessAI.getBestMove(this.game);
       //console.log(this.game.current)
       this.game.makeMove(move);
@@ -87,22 +98,22 @@ export class GameComponent {
       }
    }
 
-   public syncSelections(): void {
+   private syncSelections(): void {
       const previouslyHighlighted = document.querySelectorAll(".highlighted0, .highlighted1");
       for (const tile of previouslyHighlighted as any) {
          tile.classList.remove("highlighted0", "highlighted1");
       }
       if (this.selectedPosition) {
-         const highlighted: Position[] = [this.selectedPosition];
+         this.highlighted = [this.selectedPosition];
          const piece = this.game.getPiece(this.selectedPosition);
          if (piece && piece.color == this.game.current) {
-            highlighted.push(...this.game.getPossibleMoves(this.game.current)
+            this.highlighted.push(...this.game.getPossibleMoves(this.game.current)
                .filter((move: Move) => move.from.x === this.selectedPosition?.x && move.from.y === this.selectedPosition?.y)
                .map((move: { to: Position; }) => move.to));
          } else {
             return;
          }
-         for (const pos of highlighted) {
+         for (const pos of this.highlighted) {
             document.querySelector(`.chessBoard .chessRow:nth-child(${8 - pos.y}) .chessTile:nth-child(${pos.x + 1})`)?.classList.add("highlighted" + (pos.y + pos.x) % 2);
          }
       }
@@ -112,8 +123,8 @@ export class GameComponent {
       this.router.navigateByUrl('/menu/gamemode-chooser');
    }
 
-   public isGameWon(): boolean {
-      return this.game.ended && this.game.getWinner() === PieceColor.WHITE;
+   public isGameWonVsAI(): boolean {
+      return this.game.ended && this.game.getWinner() === PieceColor.WHITE && this.pve;
    }
 
    public onWin() {

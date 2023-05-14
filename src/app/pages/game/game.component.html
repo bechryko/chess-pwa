@@ -8,6 +8,6 @@
         </tr>
     </table>
     <p class="announcement">Turn {{game.turn + 1}}</p>
-    <button mat-flat-button color="accent" (click)="onWin()" *ngIf="isGameWon()">To the leaderboards</button>
-    <button mat-flat-button color="accent" (click)="backToMenu()" class="alignBottom" *ngIf="!game.ended">Leave game</button>
+    <button mat-flat-button color="accent" (click)="onWin()" *ngIf="isGameWonVsAI()">To the leaderboards</button>
+    <button mat-flat-button color="accent" (click)="backToMenu()" class="alignBottom" *ngIf="!isGameWonVsAI()">Leave game</button>
 </div>
