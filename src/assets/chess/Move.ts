@@ -1,8 +1,8 @@
 import { Position } from './utility';
 
 export class Move {
-   static HORIZONTAL_MOVE_PATTERNS: number[][] = [[0, 1], [1, 0], [0, -1], [-1, 0]];
-   static DIAGONAL_MOVE_PATTERNS: number[][] = [[1, 1], [1, -1], [-1, -1], [-1, 1]];
+   static readonly HORIZONTAL_MOVE_PATTERNS = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+   static readonly DIAGONAL_MOVE_PATTERNS = [[1, 1], [1, -1], [-1, -1], [-1, 1]];
 
    constructor(
       public from: Position,

@@ -4,12 +4,12 @@ import { Move } from './Move';
 
 export class Game {
    public pieces: pieces.Piece[];
-   public current: PieceColor = PieceColor.WHITE;
+   public current = PieceColor.WHITE;
    public castling = { white: { king: true, queen: true }, black: { king: true, queen: true } };
-   public turn: number = 0;
-   public ended: boolean = false;
+   public turn = 0;
+   public ended = false;
 
-   constructor(initEmpty: boolean = false) {
+   constructor(initEmpty = false) {
       if (initEmpty) {
          this.pieces = [];
          return;

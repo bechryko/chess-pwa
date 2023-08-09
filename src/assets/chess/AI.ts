@@ -10,8 +10,8 @@ export class ChessAI {
       "queen": 9,
       "king": 0
    };
-   static WIN_VALUE = 13_000_000;
-   static THINK_DEPTH = 2;
+   static readonly WIN_VALUE = 13_000_000;
+   static readonly THINK_DEPTH = 2;
 
    static bestMove: Move | null = null;
 
