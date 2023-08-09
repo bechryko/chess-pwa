@@ -4,64 +4,74 @@ $black-chess-tile-color: $primary-400;
 $white-chess-tile-color: $secondary-200;
 
 * {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+   margin-left: auto;
+   margin-right: auto;
+   text-align: center;
 }
 
 .chessBoard {
-    border-collapse: collapse;
-    .chessRow {
-        margin: 0;
-        .chessTile {
-            margin: 0;
-            .chessPieceIcon {
-                width: 100%;
-                height: 100%;
-                background-size: contain;
-                background-repeat: no-repeat;
-                background-position: center;
+   border-collapse: collapse;
+
+   .chessRow {
+      margin: 0;
+
+      .chessTile {
+         margin: 0;
+
+         .chessPieceIcon {
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+         }
+
+         &.highlighted0 {
+            background-color: $secondary-900 !important;
+         }
+
+         &.highlighted1 {
+            background-color: $secondary-800 !important;
+         }
+      }
+
+      &:nth-child(odd) {
+         .chessTile {
+            &:nth-child(even) {
+               background-color: $black-chess-tile-color;
             }
-            &.highlighted0 {
-                background-color: $secondary-900 !important;
+
+            &:nth-child(odd) {
+               background-color: $white-chess-tile-color;
             }
-            &.highlighted1 {
-                background-color: $secondary-800 !important;
+         }
+      }
+
+      &:nth-child(even) {
+         .chessTile {
+            &:nth-child(odd) {
+               background-color: $black-chess-tile-color;
             }
-        }
-        &:nth-child(odd) {
-            .chessTile {
-                &:nth-child(even) {
-                    background-color: $black-chess-tile-color;
-                }
-                &:nth-child(odd) {
-                    background-color: $white-chess-tile-color;
-                }
+
+            &:nth-child(even) {
+               background-color: $white-chess-tile-color;
             }
-        }
-        &:nth-child(even) {
-            .chessTile {
-                &:nth-child(odd) {
-                    background-color: $black-chess-tile-color;
-                }
-                &:nth-child(even) {
-                    background-color: $white-chess-tile-color;
-                }
-            }
-        }
-    }
-    &+.announcement {
-        margin-top: 1rem;
-    }
+         }
+      }
+   }
+
+   &+.announcement {
+      margin-top: 1rem;
+   }
 }
 
 .announcement {
-    color: $primary-mixed-black;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
+   color: $primary-mixed-black;
+   font-size: 2rem;
+   margin-bottom: 1.5rem;
 }
 
 .center-content {
-    position: relative;
-    height: 100%;
+   position: relative;
+   height: 100%;
 }

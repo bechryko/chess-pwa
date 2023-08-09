@@ -7,14 +7,14 @@ import { ReversePipe } from '../../reverse.pipe';
 import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [
-    GameComponent,
-    ReversePipe
-  ],
-  imports: [
-    CommonModule,
-    GameRoutingModule,
-    MatButtonModule,
-  ]
+   declarations: [
+      GameComponent,
+      ReversePipe
+   ],
+   imports: [
+      CommonModule,
+      GameRoutingModule,
+      MatButtonModule,
+   ]
 })
 export class GameModule { }

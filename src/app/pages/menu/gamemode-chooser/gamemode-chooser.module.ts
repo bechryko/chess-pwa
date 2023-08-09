@@ -8,13 +8,13 @@ import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
-  declarations: [
-    GamemodeChooserComponent
-  ],
-  imports: [
-    CommonModule,
-    GamemodeChooserRoutingModule,
-    MatButtonModule
-  ]
+   declarations: [
+      GamemodeChooserComponent
+   ],
+   imports: [
+      CommonModule,
+      GamemodeChooserRoutingModule,
+      MatButtonModule
+   ]
 })
 export class GamemodeChooserModule { }

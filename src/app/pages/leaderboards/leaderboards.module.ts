@@ -10,16 +10,16 @@ import { SortPipe } from './sort.pipe';
 
 
 @NgModule({
-  declarations: [
-    LeaderboardsComponent,
-    SortPipe
-  ],
-  imports: [
-    CommonModule,
-    LeaderboardsRoutingModule,
-    MatTabsModule,
-    MatButtonModule,
-    MatProgressSpinnerModule
-  ]
+   declarations: [
+      LeaderboardsComponent,
+      SortPipe
+   ],
+   imports: [
+      CommonModule,
+      LeaderboardsRoutingModule,
+      MatTabsModule,
+      MatButtonModule,
+      MatProgressSpinnerModule
+   ]
 })
 export class LeaderboardsModule { }

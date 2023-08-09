@@ -12,17 +12,17 @@ import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
-  declarations: [
-    LoginComponent
-  ],
-  imports: [
-    CommonModule,
-    LoginRoutingModule,
-    MatTabsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule
-  ]
+   declarations: [
+      LoginComponent
+   ],
+   imports: [
+      CommonModule,
+      LoginRoutingModule,
+      MatTabsModule,
+      ReactiveFormsModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatButtonModule
+   ]
 })
 export class LoginModule { }
