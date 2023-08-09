@@ -1,5 +1,5 @@
 import * as pieces from './Piece';
-import { PieceColor, Position, PieceType } from './utility';
+import { PieceColor, Position, PieceType, filter } from './utility';
 import { Move } from './Move';
 
 type CheckType = PieceColor | "none" | "stalemate";
@@ -64,14 +64,15 @@ export class Game {
          }
       }
       const king = this.getKing(Game.getOtherColor(color));
-      moves = moves
-         .filter(move => !(move.to.x == king.pos.x && move.to.y == king.pos.y))
-         .filter(move => {
+      moves = filter(moves, (move: Move) => !(move.to.x == king.pos.x && move.to.y == king.pos.y));
+      moves = filter(moves,
+         (move: Move) => {
             const newGame = this.copy();
             const piece = newGame.getPiece(move.from) as pieces.Piece;
             piece.step(move, newGame);
             return !newGame.isCheck(color);
-         }); //TODO: optimization
+         }
+      );
       return moves;
    }
 
@@ -81,7 +82,7 @@ export class Game {
 
    public isCheck(color: PieceColor): boolean {
       const king = this.getKing(color);
-      for (const enemyPiece of this.pieces.filter(piece => piece.color != color)) {
+      for (const enemyPiece of filter(this.pieces, (piece: pieces.Piece) => piece.color != color)) {
          const moves = enemyPiece.getPossibleMoves(this);
          for (const move of moves) {
             if (move.to.x == king.pos.x && move.to.y == king.pos.y) {

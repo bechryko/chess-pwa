@@ -1,4 +1,4 @@
-import { PieceColor, PieceType, Position } from './utility';
+import { filter, PieceColor, PieceType, Position } from './utility';
 import { Move, MovePattern } from './Move';
 import { Game } from './Game';
 
@@ -79,7 +79,7 @@ export class Pawn extends Piece {
    public override getPossibleMoves(game: Game): Move[] {
       const moves = super.getPossibleMoves(game);
       for (const move of moves) {
-         for (const piece of game.pieces.filter(p => p.color != this.color)) {
+         for (const piece of filter(game.pieces, (p: Piece) => p.color != this.color)) {
             if (move.to.x == piece.pos.x && move.to.y == piece.pos.y) {
                moves.splice(moves.indexOf(move), 1); //TODO: optimization
                break;
