@@ -12,8 +12,8 @@ import { UserService } from './services/user.service';
 export class AppComponent {
    title = 'chess';
 
-   loggedInUser?: firebase.default.User | null;
-   public username: string = "";
+   loggedInUser?: firebase.default.User | null; //TODO: null or undefined?
+   public username: string = ""; //TODO: redundant type
 
    constructor(
       private authService: AuthService, 

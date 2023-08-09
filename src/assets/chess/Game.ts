@@ -71,7 +71,7 @@ export class Game {
             const piece = newGame.getPiece(move.from) as pieces.Piece;
             piece.step(move, newGame);
             return !newGame.isCheck(color);
-         });
+         }); //TODO: optimization
       return moves;
    }
 

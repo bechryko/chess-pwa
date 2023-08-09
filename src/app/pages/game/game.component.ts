@@ -18,7 +18,7 @@ export class GameComponent {
    public game: Game;
    private selectedPosition: Position | null = null;
    public displayBoard: string[][];
-   public announcement: string = "";
+   public announcement: string = ""; //TODO: redundant types
    public highlighted: Position[] = [];
    public pve: boolean = localStorage.getItem("chessPWA-gamemode") === 'pve';
 
@@ -61,7 +61,7 @@ export class GameComponent {
                      this.selectedPosition = null;
                      this.aiMove();
                      this.updateDisplayBoard();
-                  }, 0);
+                  }, 0); //TODO: more elegant
                }
                couldMove = true;
                break;

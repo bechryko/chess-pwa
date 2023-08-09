@@ -31,14 +31,14 @@ export class DatabaseSyncService {
       } else {
          setTimeout(async () => {
             entries = await this.getLeaderboardEntriesOnClient();
-         }, 500);
+         }, 500); //TODO: !!!
       }
       return entries;
    }
 
    public syncLeaderboardEntries(): void {
       console.log("syncing leaderboard entries")
-      this.getLeaderboardEntriesOnServer().then(serverEntries => {
+      this.getLeaderboardEntriesOnServer().then(serverEntries => { //TODO: fix callbacks
          this.getLeaderboardEntriesOnClient().then(clientEntries => {
             const newOnServer = serverEntries.filter(serverEntry => {
                return !clientEntries.some(clientEntry => {

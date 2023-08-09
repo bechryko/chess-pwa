@@ -20,7 +20,7 @@ export class LeaderboardsComponent implements OnInit {
       if(this.dbService.isLoaded) {
          this.leaderboardElements$ = this.dbService.loadItems();
       } else {
-         setTimeout(this.ngOnInit.bind(this), 500);
+         setTimeout(this.ngOnInit.bind(this), 500); //TODO: !!!
       }
    }
 
