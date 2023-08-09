@@ -12,7 +12,7 @@ import { UserService } from './services/user.service';
 export class AppComponent {
    title = 'chess';
 
-   loggedInUser?: firebase.default.User | null; //TODO: null or undefined?
+   loggedInUser?: firebase.default.User | null;
    public username = "";
 
    constructor(

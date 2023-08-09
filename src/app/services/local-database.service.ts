@@ -21,17 +21,17 @@ export class LocalDatabaseService {
 
       const request = indexedDB.open(this.objectStoreName + '-db', 1);
 
-      request.onerror = (event: any) => { //TODO: eliminate any
+      request.onerror = (event: any) => {
          console.error('Database error: ', event.target.error);
       };
 
-      request.onupgradeneeded = (event: any) => { //TODO: eliminate any
+      request.onupgradeneeded = (event: any) => {
          this.db = event.target.result as IDBDatabase;
          this.createObjectStore();
          this.isLoaded = true;
       };
 
-      request.onsuccess = (event: any) => { //TODO: eliminate any
+      request.onsuccess = (event: any) => {
          this.db = event.target.result as IDBDatabase;
          this.isLoaded = true;
       };
@@ -55,7 +55,7 @@ export class LocalDatabaseService {
       return new Observable<LeaderboardElement[]>((observer) => {
          const items: LeaderboardElement[] = [];
 
-         objectStore.openCursor().onsuccess = (event: any) => { //TODO: eliminate any
+         objectStore.openCursor().onsuccess = (event: any) => {
             const cursor = event.target.result;
             if (cursor) {
                items.push(cursor.value);
@@ -72,6 +72,6 @@ export class LocalDatabaseService {
       const objectStore = this.db.transaction(this.objectStoreName, 'readwrite').objectStore(this.objectStoreName);
       const request = objectStore.add(newItem);
 
-      request.onerror = (event) => console.error('Error adding item: ', (event.target as any).error); //TODO: eliminate any
+      request.onerror = (event: any) => console.error('Error adding item: ', event.target.error);
    }
 }

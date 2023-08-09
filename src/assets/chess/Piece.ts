@@ -13,7 +13,7 @@ export class Piece {
    public step(move: Move, game: Game): void {
       const targetPiece = game.getPiece(move.to);
       if (targetPiece !== null) {
-         game.pieces.splice(game.pieces.indexOf(targetPiece), 1); //TODO: optimization (object pool?)
+         game.pieces.splice(game.pieces.indexOf(targetPiece), 1);
       }
       this.pos = move.to;
       if (move.to.y == (this.color == PieceColor.WHITE ? 7 : 0)) {
@@ -25,7 +25,7 @@ export class Piece {
       }
    }
 
-   public getPossibleMoves(game: Game): Move[] { //TOOD: optimization (capture method?)
+   public getPossibleMoves(game: Game): Move[] {
       const moves: Move[] = [];
       for (const direction of this.movePattern.directions) {
          for (let i = 1; i <= this.movePattern.maxSteps; i++) {
@@ -81,7 +81,7 @@ export class Pawn extends Piece {
       for (const move of moves) {
          for (const piece of filter(game.pieces, (p: Piece) => p.color != this.color)) {
             if (move.to.x == piece.pos.x && move.to.y == piece.pos.y) {
-               moves.splice(moves.indexOf(move), 1); //TODO: optimization
+               moves.splice(moves.indexOf(move), 1);
                break;
             }
          }
@@ -90,7 +90,7 @@ export class Pawn extends Piece {
       for (let i = -1; i <= 1; i += 2) {
          if (game.isInBounds({ x: this.pos.x + i, y: this.pos.y + moveDirection })) {
             const piece = game.getPiece({ x: this.pos.x + i, y: this.pos.y + moveDirection });
-            if (piece && piece.color != this.color && piece.type != PieceType.KING) { //TODO: no king check
+            if (piece && piece.color != this.color && piece.type != PieceType.KING) {
                moves.push(new Move(this.pos, { x: this.pos.x + i, y: this.pos.y + moveDirection }));
             }
          }
@@ -107,7 +107,7 @@ export class Pawn extends Piece {
    public override step(move: Move, game: Game): void {
       super.step(move, game);
       if (this.pos.y == 0 || this.pos.y == 7) {
-         game.pieces.splice(game.pieces.indexOf(this), 1); //TODO: optimization (capture method?)
+         game.pieces.splice(game.pieces.indexOf(this), 1);
          game.pieces.push(new Queen(this.color, this.pos));
       }
    }

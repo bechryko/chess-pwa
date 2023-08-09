@@ -61,7 +61,7 @@ export class GameComponent {
                      this.selectedPosition = null;
                      this.aiMove();
                      this.updateDisplayBoard();
-                  }, 0); //TODO: more elegant
+                  });
                }
                couldMove = true;
                break;
