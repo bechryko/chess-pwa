@@ -9,9 +9,11 @@ export interface LeaderboardElement {
    score: number;
 }
 
-export interface LeaderboardElementWithId extends LeaderboardElement {
+/*export interface LeaderboardElementWithId extends LeaderboardElement {
    id: number;
-}
+}*/
+export type LeaderboardElementWithId = LeaderboardElement & { id: number };
+
 
 export interface User {
    id: string;
