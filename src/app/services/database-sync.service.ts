@@ -24,7 +24,7 @@ export class DatabaseSyncService {
       return data.data as LeaderboardElement[];
    }
 
-   private async getLeaderboardEntriesOnClient(): Promise<LeaderboardElement[]> {
+   /*private async getLeaderboardEntriesOnClient(): Promise<LeaderboardElement[]> {
       let entries: LeaderboardElement[] = [];
       if(this.dbService.isLoaded) {
          entries = await firstValueFrom(this.dbService.loadItems()) as LeaderboardElement[];
@@ -34,6 +34,16 @@ export class DatabaseSyncService {
          }, 500); //TODO: !!!
       }
       return entries;
+   }*/
+   private async getLeaderboardEntriesOnClient(): Promise<LeaderboardElement[]> {
+      let entries: LeaderboardElement[] = [];
+      const interval = setInterval(async () => {
+         if(this.dbService.isLoaded) {
+            entries = await firstValueFrom(this.dbService.loadItems()) as LeaderboardElement[];
+            clearInterval(interval);
+         }
+      }, 500);
+      return entries; //ASK: miért működik???
    }
 
    public syncLeaderboardEntries(): void {
