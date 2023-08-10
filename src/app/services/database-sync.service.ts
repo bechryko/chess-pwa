@@ -31,7 +31,7 @@ export class DatabaseSyncService {
       } else {
          setTimeout(async () => {
             entries = await this.getLeaderboardEntriesOnClient();
-         }, 500); //TODO: !!!
+         }, 500);
       }
       return entries;
    }*/
@@ -43,12 +43,12 @@ export class DatabaseSyncService {
             clearInterval(interval);
          }
       }, 500);
-      return entries; //ASK: miért működik???
+      return entries;
    }
 
    public syncLeaderboardEntries(): void {
       console.log("syncing leaderboard entries")
-      this.getLeaderboardEntriesOnServer().then(serverEntries => { //TODO: fix callbacks
+      this.getLeaderboardEntriesOnServer().then(serverEntries => {
          this.getLeaderboardEntriesOnClient().then(clientEntries => {
             const newOnServer = serverEntries.filter(serverEntry => {
                return !clientEntries.some(clientEntry => {
