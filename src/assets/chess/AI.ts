@@ -2,6 +2,11 @@ import { Game } from './Game';
 import { Move } from './Move';
 import { PieceType } from './utility';
 
+interface NegamaxReturnValue {
+   bestMove: Move | null,
+   value: number
+}
+
 export class ChessAI {
    static readonly PIECE_VALUES: Readonly<Record<PieceType, number>> = {
       "pawn": 1,
@@ -14,11 +19,9 @@ export class ChessAI {
    static readonly WIN_VALUE = 13_000_000;
    static readonly THINK_DEPTH = 2;
 
-   static bestMove: Move | null = null;
-
    static heuristicValue(game: Game, distanceInTime: number, print: boolean = false): number {
       const checkMate = game.isCheckmate();
-      if (checkMate !== null) {
+      if (checkMate !== "none") {
          return (checkMate == game.current ? -1 : 1) * (this.WIN_VALUE - distanceInTime);
       }
       if (game.isStalemate()) {
@@ -37,35 +40,38 @@ export class ChessAI {
       return value;
    }
 
-   static negamax(game: Game, depth: number, alpha: number, beta: number, distanceInTime: number): number {
+   static negamax(game: Game, depth: number, alpha: number, beta: number, distanceInTime: number): NegamaxReturnValue {
       if (depth == 0) {
-         return this.heuristicValue(game, distanceInTime);
+         return {
+            value: this.heuristicValue(game, distanceInTime),
+            bestMove: null
+         };
       }
-      let value = -Infinity;
-      let bestMove: Move | null = null;
+      let returnValue: NegamaxReturnValue = {
+         value: -Infinity,
+         bestMove: null
+      };
       for (const move of game.getPossibleMoves(game.current)) {
          const newGame = game.copy();
          newGame.makeMove(move);
          const negamaxValue = -this.negamax(newGame, depth - 1, -beta, -alpha, distanceInTime + 1);
-         if (value < negamaxValue) {
-            value = negamaxValue;
-            bestMove = move;
+         if (returnValue.value < negamaxValue) {
+            returnValue.value = negamaxValue;
+            returnValue.bestMove = move;
          }
-         alpha = Math.max(alpha, value);
+         alpha = Math.max(alpha, returnValue.value);
          if (alpha >= beta) {
             break;
          }
       }
-      this.bestMove = bestMove;
-      return value;
+      return returnValue;
    }
 
    static getBestMove(game: Game): Move {
-      this.bestMove = null;
-      this.negamax(game, this.THINK_DEPTH, -Infinity, Infinity, 0);
-      if (this.bestMove === null) {
-         this.bestMove = game.getPossibleMoves(game.current)[0];
+      let { bestMove } = this.negamax(game, this.THINK_DEPTH, -Infinity, Infinity, 0);
+      if (bestMove === null) {
+         bestMove = game.getPossibleMoves(game.current)[0];
       }
-      return this.bestMove;
+      return bestMove;
    }
 }

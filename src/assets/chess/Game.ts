@@ -2,6 +2,8 @@ import * as pieces from './Piece';
 import { PieceColor, Position, PieceType } from './utility';
 import { Move } from './Move';
 
+type CheckType = PieceColor | "none" | "stalemate";
+
 export class Game {
    public pieces: pieces.Piece[];
    public current = PieceColor.WHITE;
@@ -90,13 +92,13 @@ export class Game {
       return false;
    }
 
-   public isCheckmate(): PieceColor | null {
+   public isCheckmate(): CheckType {
       for (const color of [PieceColor.WHITE, PieceColor.BLACK]) {
          if (this.getPossibleMoves(color).length == 0 && this.isCheck(color)) {
             return color;
          }
       }
-      return null;
+      return "none";
    }
 
    public isStalemate(): boolean {
@@ -125,7 +127,7 @@ export class Game {
          this.current = PieceColor.WHITE;
          this.turn++;
       }
-      if (this.getWinner() !== false) {
+      if (this.getWinner() !== "none") {
          this.ended = true;
       }
       return true;
@@ -158,13 +160,13 @@ export class Game {
       }
    }
 
-   public getWinner(): PieceColor | boolean {
-      if (this.isCheckmate() !== null) {
+   public getWinner(): CheckType {
+      if (this.isCheckmate() !== "none") {
          return Game.getOtherColor(this.current);
       }
       if (this.isStalemate()) {
-         return true;
+         return "stalemate";
       }
-      return false;
+      return "none";
    }
 }
