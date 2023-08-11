@@ -7,6 +7,11 @@ interface NegamaxReturnValue {
    value: number
 }
 
+interface NegamaxReturnValue {
+   bestMove: Move | null,
+   value: number
+}
+
 export class ChessAI {
    static readonly PIECE_VALUES: Readonly<Record<PieceType, number>> = {
       "pawn": 1,
