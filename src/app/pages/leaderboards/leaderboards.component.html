@@ -2,21 +2,7 @@
    <h2>Leaderboards</h2>
    <mat-tab-group>
       <mat-tab label="Versus AI">
-         <mat-spinner class="spinner" *ngIf="!leaderboardElements$"></mat-spinner>
-         <table *ngIf="(leaderboardElements$ | async)?.length">
-            <tr>
-               <th>Place</th>
-               <th>Name</th>
-               <th>Turns took to win</th>
-            </tr>
-            <tr *ngFor="let element of (leaderboardElements$ | async | sort); let idx = index"
-               class="leaderboardElement">
-               <td>{{idx + 1}}.</td>
-               <td>{{element.name}}</td>
-               <td>{{element.score}}</td>
-            </tr>
-         </table>
-         <p class="error" *ngIf="!(leaderboardElements$ | async)?.length">No one on the leaderboard... Be the first!</p>
+         <app-list [leaderboardElements]="leaderboardElements$ | async | sort"></app-list>
       </mat-tab>
    </mat-tab-group>
    <button mat-flat-button color="accent" (click)="toMenu()" class="alignBottom">Back to menu</button>
