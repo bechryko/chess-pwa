@@ -42,12 +42,16 @@ export class GameComponent {
       }
       if (!this.selectedPosition) {
          this.selectedPosition = { x, y };
+         this.highlightPossibleMoves();
       } else if (this.selectedPosition.x == x && this.selectedPosition.y == y) {
          this.selectedPosition = null;
+         this.highlighted = [];
       } else {
+         let couldMove = false;
          for(const pos of this.highlighted) {
             if(pos.x == x && pos.y == y) {
-               this.playerMove(new Move(this.selectedPosition, { x, y }));
+               const playerMove = new Move(this.selectedPosition, { x, y });
+               this.playerMove(playerMove);
                if(this.pve) {
                   setTimeout(() => {
                      this.selectedPosition = null;
@@ -55,25 +59,32 @@ export class GameComponent {
                      this.updateDisplayBoard();
                   }, 0);
                }
+               couldMove = true;
                break;
             }
          }
-         this.selectedPosition = { x, y };
+         if(!couldMove) {
+            this.selectedPosition = { x, y };
+            this.highlightPossibleMoves();
+         }
       }
       this.updateDisplayBoard();
    }
 
    private playerMove(move: Move): boolean {
       this.selectedPosition = null;
-      return this.game.makeMove(move);
+      if(this.game.makeMove(move)) {
+         this.highlightMove(move);
+         return true;
+      }
+      return false;
    }
 
    private aiMove(): void {
       const move = ChessAI.getBestMove(this.game);
-      //console.log(this.game.current)
-      this.game.makeMove(move);
-      //console.log(this.game.current)
-      //console.log("AI moved", move);
+      if(this.game.makeMove(move)) {
+         this.highlightMove(move);
+      }
    }
 
    public updateDisplayBoard(): void {
@@ -85,7 +96,6 @@ export class GameComponent {
       for (const piece of this.game.pieces) {
          this.displayBoard[piece.pos.y][piece.pos.x] = piece.getIcon();
       }
-      this.syncSelections();
       this.announcement = this.game.current == "white" ? "White's turn" : "Black's turn";
       if (this.game.isCheck(this.game.current)) {
          this.announcement += ", check";
@@ -99,7 +109,7 @@ export class GameComponent {
       }
    }
 
-   private syncSelections(): void {
+   private highlightPossibleMoves(): void {
       if (!this.selectedPosition) return;
       this.highlighted = [this.selectedPosition];
       const piece = this.game.getPiece(this.selectedPosition);
@@ -108,7 +118,10 @@ export class GameComponent {
             .filter((move: Move) => move.from.x === this.selectedPosition?.x && move.from.y === this.selectedPosition?.y)
             .map((move: { to: Position; }) => move.to));
       }
-      console.log(this.highlighted)
+   }
+
+   private highlightMove(move: Move): void {
+      this.highlighted = [move.from, move.to];
    }
 
    public backToMenu() {
