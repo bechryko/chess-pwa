@@ -5,11 +5,13 @@ import { GameRoutingModule } from './game-routing.module';
 import { GameComponent } from './game.component';
 import { ReversePipe } from '../../reverse.pipe';
 import { MatButtonModule } from '@angular/material/button';
+import { ChessboardComponent } from './chessboard/chessboard.component';
 
 @NgModule({
    declarations: [
       GameComponent,
-      ReversePipe
+      ReversePipe,
+      ChessboardComponent
    ],
    imports: [
       CommonModule,

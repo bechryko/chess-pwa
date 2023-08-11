@@ -35,7 +35,8 @@ export class GameComponent {
       this.updateDisplayBoard();
    }
 
-   public onTileClick(x: number, y: number): void {
+   public onTileClick(event: { x: number, y: number }): void {
+      const { x, y } = event;
       if (this.game.ended) {
          return;
       }
@@ -99,24 +100,15 @@ export class GameComponent {
    }
 
    private syncSelections(): void {
-      const previouslyHighlighted = document.querySelectorAll(".highlighted0, .highlighted1");
-      for (const tile of previouslyHighlighted as any) {
-         tile.classList.remove("highlighted0", "highlighted1");
+      if (!this.selectedPosition) return;
+      this.highlighted = [this.selectedPosition];
+      const piece = this.game.getPiece(this.selectedPosition);
+      if (piece && piece.color == this.game.current) {
+         this.highlighted.push(...this.game.getPossibleMoves(this.game.current)
+            .filter((move: Move) => move.from.x === this.selectedPosition?.x && move.from.y === this.selectedPosition?.y)
+            .map((move: { to: Position; }) => move.to));
       }
-      if (this.selectedPosition) {
-         this.highlighted = [this.selectedPosition];
-         const piece = this.game.getPiece(this.selectedPosition);
-         if (piece && piece.color == this.game.current) {
-            this.highlighted.push(...this.game.getPossibleMoves(this.game.current)
-               .filter((move: Move) => move.from.x === this.selectedPosition?.x && move.from.y === this.selectedPosition?.y)
-               .map((move: { to: Position; }) => move.to));
-         } else {
-            return;
-         }
-         for (const pos of this.highlighted) {
-            document.querySelector(`.chessBoard .chessRow:nth-child(${8 - pos.y}) .chessTile:nth-child(${pos.x + 1})`)?.classList.add("highlighted" + (pos.y + pos.x) % 2);
-         }
-      }
+      console.log(this.highlighted)
    }
 
    public backToMenu() {
