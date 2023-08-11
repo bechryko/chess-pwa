@@ -11,7 +11,7 @@ const routes: Routes = [
       redirectTo: '/menu',
       pathMatch: 'full'
    },
-   { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginModule) },
+   { path: 'profile', loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfileModule) },
    { path: 'game', loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule) },
    { path: 'leaderboards', loadChildren: () => import('./pages/leaderboards/leaderboards.module').then(m => m.LeaderboardsModule) },
    {

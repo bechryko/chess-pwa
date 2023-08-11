@@ -1,18 +1,17 @@
 import { Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/services/model';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-   selector: 'app-login',
-   templateUrl: './login.component.html',
-   styleUrls: ['./login.component.scss'],
-   changeDetection: ChangeDetectionStrategy.OnPush
+   selector: 'app-profile',
+   templateUrl: './profile.component.html',
+   styleUrls: ['./profile.component.scss']
 })
-export class LoginComponent {
+export class ProfileComponent {
 
    loginForm = new FormGroup({
       email: new FormControl(''),
