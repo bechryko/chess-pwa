@@ -13,22 +13,11 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProfileComponent {
 
-   loginForm = new FormGroup({
-      email: new FormControl(''),
-      password: new FormControl('')
-   });
-
-   registerForm = new FormGroup({
-      email: new FormControl(''),
-      username: new FormControl(''),
-      password: new FormControl(''),
-      confirmPassword: new FormControl('')
-   });
-
    constructor(private router: Router, private location: Location, private authService: AuthService, private userService: UserService) { }
 
-   onLoginSubmit() {
-      this.authService.login(this.loginForm.value.email ?? "", this.loginForm.value.password ?? "")
+   loginSubmit(event: { email: string, password: string }) {
+      const { email, password } = event;
+      this.authService.login(email, password)
          .then((userCredential) => {
             this.router.navigateByUrl('/menu');
          })
@@ -37,13 +26,14 @@ export class ProfileComponent {
          });
    }
 
-   onRegisterSubmit() {
-      this.authService.register(this.registerForm.value.email ?? "", this.registerForm.value.password ?? "")
+   registerSubmit(event: { email: string, username: string, password: string }) {
+      const { email, username, password } = event;
+      this.authService.register(email, password)
          .then((userCredential) => {
             this.router.navigateByUrl('/menu');
             const user: User = {
                id: userCredential.user?.uid ?? "",
-               name: this.registerForm.value.username ?? "Anonymous",
+               name: username,
             };
             this.userService.createUser(user).catch((error) => { console.error(error); });
          })
