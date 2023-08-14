@@ -1,8 +1,9 @@
 import { Game } from './Game';
 import { Move } from './Move';
+import { PieceType } from './utility';
 
 export class ChessAI {
-   static PIECE_VALUES: { [key: string]: number } = {
+   static readonly PIECE_VALUES: Readonly<Record<PieceType, number>> = {
       "pawn": 1,
       "rook": 5,
       "knight": 3,
@@ -25,7 +26,7 @@ export class ChessAI {
       }
       let value = 0;
       for (const piece of game.pieces) {
-         value += this.PIECE_VALUES[piece.type as string] * 5 * (piece.color == game.current ? 1 : -1);
+         value += this.PIECE_VALUES[piece.type] * 5 * (piece.color == game.current ? 1 : -1);
       }
       /*const piecesInCenter = game.pieces.filter(piece => piece.pos.x >= 3 && piece.pos.x <= 4 && piece.pos.y >= 3 && piece.pos.y <= 4);
       for(const piece of piecesInCenter) {
