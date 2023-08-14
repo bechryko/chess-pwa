@@ -17,7 +17,7 @@ export interface Position {
    y: number;
 }
 
-export function filter<T>(arr: Array<T>, func: Function): Array<T> {
+export function filter<T>(arr: Readonly<Array<T>>, func: Function): Array<T> {
    const ret: Array<T> = [];
    for (let i = 0; i < arr.length; i++) {
       if (func(arr[i])) {

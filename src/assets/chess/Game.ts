@@ -34,7 +34,7 @@ export class Game {
       }
    }
 
-   public getPiece(pos: Position): pieces.Piece | null {
+   public getPiece(pos: Readonly<Position>): pieces.Piece | null {
       for (const piece of this.pieces) {
          if (piece.pos.x == pos.x && piece.pos.y == pos.y) {
             return piece;
@@ -43,7 +43,7 @@ export class Game {
       return null;
    }
 
-   public getKing(color: PieceColor): pieces.King {
+   public getKing(color: Readonly<PieceColor>): pieces.King {
       const king = this.pieces.find(piece => piece.type == PieceType.KING && piece.color == color) as pieces.King;
       if (!king) {
          console.log(this.pieces);
@@ -56,7 +56,7 @@ export class Game {
       return color == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
    }
 
-   public getPossibleMoves(color: PieceColor): Move[] {
+   public getPossibleMoves(color: Readonly<PieceColor>): Move[] {
       let moves: Move[] = [];
       for (const piece of this.pieces) {
          if (piece.color == color) {
@@ -76,11 +76,11 @@ export class Game {
       return moves;
    }
 
-   public isInBounds(pos: Position): boolean {
+   public isInBounds(pos: Readonly<Position>): boolean {
       return pos.x >= 0 && pos.x < 8 && pos.y >= 0 && pos.y < 8;
    }
 
-   public isCheck(color: PieceColor): boolean {
+   public isCheck(color: Readonly<PieceColor>): boolean {
       const king = this.getKing(color);
       for (const enemyPiece of filter(this.pieces, (piece: pieces.Piece) => piece.color != color)) {
          const moves = enemyPiece.getPossibleMoves(this);
@@ -106,7 +106,7 @@ export class Game {
       return this.getPossibleMoves(this.current).length == 0;
    }
 
-   public makeMove(move: Move): boolean {
+   public makeMove(move: Readonly<Move>): boolean {
       if (this.ended) {
          return false;
       }

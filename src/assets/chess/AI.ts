@@ -24,7 +24,7 @@ export class ChessAI {
    static readonly WIN_VALUE = 13_000_000;
    static readonly THINK_DEPTH = 3;
 
-   static heuristicValue(game: Game, distanceInTime: number, print: boolean = false): number {
+   static heuristicValue(game: Readonly<Game>, distanceInTime: number, print: boolean = false): number {
       const checkMate = game.isCheckmate();
       if (checkMate !== "none") {
          return (checkMate == game.current ? -1 : 1) * (this.WIN_VALUE - distanceInTime);
@@ -45,14 +45,14 @@ export class ChessAI {
       return value;
    }
 
-   static negamax(game: Game, depth: number, alpha: number, beta: number, distanceInTime: number): NegamaxReturnValue {
+   static negamax(game: Readonly<Game>, depth: number, alpha: number, beta: number, distanceInTime: number): NegamaxReturnValue {
       if (depth == 0) {
          return {
             value: this.heuristicValue(game, distanceInTime),
             bestMove: null
          };
       }
-      let returnValue: NegamaxReturnValue = {
+      const returnValue: NegamaxReturnValue = {
          value: -Infinity,
          bestMove: null
       };
@@ -72,7 +72,7 @@ export class ChessAI {
       return returnValue;
    }
 
-   static getBestMove(game: Game): Move {
+   static getBestMove(game: Readonly<Game>): Move {
       let { bestMove } = this.negamax(game, this.THINK_DEPTH, -Infinity, Infinity, 0);
       if (bestMove === null) {
          bestMove = game.getPossibleMoves(game.current)[0];
