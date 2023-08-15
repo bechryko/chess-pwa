@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { Game } from 'src/assets/chess/Game';
-import { Move } from 'src/assets/chess/Move';
-import { ChessAI } from 'src/assets/chess/AI';
-import { PieceColor, Position } from 'src/assets/chess/utility';
 import { Router } from '@angular/router';
-import { Gamemode, LeaderboardElement } from 'src/app/services/model';
-import { LocalDatabaseService } from 'src/app/services/local-database.service';
-import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatabaseSyncService } from 'src/app/services/database-sync.service';
+import { LocalDatabaseService } from 'src/app/services/local-database.service';
+import { Gamemode, LeaderboardElement } from 'src/app/services/model';
+import { UserService } from 'src/app/services/user.service';
+import { ChessAI } from 'src/assets/chess/AI';
+import { Game } from 'src/assets/chess/Game';
+import { Move } from 'src/assets/chess/Move';
+import { PieceColor, Position } from 'src/assets/chess/utility';
 
 @Component({
    selector: 'app-game',
@@ -35,8 +35,8 @@ export class GameComponent {
       this.updateDisplayBoard();
    }
 
-   public onTileClick(event: { x: number, y: number }): void {
-      const { x, y } = event;
+   public onTileClick(position: Position): void {
+      const { x, y } = position;
       if (this.game.ended) {
          return;
       }

@@ -9,7 +9,7 @@ import { Position } from 'src/assets/chess/utility';
 export class ChessboardComponent {
    @Input() displayBoard: string[][] = [];
    @Input() highlightedTiles: Position[] = [];
-   @Output() tileClick: EventEmitter<{ x: number, y: number }> = new EventEmitter();
+   @Output() tileClick: EventEmitter<Position> = new EventEmitter();
 
    isTileHighlighted(x: number, y: number): boolean {
       return this.highlightedTiles.some(t => t.x === x && t.y === y);
