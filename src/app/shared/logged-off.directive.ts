@@ -2,7 +2,8 @@ import { Directive, ElementRef, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
 @Directive({
-   selector: '[loggedOff]'
+   standalone: true,
+   selector: '[loggedOff]',
 })
 export class LoggedOffDirective implements OnInit {
    private element: HTMLElement;

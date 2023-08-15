@@ -5,7 +5,7 @@ import { GamemodeChooserRoutingModule } from './gamemode-chooser-routing.module'
 import { GamemodeChooserComponent } from './gamemode-chooser.component';
 
 import { MatButtonModule } from '@angular/material/button';
-import { DirectivesModule } from 'src/app/shared/directives.module';
+import { LoggedOffDirective } from 'src/app/shared/logged-off.directive';
 
 
 @NgModule({
@@ -16,7 +16,7 @@ import { DirectivesModule } from 'src/app/shared/directives.module';
       CommonModule,
       GamemodeChooserRoutingModule,
       MatButtonModule,
-      DirectivesModule
+      LoggedOffDirective
    ]
 })
 export class GamemodeChooserModule { }
