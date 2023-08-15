@@ -17,16 +17,19 @@ export class AppComponent {
    constructor(private authService: AuthService, private userService: UserService, private syncService: DatabaseSyncService) { }
 
    ngOnInit(): void {
-      this.authService.isUserLoggedIn().subscribe((user) => {
-         this.loggedInUser = user;
-         this.userService.getUserName(user?.uid ?? "").then((username: string) => {
-            this.username = username;
-            localStorage.setItem("chessPWA-user", JSON.stringify(this.username));
-         }).catch((error) => {
+      this.authService.isUserLoggedIn().subscribe({
+         next: user => {
+            this.loggedInUser = user;
+            this.userService.getUserName(user?.uid ?? "").then((username: string) => {
+               this.username = username;
+               localStorage.setItem("chessPWA-user", JSON.stringify(this.username));
+            }).catch((error) => {
+               console.error(error);
+            });
+         },
+         error: error => {
             console.error(error);
-         });
-      }, error => {
-         console.error(error);
+         }
       });
 
       if(navigator.onLine) {

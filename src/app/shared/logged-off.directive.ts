@@ -13,7 +13,7 @@ export class LoggedOffDirective implements OnInit {
 
    ngOnInit(): void {
       this.authService.isUserLoggedIn().subscribe({ 
-         next: (user) => {
+         next: user => {
             if(user !== null) {
                this.element.style.display = "none";
             }
