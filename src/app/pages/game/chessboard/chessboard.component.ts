@@ -11,10 +11,6 @@ export class ChessboardComponent {
    @Input() highlightedTiles: Position[] = [];
    @Output() tileClick: EventEmitter<{ x: number, y: number }> = new EventEmitter();
 
-   onTileClick(x: number, y: number): void {
-      this.tileClick.emit({ x, y });
-   }
-
    isTileHighlighted(x: number, y: number): boolean {
       return this.highlightedTiles.some(t => t.x === x && t.y === y);
    }

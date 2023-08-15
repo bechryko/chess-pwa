@@ -1,6 +1,6 @@
 <table class="chessBoard">
    <tr *ngFor="let row of displayBoard | reverse; let y = index" class="chessRow">
-      <td *ngFor="let piece of row; let x = index" (click)="onTileClick(x, 7 - y)"
+      <td *ngFor="let piece of row; let x = index" (click)="tileClick.emit({ x, y: 7 - y })"
       class="chessTile" [ngClass]="isTileHighlighted(x, 7 - y) ? 'highlighted' : ''">
          <img src="assets/images/chess-{{piece}}.png" alt="" class="chessPieceIcon">
       </td>
