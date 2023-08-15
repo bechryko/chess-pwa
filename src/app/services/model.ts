@@ -1,6 +1,6 @@
 export const Gamemode = {
    vsAI: 0,
-   challanges: 1,
+   challenges: 1,
 } as const;
 export type Gamemode = (typeof Gamemode)[keyof typeof Gamemode];
 
