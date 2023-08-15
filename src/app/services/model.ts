@@ -1,7 +1,8 @@
-export enum Gamemode {
-   vsAI = 0,
-   challanges = 1,
-}
+export const Gamemode = {
+   vsAI: 0,
+   challanges: 1,
+} as const;
+export type Gamemode = (typeof Gamemode)[keyof typeof Gamemode];
 
 export interface LeaderboardElement {
    gamemode: Gamemode;

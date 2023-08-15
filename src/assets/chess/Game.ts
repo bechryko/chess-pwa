@@ -6,7 +6,7 @@ type CheckType = PieceColor | "none" | "stalemate";
 
 export class Game {
    public pieces: pieces.Piece[];
-   public current = PieceColor.WHITE;
+   public current: PieceColor = PieceColor.WHITE;
    public castling = { white: { king: true, queen: true }, black: { king: true, queen: true } };
    public turn = 0;
    public ended = false;
