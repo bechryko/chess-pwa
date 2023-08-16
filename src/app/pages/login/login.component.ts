@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -9,7 +9,8 @@ import { UserService } from 'src/app/services/user.service';
 @Component({
    selector: 'app-login',
    templateUrl: './login.component.html',
-   styleUrls: ['./login.component.scss']
+   styleUrls: ['./login.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
 

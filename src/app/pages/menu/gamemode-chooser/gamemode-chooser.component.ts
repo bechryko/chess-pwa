@@ -1,11 +1,11 @@
-import { AuthService } from 'src/app/services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
    selector: 'app-gamemode-chooser',
    templateUrl: './gamemode-chooser.component.html',
-   styleUrls: ['./gamemode-chooser.component.scss']
+   styleUrls: ['./gamemode-chooser.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GamemodeChooserComponent {
 
