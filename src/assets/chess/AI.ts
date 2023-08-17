@@ -17,7 +17,7 @@ export class ChessAI {
       "king": 0
    };
    static readonly WIN_VALUE = 13_000_000;
-   static readonly THINK_DEPTH = 2;
+   static readonly THINK_DEPTH = 3;
 
    static heuristicValue(game: Game, distanceInTime: number, print: boolean = false): number {
       const checkMate = game.isCheckmate();
@@ -54,7 +54,7 @@ export class ChessAI {
       for (const move of game.getPossibleMoves(game.current)) {
          const newGame = game.copy();
          newGame.makeMove(move);
-         const negamaxValue = -this.negamax(newGame, depth - 1, -beta, -alpha, distanceInTime + 1);
+         const negamaxValue = -this.negamax(newGame, depth - 1, -beta, -alpha, distanceInTime + 1).value;
          if (returnValue.value < negamaxValue) {
             returnValue.value = negamaxValue;
             returnValue.bestMove = move;
