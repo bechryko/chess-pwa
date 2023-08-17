@@ -4,7 +4,7 @@ import { LeaderboardElement } from 'src/app/services/model';
 @Component({
    selector: 'app-list',
    templateUrl: './list.component.html',
-   styleUrls: ['./list.component.scss']
+   styleUrls: ['../leaderboards.component.scss']
 })
 export class ListComponent {
    @Input() leaderboardElements: LeaderboardElement[] | null = null;
