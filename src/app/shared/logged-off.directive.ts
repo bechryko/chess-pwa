@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnInit } from '@angular/core';
+import { Directive, ElementRef, OnInit, inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
 @Directive({
@@ -7,8 +7,9 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoggedOffDirective implements OnInit {
    private element: HTMLElement;
+   private authService: AuthService = inject(AuthService);
 
-   constructor(elref: ElementRef, private authService: AuthService) {
+   constructor(elref: ElementRef) {
       (this.element = elref.nativeElement as HTMLElement).classList.add("error");
    }
 
