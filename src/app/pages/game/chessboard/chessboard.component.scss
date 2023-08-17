@@ -1,0 +1,54 @@
+@use 'src/assets/styles/colors' as *;
+
+@mixin blackTile {
+   background-color: $primary-400;
+   &.highlighted {
+      background-color: $secondary-900;
+   }
+}
+@mixin whiteTile {
+   background-color: $secondary-200;
+   &.highlighted {
+      background-color: $secondary-800;
+   }
+}
+
+.chessBoard {
+   border-collapse: collapse;
+   .chessRow {
+      margin: 0;
+      .chessTile {
+         margin: 0;
+         .chessPieceIcon {
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+         }
+      }
+      &:nth-child(odd) {
+         .chessTile {
+            &:nth-child(even) {
+               @include blackTile();
+            }
+            &:nth-child(odd) {
+               @include whiteTile();
+            }
+         }
+      }
+      &:nth-child(even) {
+         .chessTile {
+            &:nth-child(odd) {
+               @include blackTile();
+            }
+            &:nth-child(even) {
+               @include whiteTile();
+            }
+         }
+      }
+   }
+   &+.announcement {
+      margin-top: 1rem;
+   }
+}

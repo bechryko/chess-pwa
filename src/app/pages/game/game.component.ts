@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { Game } from 'src/assets/chess/Game';
-import { Move } from 'src/assets/chess/Move';
-import { ChessAI } from 'src/assets/chess/AI';
-import { PieceColor, Position } from 'src/assets/chess/utility';
 import { Router } from '@angular/router';
-import { Gamemode, LeaderboardElement } from 'src/app/services/model';
-import { LocalDatabaseService } from 'src/app/services/local-database.service';
-import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { DatabaseSyncService } from 'src/app/services/database-sync.service';
+import { LocalDatabaseService } from 'src/app/services/local-database.service';
+import { Gamemode, LeaderboardElement } from 'src/app/services/model';
+import { UserService } from 'src/app/services/user.service';
+import { ChessAI } from 'src/assets/chess/AI';
+import { Game } from 'src/assets/chess/Game';
+import { Move } from 'src/assets/chess/Move';
+import { PieceColor, Position } from 'src/assets/chess/utility';
 
 @Component({
    selector: 'app-game',
@@ -35,18 +35,23 @@ export class GameComponent {
       this.updateDisplayBoard();
    }
 
-   public onTileClick(x: number, y: number): void {
+   public onTileClick(position: Position): void {
+      const { x, y } = position;
       if (this.game.ended) {
          return;
       }
       if (!this.selectedPosition) {
          this.selectedPosition = { x, y };
+         this.highlightPossibleMoves();
       } else if (this.selectedPosition.x == x && this.selectedPosition.y == y) {
          this.selectedPosition = null;
+         this.highlighted = [];
       } else {
+         let couldMove = false;
          for(const pos of this.highlighted) {
             if(pos.x == x && pos.y == y) {
-               this.playerMove(new Move(this.selectedPosition, { x, y }));
+               const playerMove = new Move(this.selectedPosition, { x, y });
+               this.playerMove(playerMove);
                if(this.pve) {
                   setTimeout(() => {
                      this.selectedPosition = null;
@@ -54,25 +59,32 @@ export class GameComponent {
                      this.updateDisplayBoard();
                   }, 0);
                }
+               couldMove = true;
                break;
             }
          }
-         this.selectedPosition = { x, y };
+         if(!couldMove) {
+            this.selectedPosition = { x, y };
+            this.highlightPossibleMoves();
+         }
       }
       this.updateDisplayBoard();
    }
 
    private playerMove(move: Move): boolean {
       this.selectedPosition = null;
-      return this.game.makeMove(move);
+      if(this.game.makeMove(move)) {
+         this.highlightMove(move);
+         return true;
+      }
+      return false;
    }
 
    private aiMove(): void {
       const move = ChessAI.getBestMove(this.game);
-      //console.log(this.game.current)
-      this.game.makeMove(move);
-      //console.log(this.game.current)
-      //console.log("AI moved", move);
+      if(this.game.makeMove(move)) {
+         this.highlightMove(move);
+      }
    }
 
    public updateDisplayBoard(): void {
@@ -84,7 +96,6 @@ export class GameComponent {
       for (const piece of this.game.pieces) {
          this.displayBoard[piece.pos.y][piece.pos.x] = piece.getIcon();
       }
-      this.syncSelections();
       this.announcement = this.game.current == "white" ? "White's turn" : "Black's turn";
       if (this.game.isCheck(this.game.current)) {
          this.announcement += ", check";
@@ -98,25 +109,19 @@ export class GameComponent {
       }
    }
 
-   private syncSelections(): void {
-      const previouslyHighlighted = document.querySelectorAll(".highlighted0, .highlighted1");
-      for (const tile of previouslyHighlighted as any) {
-         tile.classList.remove("highlighted0", "highlighted1");
+   private highlightPossibleMoves(): void {
+      if (!this.selectedPosition) return;
+      this.highlighted = [this.selectedPosition];
+      const piece = this.game.getPiece(this.selectedPosition);
+      if (piece && piece.color == this.game.current) {
+         this.highlighted.push(...this.game.getPossibleMoves(this.game.current)
+            .filter((move: Move) => move.from.x === this.selectedPosition?.x && move.from.y === this.selectedPosition?.y)
+            .map((move: { to: Position; }) => move.to));
       }
-      if (this.selectedPosition) {
-         this.highlighted = [this.selectedPosition];
-         const piece = this.game.getPiece(this.selectedPosition);
-         if (piece && piece.color == this.game.current) {
-            this.highlighted.push(...this.game.getPossibleMoves(this.game.current)
-               .filter((move: Move) => move.from.x === this.selectedPosition?.x && move.from.y === this.selectedPosition?.y)
-               .map((move: { to: Position; }) => move.to));
-         } else {
-            return;
-         }
-         for (const pos of this.highlighted) {
-            document.querySelector(`.chessBoard .chessRow:nth-child(${8 - pos.y}) .chessTile:nth-child(${pos.x + 1})`)?.classList.add("highlighted" + (pos.y + pos.x) % 2);
-         }
-      }
+   }
+
+   private highlightMove(move: Move): void {
+      this.highlighted = [move.from, move.to];
    }
 
    public backToMenu() {
