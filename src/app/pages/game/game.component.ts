@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { DatabaseSyncService } from 'src/app/services/database-sync.service';
-import { LocalDatabaseService } from 'src/app/services/local-database.service';
-import { Gamemode, LeaderboardElement } from 'src/app/services/model';
+import { Gamemode, LeaderboardElement } from 'src/app/shared/model';
+import { DatabaseSyncService } from 'src/app/shared/services/database-sync.service';
+import { LocalDatabaseService } from 'src/app/shared/services/local-database.service';
 import { ChessAI } from 'src/assets/chess/AI';
 import { Game } from 'src/assets/chess/Game';
 import { Move } from 'src/assets/chess/Move';

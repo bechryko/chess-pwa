@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { LeaderboardElement } from './model';
 import { Observable } from 'rxjs';
+import { LeaderboardElement } from '../model';
 
 @Injectable({
    providedIn: 'root'

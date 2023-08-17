@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { LeaderboardElement, LeaderboardElementWithId } from './model';
 import { SupabaseClient, createClient } from '@supabase/supabase-js';
-import { environment } from 'src/environments/environment';
-import { LocalDatabaseService } from './local-database.service';
 import { firstValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { LeaderboardElement, LeaderboardElementWithId } from '../model';
+import { LocalDatabaseService } from './local-database.service';
 
 @Injectable({
    providedIn: 'root'

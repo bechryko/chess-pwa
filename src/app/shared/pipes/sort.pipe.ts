@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LeaderboardElement } from 'src/app/services/model';
+import { LeaderboardElement } from 'src/app/shared/model';
 
 @Pipe({
    name: 'sort'
