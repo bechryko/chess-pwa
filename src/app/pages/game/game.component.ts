@@ -90,7 +90,7 @@ export class GameComponent {
          this.announcement += ", check";
       }
       if (this.game.ended) {
-         if (this.game.getWinner() === true) {
+         if (this.game.getWinner() === "stalemate") {
             this.announcement = "Draw!";
          } else {
             this.announcement = this.game.getWinner() == PieceColor.BLACK ? "Black wins!" : "White wins!";

@@ -8,13 +8,13 @@ import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
-  declarations: [
-    MenuComponent
-  ],
-  imports: [
-    CommonModule,
-    MenuRoutingModule,
-    MatButtonModule,
-  ]
+   declarations: [
+      MenuComponent
+   ],
+   imports: [
+      CommonModule,
+      MenuRoutingModule,
+      MatButtonModule,
+   ]
 })
 export class MenuModule { }
