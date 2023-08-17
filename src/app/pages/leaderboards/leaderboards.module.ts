@@ -7,21 +7,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { SortPipe } from 'src/app/shared/pipes/sort.pipe';
 import { LeaderboardsRoutingModule } from './leaderboards-routing.module';
 import { LeaderboardsComponent } from './leaderboards.component';
-import { ListComponent } from './list/list.component';
 
 
 @NgModule({
    declarations: [
-      LeaderboardsComponent,
-      SortPipe,
-      ListComponent
+      LeaderboardsComponent
    ],
    imports: [
       CommonModule,
       LeaderboardsRoutingModule,
       MatTabsModule,
       MatButtonModule,
-      MatProgressSpinnerModule
+      MatProgressSpinnerModule,
+      SortPipe
    ]
 })
 export class LeaderboardsModule { }

@@ -11,14 +11,14 @@ import { GameComponent } from './game.component';
 @NgModule({
    declarations: [
       GameComponent,
-      ReversePipe,
       ChessboardComponent
    ],
    imports: [
       CommonModule,
       GameRoutingModule,
       MatButtonModule,
-      HighlightPipe
+      HighlightPipe,
+      ReversePipe
    ]
 })
 export class GameModule { }

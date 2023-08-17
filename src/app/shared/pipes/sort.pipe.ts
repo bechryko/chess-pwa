@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { LeaderboardElement } from 'src/app/shared/model';
 
 @Pipe({
-   name: 'sort'
+   name: 'sort',
+   standalone: true
 })
 export class SortPipe implements PipeTransform {
 
