@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Gamemode, LeaderboardElement } from 'src/app/shared/model';
+import { Gamemode } from 'src/app/shared/Gamemode';
+import { LeaderboardElement } from 'src/app/shared/model';
 import { DatabaseSyncService } from 'src/app/shared/services/database-sync.service';
+import { GamemodeService } from 'src/app/shared/services/gamemode.service';
 import { LocalDatabaseService } from 'src/app/shared/services/local-database.service';
 import { ChessAI } from 'src/assets/chess/AI';
 import { Game } from 'src/assets/chess/Game';
@@ -14,19 +16,20 @@ import { PieceColor, Position } from 'src/assets/chess/utility';
    styleUrls: ['./game.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GameComponent {
+export class GameComponent implements OnInit {
    public game: Game;
    private selectedPosition: Position | null = null;
    public displayBoard: string[][];
    public announcement = "";
    public highlighted: Position[] = [];
-   public pve = localStorage.getItem("chessPWA-gamemode") === 'pve';
+   public gamemode: Gamemode = "pvp";
 
    constructor(
       private router: Router, 
       private dbService: LocalDatabaseService,
       private syncService: DatabaseSyncService,
-      private cdr: ChangeDetectorRef
+      private cdr: ChangeDetectorRef,
+      private gamemodeService: GamemodeService
    ) {
       this.game = new Game();
       this.displayBoard = [];
@@ -37,6 +40,14 @@ export class GameComponent {
          }
       }
       this.updateDisplayBoard();
+   }
+
+   ngOnInit(): void {
+      try {
+         this.gamemode = this.gamemodeService.lastGamemode();
+      } catch(err) {
+         console.warn("No gamemode specified; default mode: pvp");
+      }
    }
 
    public onTileClick(position: Position): void {
@@ -56,7 +67,7 @@ export class GameComponent {
             if(pos.x == x && pos.y == y) {
                const playerMove = new Move(this.selectedPosition, { x, y });
                this.playerMove(playerMove);
-               if(this.pve) {
+               if(this.gamemode === "pve") {
                   setTimeout(() => {
                      this.selectedPosition = null;
                      this.aiMove();
@@ -134,12 +145,12 @@ export class GameComponent {
    }
 
    public isGameWonVsAI(): boolean {
-      return this.game.ended && this.game.getWinner() === PieceColor.WHITE && this.pve;
+      return this.game.ended && this.gamemode === "pve" && this.game.getWinner() === PieceColor.WHITE;
    }
 
-   public onWin() {
+   public onPvEWin() {
       const leaderboardElement: LeaderboardElement = {
-         gamemode: Gamemode.vsAI,
+         gamemode: "pve",
          name: JSON.parse(localStorage.getItem("chessPWA-user") ?? '"Unknown user"'),
          score: this.game.turn
       };

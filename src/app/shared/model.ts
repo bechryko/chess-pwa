@@ -1,8 +1,4 @@
-export const Gamemode = {
-   vsAI: 0,
-   challenges: 1,
-} as const;
-export type Gamemode = (typeof Gamemode)[keyof typeof Gamemode];
+import { Gamemode } from "./Gamemode";
 
 export interface LeaderboardElement {
    gamemode: Gamemode;
