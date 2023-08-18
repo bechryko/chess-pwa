@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SupabaseClient, createClient } from '@supabase/supabase-js';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { LeaderboardElement, LeaderboardElementWithId } from '../model';
+import { LeaderboardElement, LeaderboardElementWithId } from '../model/LeaderboardElements';
 import { LocalDatabaseService } from './local-database.service';
 
 @Injectable({

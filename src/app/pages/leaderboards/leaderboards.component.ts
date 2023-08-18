@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { LeaderboardElement } from 'src/app/shared/model/LeaderboardElements';
 import { LocalDatabaseService } from 'src/app/shared/services/local-database.service';
-import { LeaderboardElement } from '../../shared/model';
 
 @Component({
    selector: 'app-leaderboards',
