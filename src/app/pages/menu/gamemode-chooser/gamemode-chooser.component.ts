@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Gamemode } from 'src/app/shared/model/Gamemode';
+import { Gamemode } from 'src/app/shared/models/Gamemode';
 import { GamemodeService } from 'src/app/shared/services/gamemode.service';
 
 @Component({

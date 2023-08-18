@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Gamemode } from 'src/app/shared/Gamemode';
-import { LeaderboardElement } from 'src/app/shared/model/LeaderboardElements';
+import { Gamemode } from 'src/app/shared/models/Gamemode';
+import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
 import { DatabaseSyncService } from 'src/app/shared/services/database-sync.service';
 import { GamemodeService } from 'src/app/shared/services/gamemode.service';
 import { LocalDatabaseService } from 'src/app/shared/services/local-database.service';

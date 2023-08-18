@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from 'src/app/shared/model/User';
+import { User } from 'src/app/shared/models/User';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { SimpleUser, SimpleUserWithoutUsername } from './profile.model';
