@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { LeaderboardElement } from '../../services/model';
@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 @Component({
    selector: 'app-leaderboards',
    templateUrl: './leaderboards.component.html',
-   styleUrls: ['./leaderboards.component.scss']
+   styleUrls: ['./leaderboards.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LeaderboardsComponent implements OnInit {
    public leaderboardElements$?: Observable<LeaderboardElement[]>;

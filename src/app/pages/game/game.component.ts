@@ -1,10 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
 import { DatabaseSyncService } from 'src/app/services/database-sync.service';
 import { LocalDatabaseService } from 'src/app/services/local-database.service';
 import { Gamemode, LeaderboardElement } from 'src/app/services/model';
-import { UserService } from 'src/app/services/user.service';
 import { ChessAI } from 'src/assets/chess/AI';
 import { Game } from 'src/assets/chess/Game';
 import { Move } from 'src/assets/chess/Move';
@@ -13,7 +11,8 @@ import { PieceColor, Position } from 'src/assets/chess/utility';
 @Component({
    selector: 'app-game',
    templateUrl: './game.component.html',
-   styleUrls: ['./game.component.scss']
+   styleUrls: ['./game.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameComponent {
    public game: Game;
@@ -23,7 +22,12 @@ export class GameComponent {
    public highlighted: Position[] = [];
    public pve: boolean = localStorage.getItem("chessPWA-gamemode") === 'pve';
 
-   constructor(private router: Router, private dbService: LocalDatabaseService, private userService: UserService, private authService: AuthService, private syncService: DatabaseSyncService) {
+   constructor(
+      private router: Router, 
+      private dbService: LocalDatabaseService,
+      private syncService: DatabaseSyncService,
+      private cdr: ChangeDetectorRef
+   ) {
       this.game = new Game();
       this.displayBoard = [];
       for (let i = 0; i < 8; i++) {
@@ -107,6 +111,7 @@ export class GameComponent {
             this.announcement = this.game.getWinner() == PieceColor.BLACK ? "Black wins!" : "White wins!";
          }
       }
+      this.cdr.markForCheck();
    }
 
    private highlightPossibleMoves(): void {
