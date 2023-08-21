@@ -15,8 +15,8 @@ export class ProfileComponent {
 
    constructor(private router: Router, private location: Location, private authService: AuthService, private userService: UserService) { }
 
-   loginSubmit(event: SimpleUserWithoutUsername) {
-      const { email, password } = event;
+   loginSubmit(userData: SimpleUserWithoutUsername) {
+      const { email, password } = userData;
       this.authService.login(email, password)
          .then((userCredential) => {
             this.router.navigateByUrl('/menu');
@@ -26,8 +26,8 @@ export class ProfileComponent {
          });
    }
 
-   registerSubmit(event: SimpleUser) {
-      const { email, username, password } = event;
+   registerSubmit(userData: SimpleUser) {
+      const { email, username, password } = userData;
       this.authService.register(email, password)
          .then((userCredential) => {
             this.router.navigateByUrl('/menu');
