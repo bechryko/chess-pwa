@@ -1,6 +1,6 @@
-import * as pieces from './Piece';
-import { PieceColor, Position, PieceType, filter } from './utility';
 import { Move } from './Move';
+import * as pieces from './Piece';
+import { PieceColor, PieceType, Position, filter } from './utility';
 
 type CheckType = PieceColor | "none" | "stalemate";
 
