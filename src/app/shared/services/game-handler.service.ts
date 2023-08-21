@@ -54,7 +54,7 @@ export class GameHandlerService {
          this.displayBoard[piece.pos.y][piece.pos.x] = piece.getIcon();
       }
       this.announcement = this.game.current == "white" ? "White's turn" : "Black's turn";
-      if (this.game.isCheck(this.game.current)) {
+      if (this.game.isInCheck(this.game.current)) {
          this.announcement += ", check";
       }
       if (this.game.ended) {

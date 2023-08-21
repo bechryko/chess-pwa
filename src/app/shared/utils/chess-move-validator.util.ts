@@ -9,11 +9,8 @@ export class ChessMoveValidatorUtil {
    }
 
    public static getPossibleMoves(game: Game, pos: Position): Position[] {
-      const piece = game.getPiece(pos);
-      if (!piece || piece.color !== game.current) {
-         return [];
-      }
-      return piece.getPossibleMoves(game).map(move => move.to);
+      const moves = game.getPossibleMoves(game.current).filter((move: Move) => move.from.x === pos.x && move.from.y === pos.y);
+      return moves.map(move => move.to);
    }
 
 }

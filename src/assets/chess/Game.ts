@@ -59,20 +59,16 @@ export class Game {
    public getPossibleMoves(color: Readonly<PieceColor>): Move[] {
       let moves: Move[] = [];
       for (const piece of this.pieces) {
-         if (piece.color == color) {
+         if (piece.color === color) {
             moves.push(...piece.getPossibleMoves(this));
          }
       }
-      const king = this.getKing(Game.getOtherColor(color));
-      moves = filter(moves, (move: Move) => !(move.to.x == king.pos.x && move.to.y == king.pos.y));
-      moves = filter(moves,
-         (move: Move) => {
-            const newGame = this.copy();
-            const piece = newGame.getPiece(move.from) as pieces.Piece;
-            piece.step(move, newGame);
-            return !newGame.isCheck(color);
-         }
-      );
+      moves = filter(moves, (move: Move) => {
+         const newGame = this.copy();
+         const piece = newGame.getPiece(move.from) as pieces.Piece;
+         piece.step(move, newGame);
+         return !newGame.isInCheck(color);
+      });
       return moves;
    }
 
@@ -80,12 +76,12 @@ export class Game {
       return pos.x >= 0 && pos.x < 8 && pos.y >= 0 && pos.y < 8;
    }
 
-   public isCheck(color: Readonly<PieceColor>): boolean {
+   public isInCheck(color: PieceColor): boolean {
       const king = this.getKing(color);
-      for (const enemyPiece of filter(this.pieces, (piece: pieces.Piece) => piece.color != color)) {
-         const moves = enemyPiece.getPossibleMoves(this);
+      for (const enemyPiece of this.pieces.filter(piece => piece.color !== color)) {
+         const moves = enemyPiece.getPossibleMoves(this, true);
          for (const move of moves) {
-            if (move.to.x == king.pos.x && move.to.y == king.pos.y) {
+            if (move.to.x === king.pos.x && move.to.y === king.pos.y) {
                return true;
             }
          }
@@ -95,7 +91,7 @@ export class Game {
 
    public isCheckmate(): CheckType {
       for (const color of [PieceColor.WHITE, PieceColor.BLACK]) {
-         if (this.getPossibleMoves(color).length == 0 && this.isCheck(color)) {
+         if (this.getPossibleMoves(color).length == 0 && this.isInCheck(color)) {
             return color;
          }
       }
@@ -110,7 +106,7 @@ export class Game {
       if (this.ended) {
          return false;
       }
-      const piece = this.getPiece(move.from) as pieces.Piece;
+      const piece = this.getPiece(move.from);
       if (piece == null || piece.color != this.current) {
          return false;
       }
