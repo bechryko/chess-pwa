@@ -19,6 +19,7 @@ export class MenuComponent implements OnInit {
       this.authService.isUserLoggedIn().subscribe({
          next: user => {
             this.loggedInUser = user;
+            this.cdr.markForCheck();
          },
          error: error => {
             console.error(error);
