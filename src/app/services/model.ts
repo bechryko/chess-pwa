@@ -1,7 +1,8 @@
-export enum Gamemode {
-   vsAI = 0,
-   challanges = 1,
-}
+export const Gamemode = {
+   vsAI: 0,
+   challenges: 1,
+} as const;
+export type Gamemode = (typeof Gamemode)[keyof typeof Gamemode];
 
 export interface LeaderboardElement {
    gamemode: Gamemode;
@@ -9,9 +10,11 @@ export interface LeaderboardElement {
    score: number;
 }
 
-export interface LeaderboardElementWithId extends LeaderboardElement {
+/*export interface LeaderboardElementWithId extends LeaderboardElement {
    id: number;
-}
+}*/
+export type LeaderboardElementWithId = LeaderboardElement & { id: number };
+
 
 export interface User {
    id: string;

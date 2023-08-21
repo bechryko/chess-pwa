@@ -1,4 +1,4 @@
-import { PieceColor, PieceType, Position } from './utility';
+import { filter, PieceColor, PieceType, Position } from './utility';
 import { Move, MovePattern } from './Move';
 import { Game } from './Game';
 
@@ -7,10 +7,10 @@ export class Piece {
       public color: PieceColor,
       public type: PieceType,
       public pos: Position,
-      public movePattern: MovePattern
+      public readonly movePattern: MovePattern
    ) { }
 
-   public step(move: Move, game: Game): void {
+   public step(move: Readonly<Move>, game: Game): void {
       const targetPiece = game.getPiece(move.to);
       if (targetPiece !== null) {
          game.pieces.splice(game.pieces.indexOf(targetPiece), 1);
@@ -25,7 +25,7 @@ export class Piece {
       }
    }
 
-   public getPossibleMoves(game: Game): Move[] {
+   public getPossibleMoves(game: Readonly<Game>): Move[] {
       const moves: Move[] = [];
       for (const direction of this.movePattern.directions) {
          for (let i = 1; i <= this.movePattern.maxSteps; i++) {
@@ -76,10 +76,10 @@ export class Pawn extends Piece {
       });
    }
 
-   public override getPossibleMoves(game: Game): Move[] {
+   public override getPossibleMoves(game: Readonly<Game>): Move[] {
       const moves = super.getPossibleMoves(game);
       for (const move of moves) {
-         for (const piece of game.pieces.filter(p => p.color != this.color)) {
+         for (const piece of filter(game.pieces, (p: Piece) => p.color != this.color)) {
             if (move.to.x == piece.pos.x && move.to.y == piece.pos.y) {
                moves.splice(moves.indexOf(move), 1);
                break;
@@ -104,7 +104,7 @@ export class Pawn extends Piece {
       return moves;
    }
 
-   public override step(move: Move, game: Game): void {
+   public override step(move: Readonly<Move>, game: Game): void {
       super.step(move, game);
       if (this.pos.y == 0 || this.pos.y == 7) {
          game.pieces.splice(game.pieces.indexOf(this), 1);
@@ -121,7 +121,7 @@ export class Rook extends Piece {
       });
    }
 
-   public override step(move: Move, game: Game): void {
+   public override step(move: Readonly<Move>, game: Game): void {
       super.step(move, game);
       if (move.from.x == 0) {
          game.castling[this.color].queen = false;
@@ -167,7 +167,7 @@ export class King extends Piece {
       });
    }
 
-   public override getPossibleMoves(game: Game): Move[] {
+   public override getPossibleMoves(game: Readonly<Game>): Move[] {
       const moves = super.getPossibleMoves(game);
       const castling = game.castling[this.color];
       if (castling.queen && !game.getPiece({ x: 1, y: this.pos.y }) && !game.getPiece({ x: 2, y: this.pos.y }) && !game.getPiece({ x: 3, y: this.pos.y })) {
@@ -179,7 +179,7 @@ export class King extends Piece {
       return moves;
    }
 
-   public override step(move: Move, game: Game): void {
+   public override step(move: Readonly<Move>, game: Game): void {
       super.step(move, game);
       game.castling[this.color].queen = false;
       game.castling[this.color].king = false;

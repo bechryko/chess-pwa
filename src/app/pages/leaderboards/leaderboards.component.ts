@@ -17,11 +17,12 @@ export class LeaderboardsComponent implements OnInit {
    constructor(private router: Router, private dbService: LocalDatabaseService) { }
 
    ngOnInit(): void {
-      if(this.dbService.isLoaded) {
-         this.leaderboardElements$ = this.dbService.loadItems();
-      } else {
-         setTimeout(this.ngOnInit.bind(this), 500);
-      }
+      const interval = setInterval(() => {
+         if(this.dbService.isLoaded) {
+            this.leaderboardElements$ = this.dbService.loadItems();
+            clearInterval(interval);
+         }
+      }, 500);
    }
 
    public toMenu() {

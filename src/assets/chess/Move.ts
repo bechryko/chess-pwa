@@ -9,7 +9,7 @@ export class Move {
       public to: Position
    ) { }
 
-   public equals(move: Move): boolean {
+   public equals(move: Readonly<Move>): boolean {
       return this.from.x == move.from.x && this.from.y == move.from.y && this.to.x == move.to.x && this.to.y == move.to.y;
    }
 }

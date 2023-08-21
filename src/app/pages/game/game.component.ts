@@ -18,9 +18,9 @@ export class GameComponent {
    public game: Game;
    private selectedPosition: Position | null = null;
    public displayBoard: string[][];
-   public announcement: string = "";
+   public announcement = "";
    public highlighted: Position[] = [];
-   public pve: boolean = localStorage.getItem("chessPWA-gamemode") === 'pve';
+   public pve = localStorage.getItem("chessPWA-gamemode") === 'pve';
 
    constructor(
       private router: Router, 
@@ -61,7 +61,7 @@ export class GameComponent {
                      this.selectedPosition = null;
                      this.aiMove();
                      this.updateDisplayBoard();
-                  }, 0);
+                  });
                }
                couldMove = true;
                break;

@@ -13,7 +13,7 @@ export class AppComponent {
    title = 'chess';
 
    loggedInUser?: firebase.default.User | null;
-   public username: string = "";
+   public username = "";
 
    constructor(
       private authService: AuthService, 
