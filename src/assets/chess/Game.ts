@@ -2,7 +2,7 @@ import { Move } from './Move';
 import * as pieces from './Piece';
 import { PieceColor, PieceType, Position, filter } from './utility';
 
-type CheckType = PieceColor | "none" | "stalemate";
+export type CheckType = PieceColor | "none" | "stalemate";
 
 export class Game {
    public pieces: pieces.Piece[];
