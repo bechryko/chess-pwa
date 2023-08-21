@@ -1,10 +1,10 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { User } from 'src/app/services/model';
 import { UserService } from 'src/app/services/user.service';
+import { SimpleUser, SimpleUserWithoutUsername } from './profile.model';
 
 @Component({
    selector: 'app-profile',
@@ -15,7 +15,7 @@ export class ProfileComponent {
 
    constructor(private router: Router, private location: Location, private authService: AuthService, private userService: UserService) { }
 
-   loginSubmit(event: { email: string, password: string }) {
+   loginSubmit(event: SimpleUserWithoutUsername) {
       const { email, password } = event;
       this.authService.login(email, password)
          .then((userCredential) => {
@@ -26,7 +26,7 @@ export class ProfileComponent {
          });
    }
 
-   registerSubmit(event: { email: string, username: string, password: string }) {
+   registerSubmit(event: SimpleUser) {
       const { email, username, password } = event;
       this.authService.register(email, password)
          .then((userCredential) => {

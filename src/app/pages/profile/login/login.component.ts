@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { SimpleUserWithoutUsername } from '../profile.model';
 
 @Component({
    selector: 'app-login',
@@ -8,7 +9,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent {
 
-   @Output() loginEvent: EventEmitter<{ email: string, password: string }> = new EventEmitter();
+   @Output() loginEvent: EventEmitter<SimpleUserWithoutUsername> = new EventEmitter();
 
    loginForm = new FormGroup({
       email: new FormControl('', [

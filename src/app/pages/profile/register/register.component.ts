@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { SimpleUser } from '../profile.model';
 
 @Component({
    selector: 'app-register',
@@ -8,7 +9,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn,
 })
 export class RegisterComponent implements OnInit {
 
-   @Output() registerEvent: EventEmitter<{ email: string, username: string, password: string }> = new EventEmitter();
+   @Output() registerEvent: EventEmitter<SimpleUser> = new EventEmitter();
 
    registerForm = new FormGroup({
       email: new FormControl('', [
