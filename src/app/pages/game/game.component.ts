@@ -50,8 +50,9 @@ export class GameComponent implements OnInit {
          const playerMove = new Move(this.selectedPosition, { x, y });
          if(this.gameHandlerService.isMoveValid(playerMove)) {
             this.gameHandlerService.makeMove(playerMove);
+            this.syncGameData();
             this.highlightMove(playerMove);
-            if(this.gameData.gamemode === "pve") {
+            if(this.gameData.gamemode === "pve" && this.gameData.winner === "none") {
                this.gameHandlerService.requestAIMove(0, (move: Move) => {
                   this.syncGameData();
                   this.highlightMove(move);
