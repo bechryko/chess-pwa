@@ -1,6 +1,6 @@
 <mat-spinner class="spinner" *ngIf="!leaderboardElements; else elements"></mat-spinner>
 <ng-template #elements>
-   <table *ngIf="leaderboardElements!.length; else empty">
+   <table *ngIf="leaderboardElements?.length; else empty">
       <tr>
          <th>Place</th>
          <th>Name</th>
