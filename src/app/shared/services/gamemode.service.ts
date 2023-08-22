@@ -5,22 +5,18 @@ import { Gamemode } from '../Gamemode';
    providedIn: 'root'
 })
 export class GamemodeService {
-   private gamemode?: Gamemode;
-
-   constructor() { }
+   private gamemode: Gamemode = "pvp";
+   private isInitial = true;
 
    selectGamemode(mode: Gamemode): void {
       this.gamemode = mode;
-   }
-
-   isSelectedGamemode(): boolean {
-      return this.gamemode !== undefined;
+      this.isInitial = false;
    }
 
    lastGamemode(): Gamemode {
-      if(!this.isSelectedGamemode()) {
-         throw new Error("Error: no gamemode selected");
+      if(this.isInitial) {
+         console.warn("No gamemode specified; default mode: " + this.gamemode);
       }
-      return this.gamemode!;
+      return this.gamemode;
    }
 }

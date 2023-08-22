@@ -27,11 +27,7 @@ export class GameHandlerService {
    }
 
    public init(): void {
-      try {
-         this.gamemode = this.gamemodeService.lastGamemode();
-      } catch(err) {
-         console.warn("No gamemode specified; default mode: pvp");
-      }
+      this.gamemode = this.gamemodeService.lastGamemode();
    }
 
    public makeMove(move: Move): boolean {
