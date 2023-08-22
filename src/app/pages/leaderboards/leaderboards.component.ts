@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { LeaderboardElement } from '../../services/model';
-import { LocalDatabaseService } from 'src/app/services/local-database.service';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { LocalDatabaseService } from 'src/app/services/local-database.service';
+import { LeaderboardElement } from '../../services/model';
 
 @Component({
    selector: 'app-leaderboards',
@@ -17,12 +17,7 @@ export class LeaderboardsComponent implements OnInit {
    constructor(private router: Router, private dbService: LocalDatabaseService) { }
 
    ngOnInit(): void {
-      const interval = setInterval(() => {
-         if(this.dbService.isLoaded) {
-            this.leaderboardElements$ = this.dbService.loadItems();
-            clearInterval(interval);
-         }
-      }, 500);
+      this.leaderboardElements$ = this.dbService.loadItems();
    }
 
    public toMenu() {

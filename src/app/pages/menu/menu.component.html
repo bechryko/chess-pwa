@@ -10,6 +10,6 @@
       <button mat-flat-button color="accent" routerLink="/menu/gamemode-chooser">Play</button>
       <button mat-flat-button color="accent" routerLink="/leaderboards">Leaderboards</button>
       <button mat-flat-button color="accent" routerLink="/profile" *ngIf="loggedInUser === null">Login</button>
-      <button mat-flat-button color="accent" (click)="logout()" *ngIf="loggedInUser !== null">Logout</button>
+      <button mat-flat-button color="accent" (click)="logout()" *ngIf="loggedInUser">Logout</button>
    </div>
 </div>
