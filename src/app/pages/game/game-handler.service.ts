@@ -37,29 +37,6 @@ export class GameHandlerService {
       }
       return success;
    }
-   
-   private updateDisplayBoard(): GameHandlerService {
-      for (let i = 0; i < 8; i++) {
-         for (let j = 0; j < 8; j++) {
-            this.displayBoard[i][j] = "empty";
-         }
-      }
-      for (const piece of this.game.pieces) {
-         this.displayBoard[piece.pos.y][piece.pos.x] = piece.getIcon();
-      }
-      this.announcement = this.game.current == "white" ? "White's turn" : "Black's turn";
-      if (this.game.isInCheck(this.game.current)) {
-         this.announcement += ", check";
-      }
-      if (this.game.ended) {
-         if (this.game.getWinner() === "stalemate") {
-            this.announcement = "Draw!";
-         } else {
-            this.announcement = this.game.getWinner() == PieceColor.BLACK ? "Black wins!" : "White wins!";
-         }
-      }
-      return this;
-   }
 
    public getGameData() {
       return {
@@ -86,5 +63,28 @@ export class GameHandlerService {
 
    public getPossibleMoves(pos: Position): Position[] {
       return ChessMoveValidatorUtil.getPossibleMoves(this.game, pos);
+   }
+   
+   private updateDisplayBoard(): GameHandlerService {
+      for (let i = 0; i < 8; i++) {
+         for (let j = 0; j < 8; j++) {
+            this.displayBoard[i][j] = "empty";
+         }
+      }
+      for (const piece of this.game.pieces) {
+         this.displayBoard[piece.pos.y][piece.pos.x] = piece.getIcon();
+      }
+      this.announcement = this.game.current == "white" ? "White's turn" : "Black's turn";
+      if (this.game.isInCheck(this.game.current)) {
+         this.announcement += ", check";
+      }
+      if (this.game.ended) {
+         if (this.game.getWinner() === "stalemate") {
+            this.announcement = "Draw!";
+         } else {
+            this.announcement = this.game.getWinner() == PieceColor.BLACK ? "Black wins!" : "White wins!";
+         }
+      }
+      return this;
    }
 }

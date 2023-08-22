@@ -37,17 +37,6 @@ export class LocalDatabaseService {
       };
    }
 
-   private createObjectStore(): void {
-      if (!this.db) throw new Error('Database not initialized');
-      const objectStore = this.db.createObjectStore(this.objectStoreName, {
-         keyPath: 'id',
-         autoIncrement: true,
-      });
-      objectStore.createIndex('gamemode', 'gamemode', { unique: false });
-      objectStore.createIndex('name', 'name', { unique: false });
-      objectStore.createIndex('score', 'score', { unique: false });
-   }
-
    public loadItems(): Observable<LeaderboardElement[]> {
       if (!this.db) throw new Error('Database not initialized');
       const objectStore = this.db.transaction(this.objectStoreName).objectStore(this.objectStoreName);
@@ -73,5 +62,16 @@ export class LocalDatabaseService {
       const request = objectStore.add(newItem);
 
       request.onerror = (event: any) => console.error('Error adding item: ', event.target.error);
+   }
+
+   private createObjectStore(): void {
+      if (!this.db) throw new Error('Database not initialized');
+      const objectStore = this.db.createObjectStore(this.objectStoreName, {
+         keyPath: 'id',
+         autoIncrement: true,
+      });
+      objectStore.createIndex('gamemode', 'gamemode', { unique: false });
+      objectStore.createIndex('name', 'name', { unique: false });
+      objectStore.createIndex('score', 'score', { unique: false });
    }
 }

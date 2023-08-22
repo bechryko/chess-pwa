@@ -31,10 +31,6 @@ export class GameComponent implements OnInit {
       this.gameHandlerService.init();
    }
 
-   private syncGameData(): void {
-      this.gameData = this.gameHandlerService.getGameData();
-   }
-
    public onTileClick(position: Position): void {
       const { x, y } = position;
       if (this.gameData.winner !== "none") {
@@ -66,16 +62,6 @@ export class GameComponent implements OnInit {
       this.syncGameData();
    }
 
-   private highlightPossibleMoves(): void {
-      this.highlighted = this.selectedPosition ? 
-         [this.selectedPosition, ...this.gameHandlerService.getPossibleMoves(this.selectedPosition)] : 
-         [];
-   }
-
-   private highlightMove(move: Move): void {
-      this.highlighted = [move.from, move.to];
-   }
-
    public backToMenu() {
       this.router.navigateByUrl('/menu/gamemode-chooser');
    }
@@ -95,5 +81,19 @@ export class GameComponent implements OnInit {
          this.syncService.syncLeaderboardEntries();
       }
       this.router.navigateByUrl('/leaderboards');
+   }
+
+   private highlightPossibleMoves(): void {
+      this.highlighted = this.selectedPosition ? 
+         [this.selectedPosition, ...this.gameHandlerService.getPossibleMoves(this.selectedPosition)] : 
+         [];
+   }
+
+   private highlightMove(move: Move): void {
+      this.highlighted = [move.from, move.to];
+   }
+
+   private syncGameData(): void {
+      this.gameData = this.gameHandlerService.getGameData();
    }
 }
