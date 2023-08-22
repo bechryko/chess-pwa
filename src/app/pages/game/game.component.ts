@@ -88,7 +88,7 @@ export class GameComponent implements OnInit {
       const leaderboardElement: LeaderboardElement = {
          gamemode: "pve",
          name: JSON.parse(localStorage.getItem("chessPWA-user") ?? '"Unknown user"'),
-         score: this.gameData.turnNumber + 1
+         score: this.gameData.turnNumber
       };
       this.dbService.addItem(leaderboardElement);
       if(navigator.onLine) {

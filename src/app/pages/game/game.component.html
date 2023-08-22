@@ -1,7 +1,7 @@
 <div class="center-content">
-   <p class="announcement">{{gameData.announcement}}</p>
+   <p class="announcement">{{ gameData.announcement }}</p>
    <app-chessboard [displayBoard]="gameData.displayBoard" [highlightedTiles]="highlighted" (tileClick)="onTileClick($event)"></app-chessboard>
-   <p class="announcement">Turn {{gameData.turnNumber + 1}}</p>
+   <p class="announcement">Turn {{ gameData.turnNumber }}</p>
    <button mat-flat-button color="accent" (click)="onPvEWin()" *ngIf="isGameWonVsAI()">To the leaderboards</button>
    <button mat-flat-button color="accent" (click)="backToMenu()" class="alignBottom" *ngIf="!isGameWonVsAI()">Leave game</button>
 </div>

@@ -73,7 +73,7 @@ export class GameHandlerService {
          announcement: this.announcement,
          gamemode: this.gamemode,
          winner: this.game.getWinner(),
-         turnNumber: this.game.turn
+         turnNumber: this.game.turn + 1
       };
    }
 
