@@ -7,9 +7,7 @@ import { Game } from 'src/assets/chess/Game';
 import { Move } from 'src/assets/chess/Move';
 import { PieceColor, Position } from 'src/assets/chess/utility';
 
-@Injectable({
-   providedIn: 'root'
-})
+@Injectable()
 export class GameHandlerService {
    private game = new Game();
    private displayBoard: string[][] = [];
