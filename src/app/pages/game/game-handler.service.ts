@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { ChessMoveValidatorUtil } from 'src/app/pages/game/chess-move-validator.util';
+import { Gamemode } from 'src/app/shared/models/Gamemode';
+import { GamemodeService } from 'src/app/shared/services/gamemode.service';
 import { ChessAI } from 'src/assets/chess/AI';
 import { Game } from 'src/assets/chess/Game';
 import { Move } from 'src/assets/chess/Move';
 import { PieceColor, Position } from 'src/assets/chess/utility';
-import { Gamemode } from '../models/Gamemode';
-import { ChessMoveValidatorUtil } from '../utils/chess-move-validator.util';
-import { GamemodeService } from './gamemode.service';
 
 @Injectable({
    providedIn: 'root'

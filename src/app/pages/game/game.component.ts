@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
 import { DatabaseSyncService } from 'src/app/shared/services/database-sync.service';
-import { GameHandlerService } from 'src/app/shared/services/game-handler.service';
 import { LocalDatabaseService } from 'src/app/shared/services/local-database.service';
 import { Move } from 'src/assets/chess/Move';
 import { PieceColor, Position } from 'src/assets/chess/utility';
+import { GameHandlerService } from './game-handler.service';
 
 @Component({
    selector: 'app-game',
