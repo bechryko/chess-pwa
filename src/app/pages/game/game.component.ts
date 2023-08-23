@@ -29,11 +29,15 @@ export class GameComponent implements OnInit {
 
    ngOnInit() {
       this.gameHandlerService.init();
+      this.syncGameData();
+      if(!this.gameHandlerService.isHumanTurn()) {
+         this.requestAIMove(1000);
+      }
    }
 
    public onTileClick(position: Position): void {
       const { x, y } = position;
-      if (this.gameData.winner !== "none") {
+      if (this.gameData.winner !== "none" || !this.gameHandlerService.isHumanTurn()) {
          return;
       }
       if (!this.selectedPosition) {
@@ -49,10 +53,7 @@ export class GameComponent implements OnInit {
             this.syncGameData();
             this.highlightMove(playerMove);
             if(this.gameData.gamemode === "pve" && this.gameData.winner === "none") {
-               this.gameHandlerService.requestAIMove(0, (move: Move) => {
-                  this.syncGameData();
-                  this.highlightMove(move);
-               });
+               this.requestAIMove(0);
             }
          } else {
             this.selectedPosition = { x, y };
@@ -81,6 +82,13 @@ export class GameComponent implements OnInit {
          this.syncService.syncLeaderboardEntries();
       }
       this.router.navigateByUrl('/leaderboards');
+   }
+
+   private requestAIMove(delay: number): void {
+      this.gameHandlerService.requestAIMove(delay, (move: Move) => {
+         this.syncGameData();
+         this.highlightMove(move);
+      });
    }
 
    private highlightPossibleMoves(): void {

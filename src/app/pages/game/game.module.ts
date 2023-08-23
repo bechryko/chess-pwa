@@ -8,6 +8,7 @@ import { HighlightPipe } from './chessboard/highlight.pipe';
 import { GameHandlerService } from './game-handler.service';
 import { GameRoutingModule } from './game-routing.module';
 import { GameComponent } from './game.component';
+import { PveWinDetectorPipe } from './pve-win-detector.pipe';
 
 @NgModule({
    declarations: [
@@ -19,7 +20,8 @@ import { GameComponent } from './game.component';
       GameRoutingModule,
       MatButtonModule,
       HighlightPipe,
-      ReversePipe
+      ReversePipe,
+      PveWinDetectorPipe
    ],
    providers: [
       GameHandlerService

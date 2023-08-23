@@ -13,6 +13,8 @@ export class GameHandlerService {
    private displayBoard: string[][] = [];
    private announcement: string = "";
    private gamemode: Gamemode = "pvp";
+   private humanPlayers: PieceColor[] = [PieceColor.BLACK, PieceColor.WHITE];
+   private initialized = false;
 
    constructor(
       private gamemodeService: GamemodeService
@@ -28,6 +30,18 @@ export class GameHandlerService {
 
    public init(): void {
       this.gamemode = this.gamemodeService.lastGamemode();
+      if(this.initialized) {
+         return;
+      }
+      switch(this.gamemode) {
+         case 'pvp':
+            this.humanPlayers = [ PieceColor.BLACK, PieceColor.WHITE ];
+            break;
+         case 'pve':
+            this.humanPlayers = [ Math.random() < .5 ? PieceColor.BLACK : PieceColor.WHITE ];
+            break;
+      }
+      this.initialized = true;
    }
 
    public makeMove(move: Move): boolean {
@@ -44,7 +58,8 @@ export class GameHandlerService {
          announcement: this.announcement,
          gamemode: this.gamemode,
          winner: this.game.getWinner(),
-         turnNumber: this.game.turn + 1
+         turnNumber: this.game.turn + 1,
+         humanPlayers: this.humanPlayers as PieceColor[]
       };
    }
 
@@ -55,6 +70,10 @@ export class GameHandlerService {
          this.makeMove(move);
          if(callback) callback(move);
       }, delay);
+   }
+
+   public isHumanTurn(): boolean {
+      return this.humanPlayers.includes(this.game.current);
    }
 
    public isMoveValid(move: Move): boolean {
