@@ -10,7 +10,9 @@ const routes: Routes = [
    {
       path: 'gamemode-chooser',
       loadChildren: () => import('./gamemode-chooser/gamemode-chooser.module').then(m => m.GamemodeChooserModule)
-   }
+   },
+   { path: 'leaderboards', loadChildren: () => import('../../pages/leaderboards/leaderboards.module').then(m => m.LeaderboardsModule) },
+   { path: 'profile', loadChildren: () => import('../../pages/profile/profile.module').then(m => m.ProfileModule) }
 ];
 
 @NgModule({
