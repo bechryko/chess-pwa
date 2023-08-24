@@ -16,7 +16,7 @@ const routes: Routes = [
    { path: 'leaderboards', loadChildren: () => import('./pages/leaderboards/leaderboards.module').then(m => m.LeaderboardsModule) },
    {
       path: '**',
-      loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
+      loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent)
    }
 ];
 
