@@ -15,7 +15,10 @@ const routes: Routes = [
    },
    { 
       path: RouteUrls.LEADERBOARDS.split('/')[1], 
-      loadChildren: () => import('../../pages/leaderboards/leaderboards.module').then(m => m.LeaderboardsModule) 
+      loadChildren: () => import('../../pages/leaderboards/leaderboards.module').then(m => m.LeaderboardsModule),
+      data: {
+         preload: true
+      }
    },
    { 
       path: RouteUrls.PROFILE.split('/')[1], 

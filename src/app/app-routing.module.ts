@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RouteUrls } from './shared/enums/routes';
 import { Gamemodes } from './shared/models/Gamemode';
+import { ChessPreloadingStrategyService } from './shared/services/chess-preloading-strategy.service';
 
 const routes: Routes = [
    {
@@ -33,7 +34,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-   imports: [RouterModule.forRoot(routes)],
+   imports: [RouterModule.forRoot(routes, {
+      preloadingStrategy: ChessPreloadingStrategyService
+   })],
    exports: [RouterModule]
 })
 export class AppRoutingModule { }
