@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
 import { DatabaseSyncService } from 'src/app/shared/services/database-sync.service';
@@ -22,7 +22,8 @@ export class GameComponent implements OnInit {
       private router: Router, 
       private dbService: LocalDatabaseService,
       private syncService: DatabaseSyncService,
-      private gameHandlerService: GameHandlerService
+      private gameHandlerService: GameHandlerService,
+      private cdr: ChangeDetectorRef
    ) {
       this.gameData = this.gameHandlerService.getGameData();
    }
@@ -99,9 +100,11 @@ export class GameComponent implements OnInit {
 
    private highlightMove(move: Move): void {
       this.highlighted = [move.from, move.to];
+      this.cdr.markForCheck();
    }
 
    private syncGameData(): void {
       this.gameData = this.gameHandlerService.getGameData();
+      this.cdr.markForCheck();
    }
 }
