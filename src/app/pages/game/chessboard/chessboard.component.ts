@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Position } from 'src/assets/chess/utility';
+import { PieceSet } from 'src/app/shared/models/PieceSet';
+import { PieceColor, Position } from 'src/assets/chess/utility';
 
 @Component({
    selector: 'app-chessboard',
@@ -10,7 +11,7 @@ import { Position } from 'src/assets/chess/utility';
 export class ChessboardComponent {
    @Input() displayBoard: string[][] = [];
    @Input() highlightedTiles: Position[] = [];
-   @Input() playerSets: Record<"white" | "black", string> = {
+   @Input() playerSets: Record<PieceColor, PieceSet> = {
       white: "viking",
       black: "default"
    }
