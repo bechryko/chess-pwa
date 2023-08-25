@@ -31,7 +31,7 @@ export class GameComponent implements OnInit {
       this.gameHandlerService.init();
       this.syncGameData();
       if(!this.gameHandlerService.isHumanTurn()) {
-         this.requestAIMove(1000);
+         this.requestAIMove(0);
       }
    }
 
