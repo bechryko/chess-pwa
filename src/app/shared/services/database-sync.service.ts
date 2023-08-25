@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { LeaderboardElement, LeaderboardElementWithId } from './model';
 import { SupabaseClient, createClient } from '@supabase/supabase-js';
-import { environment } from 'src/environments/environment';
-import { LocalDatabaseService } from './local-database.service';
 import { firstValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { LeaderboardElement, LeaderboardElementWithId } from '../models/LeaderboardElements';
+import { LocalDatabaseService } from './local-database.service';
 
 @Injectable({
    providedIn: 'root'
@@ -17,33 +17,6 @@ export class DatabaseSyncService {
          environment.supabaseUrl,
          environment.supabaseKey
       );
-   }
-
-   private async getLeaderboardEntriesOnServer(): Promise<LeaderboardElement[]> {
-      const data = await this.supabase.from(this.leaderboardTableName).select('*');
-      return data.data as LeaderboardElement[];
-   }
-
-   /*private async getLeaderboardEntriesOnClient(): Promise<LeaderboardElement[]> {
-      let entries: LeaderboardElement[] = [];
-      if(this.dbService.isLoaded) {
-         entries = await firstValueFrom(this.dbService.loadItems()) as LeaderboardElement[];
-      } else {
-         setTimeout(async () => {
-            entries = await this.getLeaderboardEntriesOnClient();
-         }, 500);
-      }
-      return entries;
-   }*/
-   private async getLeaderboardEntriesOnClient(): Promise<LeaderboardElement[]> {
-      let entries: LeaderboardElement[] = [];
-      const interval = setInterval(async () => {
-         if(this.dbService.isLoaded) {
-            entries = await firstValueFrom(this.dbService.loadItems()) as LeaderboardElement[];
-            clearInterval(interval);
-         }
-      }, 500);
-      return entries;
    }
 
    public syncLeaderboardEntries(): void {
@@ -71,6 +44,23 @@ export class DatabaseSyncService {
             }
          });
       });
+   }
+
+   private async getLeaderboardEntriesOnServer(): Promise<LeaderboardElement[]> {
+      const data = await this.supabase.from(this.leaderboardTableName).select('*');
+      return data.data as LeaderboardElement[];
+   }
+
+   private async getLeaderboardEntriesOnClient(): Promise<LeaderboardElement[]> {
+      let entries: LeaderboardElement[] = [];
+      if(this.dbService.isLoaded) {
+         entries = await firstValueFrom(this.dbService.loadItems()) as LeaderboardElement[];
+      } else {
+         setTimeout(async () => {
+            entries = await this.getLeaderboardEntriesOnClient();
+         }, 500);
+      }
+      return entries;
    }
 
    private async addLeaderboardElement(newEntry: LeaderboardElementWithId) {

@@ -1,9 +1,9 @@
 <div class="center-content">
    <h2>Choose a gamemode!</h2>
    <div class="buttons center-content">
-      <button mat-flat-button color="accent" (click)="startPvP()">2 Players</button>
-      <button mat-flat-button color="accent" (click)="startPvE()">Versus AI</button>
-      <button mat-flat-button color="accent" disabled>Challenges</button>
+      <button mat-flat-button color="accent" (click)="startGame('pvp')">2 Players</button>
+      <button mat-flat-button color="accent" (click)="startGame('pve')">Versus AI</button>
+      <button mat-flat-button color="accent" disabled>Challanges</button>
    </div>
    <div class="buttons center-content">
       <button mat-flat-button color="accent" routerLink="/menu">Back to menu</button>

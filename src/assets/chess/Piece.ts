@@ -1,6 +1,6 @@
-import { filter, PieceColor, PieceType, Position } from './utility';
-import { Move, MovePattern } from './Move';
 import { Game } from './Game';
+import { Move, MovePattern } from './Move';
+import { PieceColor, PieceType, Position, filter } from './utility';
 
 export class Piece {
    constructor(
@@ -25,7 +25,7 @@ export class Piece {
       }
    }
 
-   public getPossibleMoves(game: Readonly<Game>): Move[] {
+   public getPossibleMoves(game: Readonly<Game>, captureKing = false): Move[] {
       const moves: Move[] = [];
       for (const direction of this.movePattern.directions) {
          for (let i = 1; i <= this.movePattern.maxSteps; i++) {
@@ -38,7 +38,7 @@ export class Piece {
             }
             const piece = game.getPiece(move.to);
             if (piece) {
-               if (piece.color != this.color) {
+               if (piece.color != this.color && (captureKing || piece.type !== PieceType.KING)) {
                   moves.push(move);
                }
                break;
@@ -76,8 +76,8 @@ export class Pawn extends Piece {
       });
    }
 
-   public override getPossibleMoves(game: Readonly<Game>): Move[] {
-      const moves = super.getPossibleMoves(game);
+   public override getPossibleMoves(game: Readonly<Game>, captureKing = false): Move[] {
+      const moves = super.getPossibleMoves(game, captureKing);
       for (const move of moves) {
          for (const piece of filter(game.pieces, (p: Piece) => p.color != this.color)) {
             if (move.to.x == piece.pos.x && move.to.y == piece.pos.y) {
@@ -88,10 +88,11 @@ export class Pawn extends Piece {
       }
       const moveDirection = this.movePattern.directions[0][1];
       for (let i = -1; i <= 1; i += 2) {
-         if (game.isInBounds({ x: this.pos.x + i, y: this.pos.y + moveDirection })) {
-            const piece = game.getPiece({ x: this.pos.x + i, y: this.pos.y + moveDirection });
-            if (piece && piece.color != this.color && piece.type != PieceType.KING) {
-               moves.push(new Move(this.pos, { x: this.pos.x + i, y: this.pos.y + moveDirection }));
+         const targetPos: Position = { x: this.pos.x + i, y: this.pos.y + moveDirection };
+         if (game.isInBounds(targetPos)) {
+            const piece = game.getPiece(targetPos);
+            if (piece && piece.color !== this.color && (captureKing || piece.type !== PieceType.KING)) {
+               moves.push(new Move(this.pos, targetPos));
             }
          }
       }
@@ -111,6 +112,10 @@ export class Pawn extends Piece {
          game.pieces.push(new Queen(this.color, this.pos));
       }
    }
+
+   public override copy(): Pawn {
+      return new Pawn(this.color, { ...this.pos });
+   }
 }
 
 export class Rook extends Piece {
@@ -129,6 +134,10 @@ export class Rook extends Piece {
       if (move.from.x == 7) {
          game.castling[this.color].king = false;
       }
+   }
+
+   public override copy(): Rook {
+      return new Rook(this.color, { ...this.pos });
    }
 }
 
@@ -183,5 +192,9 @@ export class King extends Piece {
       super.step(move, game);
       game.castling[this.color].queen = false;
       game.castling[this.color].king = false;
+   }
+
+   public override copy(): King {
+      return new King(this.color, { ...this.pos });
    }
 }

@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Gamemode } from 'src/app/shared/models/Gamemode';
+import { GamemodeService } from 'src/app/shared/services/gamemode.service';
 
 @Component({
    selector: 'app-gamemode-chooser',
@@ -9,15 +11,13 @@ import { Router } from '@angular/router';
 })
 export class GamemodeChooserComponent {
 
-   constructor(private router: Router) { }
+   constructor(
+      private router: Router,
+      private gamemodeService: GamemodeService
+   ) { }
 
-   startPvP() {
-      localStorage.setItem("chessPWA-gamemode", "pvp");
-      this.router.navigateByUrl('/game');
-   }
-
-   startPvE() {
-      localStorage.setItem("chessPWA-gamemode", "pve");
-      this.router.navigateByUrl('/game');
+   public startGame(mode: Gamemode): void {
+      this.gamemodeService.selectGamemode(mode);
+      this.router.navigateByUrl("/game");
    }
 }

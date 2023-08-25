@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { AuthService } from './services/auth.service';
-import { DatabaseSyncService } from './services/database-sync.service';
-import { UserService } from './services/user.service';
+import { AuthService } from './shared/services/auth.service';
+import { DatabaseSyncService } from './shared/services/database-sync.service';
+import { UserService } from './shared/services/user.service';
 
 @Component({
    selector: 'app-root',

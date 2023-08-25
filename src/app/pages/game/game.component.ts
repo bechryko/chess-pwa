@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DatabaseSyncService } from 'src/app/services/database-sync.service';
-import { LocalDatabaseService } from 'src/app/services/local-database.service';
-import { Gamemode, LeaderboardElement } from 'src/app/services/model';
-import { ChessAI } from 'src/assets/chess/AI';
-import { Game } from 'src/assets/chess/Game';
+import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
+import { DatabaseSyncService } from 'src/app/shared/services/database-sync.service';
+import { LocalDatabaseService } from 'src/app/shared/services/local-database.service';
 import { Move } from 'src/assets/chess/Move';
 import { PieceColor, Position } from 'src/assets/chess/utility';
+import { GameHandlerService } from './game-handler.service';
 
 @Component({
    selector: 'app-game',
@@ -14,34 +13,31 @@ import { PieceColor, Position } from 'src/assets/chess/utility';
    styleUrls: ['./game.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GameComponent {
-   public game: Game;
+export class GameComponent implements OnInit {
    private selectedPosition: Position | null = null;
-   public displayBoard: string[][];
-   public announcement = "";
+   public gameData;
    public highlighted: Position[] = [];
-   public pve = localStorage.getItem("chessPWA-gamemode") === 'pve';
 
    constructor(
       private router: Router, 
       private dbService: LocalDatabaseService,
       private syncService: DatabaseSyncService,
-      private cdr: ChangeDetectorRef
+      private gameHandlerService: GameHandlerService
    ) {
-      this.game = new Game();
-      this.displayBoard = [];
-      for (let i = 0; i < 8; i++) {
-         this.displayBoard.push([]);
-         for (let j = 0; j < 8; j++) {
-            this.displayBoard[i].push("");
-         }
+      this.gameData = this.gameHandlerService.getGameData();
+   }
+
+   ngOnInit() {
+      this.gameHandlerService.init();
+      this.syncGameData();
+      if(!this.gameHandlerService.isHumanTurn()) {
+         this.requestAIMove(0);
       }
-      this.updateDisplayBoard();
    }
 
    public onTileClick(position: Position): void {
       const { x, y } = position;
-      if (this.game.ended) {
+      if (this.gameData.winner !== "none" || !this.gameHandlerService.isHumanTurn()) {
          return;
       }
       if (!this.selectedPosition) {
@@ -51,102 +47,61 @@ export class GameComponent {
          this.selectedPosition = null;
          this.highlighted = [];
       } else {
-         let couldMove = false;
-         for(const pos of this.highlighted) {
-            if(pos.x == x && pos.y == y) {
-               const playerMove = new Move(this.selectedPosition, { x, y });
-               this.playerMove(playerMove);
-               if(this.pve) {
-                  setTimeout(() => {
-                     this.selectedPosition = null;
-                     this.aiMove();
-                     this.updateDisplayBoard();
-                  });
-               }
-               couldMove = true;
-               break;
+         const playerMove = new Move(this.selectedPosition, { x, y });
+         if(this.gameHandlerService.isMoveValid(playerMove)) {
+            this.gameHandlerService.makeMove(playerMove);
+            this.syncGameData();
+            this.highlightMove(playerMove);
+            if(this.gameData.gamemode === "pve" && this.gameData.winner === "none") {
+               this.requestAIMove(0);
             }
-         }
-         if(!couldMove) {
+         } else {
             this.selectedPosition = { x, y };
             this.highlightPossibleMoves();
          }
       }
-      this.updateDisplayBoard();
+      this.syncGameData();
    }
 
-   private playerMove(move: Move): boolean {
-      this.selectedPosition = null;
-      if(this.game.makeMove(move)) {
-         this.highlightMove(move);
-         return true;
-      }
-      return false;
-   }
-
-   private aiMove(): void {
-      const move = ChessAI.getBestMove(this.game);
-      if(this.game.makeMove(move)) {
-         this.highlightMove(move);
-      }
-   }
-
-   public updateDisplayBoard(): void {
-      for (let i = 0; i < 8; i++) {
-         for (let j = 0; j < 8; j++) {
-            this.displayBoard[i][j] = "empty";
-         }
-      }
-      for (const piece of this.game.pieces) {
-         this.displayBoard[piece.pos.y][piece.pos.x] = piece.getIcon();
-      }
-      this.announcement = this.game.current == "white" ? "White's turn" : "Black's turn";
-      if (this.game.isCheck(this.game.current)) {
-         this.announcement += ", check";
-      }
-      if (this.game.ended) {
-         if (this.game.getWinner() === "stalemate") {
-            this.announcement = "Draw!";
-         } else {
-            this.announcement = this.game.getWinner() == PieceColor.BLACK ? "Black wins!" : "White wins!";
-         }
-      }
-      this.cdr.markForCheck();
-   }
-
-   private highlightPossibleMoves(): void {
-      if (!this.selectedPosition) return;
-      this.highlighted = [this.selectedPosition];
-      const piece = this.game.getPiece(this.selectedPosition);
-      if (piece && piece.color == this.game.current) {
-         this.highlighted.push(...this.game.getPossibleMoves(this.game.current)
-            .filter((move: Move) => move.from.x === this.selectedPosition?.x && move.from.y === this.selectedPosition?.y)
-            .map((move: { to: Position; }) => move.to));
-      }
-   }
-
-   private highlightMove(move: Move): void {
-      this.highlighted = [move.from, move.to];
-   }
-
-   public backToMenu() {
+   public backToMenu(): void {
       this.router.navigateByUrl('/menu/gamemode-chooser');
    }
 
    public isGameWonVsAI(): boolean {
-      return this.game.ended && this.game.getWinner() === PieceColor.WHITE && this.pve;
+      return this.gameData.gamemode === "pve" && this.gameData.winner === PieceColor.WHITE;
    }
 
-   public onWin() {
+   public onPvEWin(): void {
       const leaderboardElement: LeaderboardElement = {
-         gamemode: Gamemode.vsAI,
+         gamemode: "pve",
          name: JSON.parse(localStorage.getItem("chessPWA-user") ?? '"Unknown user"'),
-         score: this.game.turn
+         score: this.gameData.turnNumber
       };
       this.dbService.addItem(leaderboardElement);
       if(navigator.onLine) {
          this.syncService.syncLeaderboardEntries();
       }
       this.router.navigateByUrl('/leaderboards');
+   }
+
+   private requestAIMove(delay: number): void {
+      this.gameHandlerService.requestAIMove(delay, (move: Move) => {
+         this.syncGameData();
+         this.highlightMove(move);
+      });
+   }
+
+   private highlightPossibleMoves(): void {
+      this.highlighted = this.selectedPosition ? 
+         [this.selectedPosition, ...this.gameHandlerService.getPossibleMoves(this.selectedPosition)] : 
+         [];
+   }
+
+   private highlightMove(move: Move): void {
+      this.highlighted = [move.from, move.to];
+   }
+
+   private syncGameData(): void {
+      this.gameData = this.gameHandlerService.getGameData();
    }
 }
