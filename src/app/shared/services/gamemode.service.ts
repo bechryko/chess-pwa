@@ -8,12 +8,12 @@ export class GamemodeService {
    private gamemode: Gamemode = "pvp";
    private isInitial = true;
 
-   selectGamemode(mode: Gamemode): void {
+   public selectGamemode(mode: Gamemode): void {
       this.gamemode = mode;
       this.isInitial = false;
    }
 
-   lastGamemode(): Gamemode {
+   public lastGamemode(): Gamemode {
       if(this.isInitial) {
          console.warn("No gamemode specified; default mode: " + this.gamemode);
       }

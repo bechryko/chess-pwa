@@ -16,7 +16,7 @@ export class GamemodeChooserComponent {
       private gamemodeService: GamemodeService
    ) { }
 
-   startGame(mode: Gamemode) {
+   public startGame(mode: Gamemode): void {
       this.gamemodeService.selectGamemode(mode);
       this.router.navigateByUrl("/game");
    }

@@ -91,7 +91,7 @@ export class GameHandlerService {
       return ChessMoveValidatorUtils.getPossibleMoves(this.game, pos);
    }
    
-   private updateDisplayBoard(): GameHandlerService {
+   private updateDisplayBoard(): void {
       for (let i = 0; i < 8; i++) {
          for (let j = 0; j < 8; j++) {
             this.displayBoard[i][j] = "empty";
@@ -111,6 +111,5 @@ export class GameHandlerService {
             this.announcement = this.game.getWinner() == PieceColor.BLACK ? "Black wins!" : "White wins!";
          }
       }
-      return this;
    }
 }

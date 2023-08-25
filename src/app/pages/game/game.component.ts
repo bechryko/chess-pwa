@@ -63,7 +63,7 @@ export class GameComponent implements OnInit {
       this.syncGameData();
    }
 
-   public backToMenu() {
+   public backToMenu(): void {
       this.router.navigateByUrl('/menu/gamemode-chooser');
    }
 
@@ -71,7 +71,7 @@ export class GameComponent implements OnInit {
       return this.gameData.gamemode === "pve" && this.gameData.winner === PieceColor.WHITE;
    }
 
-   public onPvEWin() {
+   public onPvEWin(): void {
       const leaderboardElement: LeaderboardElement = {
          gamemode: "pve",
          name: JSON.parse(localStorage.getItem("chessPWA-user") ?? '"Unknown user"'),
