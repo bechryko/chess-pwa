@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ChessMoveValidatorUtil } from 'src/app/pages/game/chess-move-validator.util';
 import { Gamemode } from 'src/app/shared/models/Gamemode';
 import { GamemodeService } from 'src/app/shared/services/gamemode.service';
 import { ChessAI } from 'src/assets/chess/AI';
 import { Game } from 'src/assets/chess/Game';
 import { Move } from 'src/assets/chess/Move';
 import { PieceColor, Position } from 'src/assets/chess/utility';
+import { ChessMoveValidatorUtils } from './chess-move-validator.utils';
 
 @Injectable()
 export class GameHandlerService {
@@ -77,11 +77,11 @@ export class GameHandlerService {
    }
 
    public isMoveValid(move: Move): boolean {
-      return ChessMoveValidatorUtil.isMoveValid(this.game, move);
+      return ChessMoveValidatorUtils.isMoveValid(this.game, move);
    }
 
    public getPossibleMoves(pos: Position): Position[] {
-      return ChessMoveValidatorUtil.getPossibleMoves(this.game, pos);
+      return ChessMoveValidatorUtils.getPossibleMoves(this.game, pos);
    }
    
    private updateDisplayBoard(): GameHandlerService {
