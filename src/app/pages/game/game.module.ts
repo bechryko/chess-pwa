@@ -6,6 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReversePipe } from 'src/app/shared/pipes/reverse.pipe';
 import { ChessboardComponent } from './chessboard/chessboard.component';
 import { HighlightPipe } from './chessboard/highlight.pipe';
+import { IconPipe } from './chessboard/icon.pipe';
 import { GameHandlerService } from './game-handler.service';
 import { GameRoutingModule } from './game-routing.module';
 import { GameComponent } from './game.component';
@@ -23,7 +24,8 @@ import { PveWinDetectorPipe } from './pve-win-detector.pipe';
       HighlightPipe,
       ReversePipe,
       PveWinDetectorPipe,
-      MatProgressSpinnerModule
+      MatProgressSpinnerModule,
+      IconPipe
    ],
    providers: [
       GameHandlerService

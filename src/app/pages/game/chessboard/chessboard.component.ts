@@ -10,5 +10,9 @@ import { Position } from 'src/assets/chess/utility';
 export class ChessboardComponent {
    @Input() displayBoard: string[][] = [];
    @Input() highlightedTiles: Position[] = [];
+   @Input() playerSets: Record<"white" | "black", string> = {
+      white: "viking",
+      black: "default"
+   }
    @Output() tileClick: EventEmitter<Position> = new EventEmitter();
 }
