@@ -8,10 +8,15 @@ const routes: Routes = [
       pathMatch: 'full'
    },
    {
+      path: 'game',
+      redirectTo: '/game/pvp',
+      pathMatch: 'full'
+   },
+   {
       path: 'menu',
       loadChildren: () => import('./pages/menu/menu.module').then(m => m.MenuModule)
    },
-   { path: 'game', loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule) },
+   { path: 'game/:mode', loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule) },
    {
       path: '**',
       loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent)

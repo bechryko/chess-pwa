@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Gamemodes } from 'src/app/shared/models/Gamemode';
 import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
 import { DatabaseSyncService } from 'src/app/shared/services/database-sync.service';
 import { LocalDatabaseService } from 'src/app/shared/services/local-database.service';
@@ -19,17 +20,20 @@ export class GameComponent implements OnInit {
    public highlighted: Position[] = [];
 
    constructor(
-      private router: Router, 
+      private router: Router,
       private dbService: LocalDatabaseService,
       private syncService: DatabaseSyncService,
       private gameHandlerService: GameHandlerService,
-      private cdr: ChangeDetectorRef
+      private cdr: ChangeDetectorRef,
+      private activatedRoute: ActivatedRoute
    ) {
       this.gameData = this.gameHandlerService.getGameData();
    }
 
    ngOnInit() {
-      this.gameHandlerService.init();
+      if(!this.initialize()) {
+         this.router.navigateByUrl("/menu/gamemode-chooser");
+      }
       this.syncGameData();
       if(!this.gameHandlerService.isHumanTurn()) {
          this.requestAIMove(0);
@@ -83,6 +87,17 @@ export class GameComponent implements OnInit {
          this.syncService.syncLeaderboardEntries();
       }
       this.router.navigateByUrl('/leaderboards');
+   }
+
+   private initialize(): boolean {
+      const gamemode = this.activatedRoute.snapshot.paramMap.get('mode');
+      return Gamemodes.some(mode => {
+         if(gamemode === mode) {
+            this.gameHandlerService.init(gamemode);
+            return true;
+         }
+         return false;
+      });
    }
 
    private requestAIMove(delay: number): void {
