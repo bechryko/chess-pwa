@@ -1,4 +1,4 @@
-<div class="center-content">
+<div class="center-content" *ngIf="isInitialized; else loading">
    <p class="announcement">{{ gameData.announcement }}</p>
    <app-chessboard [displayBoard]="gameData.displayBoard" [highlightedTiles]="highlighted" (tileClick)="onTileClick($event)"></app-chessboard>
    <p class="announcement">Turn {{ gameData.turnNumber }}</p>
@@ -7,3 +7,6 @@
       <button mat-flat-button color="accent" (click)="backToMenu()" *ngIf="!data.pveWin" class="alignBottom">Leave game</button>
    </ng-container>
 </div>
+<ng-template #loading>
+   <mat-spinner></mat-spinner>
+</ng-template>

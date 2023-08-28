@@ -18,6 +18,7 @@ export class GameComponent implements OnInit {
    private selectedPosition: Position | null = null;
    public gameData;
    public highlighted: Position[] = [];
+   public isInitialized = false;
 
    constructor(
       private router: Router,
@@ -94,6 +95,7 @@ export class GameComponent implements OnInit {
       return Gamemodes.some(mode => {
          if(gamemode === mode) {
             this.gameHandlerService.init(gamemode);
+            this.isInitialized = true;
             return true;
          }
          return false;

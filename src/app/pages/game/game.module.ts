@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ReversePipe } from 'src/app/shared/pipes/reverse.pipe';
 import { ChessboardComponent } from './chessboard/chessboard.component';
 import { HighlightPipe } from './chessboard/highlight.pipe';
@@ -21,7 +22,8 @@ import { PveWinDetectorPipe } from './pve-win-detector.pipe';
       MatButtonModule,
       HighlightPipe,
       ReversePipe,
-      PveWinDetectorPipe
+      PveWinDetectorPipe,
+      MatProgressSpinnerModule
    ],
    providers: [
       GameHandlerService
