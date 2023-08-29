@@ -19,6 +19,7 @@ export class GameComponent implements OnInit {
    public gameData;
    public highlighted: Position[] = [];
    public isInitialized = false;
+   private movesMade = false;
 
    constructor(
       private router: Router,
@@ -38,7 +39,12 @@ export class GameComponent implements OnInit {
       this.syncGameData();
       if(!this.gameHandlerService.isHumanTurn()) {
          this.requestAIMove(0);
+         this.movesMade = true;
       }
+   }
+
+   canDeactivate(): boolean {
+      return !this.movesMade;
    }
 
    public onTileClick(position: Position): void {
@@ -56,6 +62,7 @@ export class GameComponent implements OnInit {
          const playerMove = new Move(this.selectedPosition, { x, y });
          if(this.gameHandlerService.isMoveValid(playerMove)) {
             this.gameHandlerService.makeMove(playerMove);
+            this.movesMade = true;
             this.syncGameData();
             this.highlightMove(playerMove);
             if(this.gameData.gamemode === "pve" && this.gameData.winner === "none") {
