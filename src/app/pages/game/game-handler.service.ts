@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GameData } from 'src/app/shared/models/GameData';
-import { Gamemode } from 'src/app/shared/models/Gamemode';
+import { Gamemode, Gamemodes } from 'src/app/shared/models/Gamemode';
 import { ChessAI } from 'src/assets/chess/AI';
 import { Game } from 'src/assets/chess/Game';
 import { Move } from 'src/assets/chess/Move';
@@ -9,11 +9,7 @@ import { ChessMoveValidatorUtils } from './chess-move-validator.utils';
 
 @Injectable()
 export class GameHandlerService {
-   private gameSaves: Record<Gamemode, Game> = {
-      "pvp": new Game(),
-      "pve": new Game(),
-      "eve": new Game()
-   };
+   private gameSaves: Record<Gamemode, Game> = this.createGameSavesRecord();
    private displayBoard: string[][] = Array(8).fill("empty").map(element => Array(8).fill(element));
    private announcement: string = "";
    private currentGamemode: Gamemode = "pvp";
@@ -109,5 +105,13 @@ export class GameHandlerService {
             this.announcement = this.game.getWinner() == PieceColor.BLACK ? "Black wins!" : "White wins!";
          }
       }
+   }
+
+   private createGameSavesRecord(): Record<Gamemode, Game> {
+      const record = {} as Record<Gamemode, Game>;
+      for(const mode of Gamemodes) {
+         record[mode] = new Game();
+      }
+      return record;
    }
 }
