@@ -17,6 +17,7 @@ const routes: Routes = [
       loadChildren: () => import('./pages/menu/menu.module').then(m => m.MenuModule)
    },
    { path: 'game/:mode', loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule) },
+   { path: 'access-denied', loadComponent: () => import('./pages/unauthorized/unauthorized.component').then(m => m.UnauthorizedComponent) },
    {
       path: '**',
       loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent)
