@@ -14,30 +14,21 @@ export class GameHandlerService {
       "pve": new Game(),
       "eve": new Game()
    };
-   private displayBoard: string[][] = [];
+   private displayBoard: string[][] = Array(8).fill("empty").map(element => Array(8).fill(element));
    private announcement: string = "";
    private currentGamemode: Gamemode = "pvp";
    private humanPlayers: PieceColor[] = [PieceColor.BLACK, PieceColor.WHITE];
    private initialized = false;
 
-   constructor() {
-      this.newGame();
-   }
+   constructor() { }
 
    private get game(): Game {
       return this.gameSaves[this.currentGamemode];
    }
 
-   public newGame() {
+   public newGame(gamemode: Gamemode) {
+      this.currentGamemode = gamemode;
       this.gameSaves[this.currentGamemode] = new Game();
-      this.displayBoard = [];
-      this.announcement = "";
-      for (let i = 0; i < 8; i++) {
-         this.displayBoard.push([]);
-         for (let j = 0; j < 8; j++) {
-            this.displayBoard[i].push("");
-         }
-      }
       this.updateDisplayBoard();
    }
 
