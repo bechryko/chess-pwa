@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { AuthService } from './shared/services/auth.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DatabaseSyncService } from './shared/services/database-sync.service';
-import { UserService } from './shared/services/user.service';
 
 @Component({
    selector: 'app-root',
@@ -10,36 +8,11 @@ import { UserService } from './shared/services/user.service';
    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-   title = 'chess';
-
-   loggedInUser?: firebase.default.User | null;
-   public username = "";
-
    constructor(
-      private authService: AuthService, 
-      private userService: UserService, 
       private syncService: DatabaseSyncService,
-      private cdr: ChangeDetectorRef
    ) { }
 
    ngOnInit(): void {
-      this.authService.isUserLoggedIn().subscribe({
-         next: user => {
-            this.loggedInUser = user;
-            this.userService.getUserName(user?.uid ?? "").then((username: string) => {
-               this.username = username;
-               localStorage.setItem("chessPWA-user", JSON.stringify(this.username));
-               this.cdr.markForCheck();
-            }).catch((error) => {
-               console.error(error);
-            });
-            this.cdr.markForCheck();
-         },
-         error: error => {
-            console.error(error);
-         }
-      });
-
       if(navigator.onLine) {
          this.syncService.syncLeaderboardEntries();
       }

@@ -10,8 +10,8 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { environment } from '../environments/environment';
+import { UserInfoComponent } from './shared/components/user-info/user-info.component';
 
 @NgModule({
    declarations: [
@@ -32,7 +32,7 @@ import { environment } from '../environments/environment';
       provideAuth(() => getAuth()),
       provideFirestore(() => getFirestore()),
       provideStorage(() => getStorage()),
-      MatProgressSpinnerModule,
+      UserInfoComponent
    ],
    bootstrap: [AppComponent]
 })
