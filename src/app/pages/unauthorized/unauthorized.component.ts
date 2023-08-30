@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { RouteUrls } from 'src/app/shared/enums/routes';
 
 @Component({
    selector: 'app-unauthorized',
@@ -14,7 +15,7 @@ export class UnauthorizedComponent {
    constructor(private router: Router) { }
 
    public toMenu(): void {
-      this.router.navigateByUrl('/menu');
+      this.router.navigateByUrl(RouteUrls.MENU);
    }
 
 }

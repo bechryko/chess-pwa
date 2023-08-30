@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { map } from 'rxjs';
+import { RouteUrls } from '../enums/routes';
 import { AuthService } from '../services/auth.service';
 
 export const CanActivateProfile: CanActivateFn = () => {
@@ -9,7 +10,7 @@ export const CanActivateProfile: CanActivateFn = () => {
    return authService.isUserLoggedIn().pipe(map(user => {
       const access = user === null;
       if(!access) {
-         router.navigateByUrl('/access-denied');
+         router.navigateByUrl(RouteUrls.UNAUTHORIZED);
       }
       return access;
    }));

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RouteUrls } from 'src/app/shared/enums/routes';
 import { Gamemodes } from 'src/app/shared/models/Gamemode';
 import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
 import { DatabaseSyncService } from 'src/app/shared/services/database-sync.service';
@@ -34,7 +35,7 @@ export class GameComponent implements OnInit {
 
    ngOnInit() {
       if(!this.initialize()) {
-         this.router.navigateByUrl("/menu/gamemode-chooser");
+         this.router.navigateByUrl(RouteUrls.GAMEMODE_CHOOSER);
       }
       this.syncGameData();
       if(!this.gameHandlerService.isHumanTurn()) {
@@ -77,7 +78,7 @@ export class GameComponent implements OnInit {
    }
 
    public backToMenu(): void {
-      this.router.navigateByUrl('/menu/gamemode-chooser');
+      this.router.navigateByUrl(RouteUrls.GAMEMODE_CHOOSER);
    }
 
    public isGameWonVsAI(): boolean {
@@ -94,7 +95,7 @@ export class GameComponent implements OnInit {
       if(navigator.onLine) {
          this.syncService.syncLeaderboardEntries();
       }
-      this.router.navigateByUrl('/leaderboards');
+      this.router.navigateByUrl(RouteUrls.LEADERBOARDS);
    }
 
    private initialize(): boolean {
