@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouteUrls } from 'src/app/shared/enums/routes';
+import { GameData } from 'src/app/shared/models/GameData';
 import { Gamemodes } from 'src/app/shared/models/Gamemode';
 import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
 import { DatabaseSyncService } from 'src/app/shared/services/database-sync.service';
@@ -17,7 +18,7 @@ import { GameHandlerService } from './game-handler.service';
 })
 export class GameComponent implements OnInit {
    private selectedPosition: Position | null = null;
-   public gameData;
+   public gameData: GameData;
    public highlighted: Position[] = [];
    public isInitialized = false;
    private movesMade = false;

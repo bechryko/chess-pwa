@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { GameData } from 'src/app/shared/models/GameData';
 import { Gamemode } from 'src/app/shared/models/Gamemode';
 import { ChessAI } from 'src/assets/chess/AI';
 import { Game } from 'src/assets/chess/Game';
@@ -19,7 +20,7 @@ export class GameHandlerService {
       this.newGame();
    }
 
-   public newGame() {
+   public newGame(): void {
       this.game = new Game();
       this.displayBoard = [];
       this.announcement = "";
@@ -56,7 +57,7 @@ export class GameHandlerService {
       return success;
    }
 
-   public getGameData() {
+   public getGameData(): GameData {
       return {
          displayBoard: this.displayBoard,
          announcement: this.announcement,
