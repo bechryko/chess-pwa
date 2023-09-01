@@ -1,0 +1,4 @@
+<div class="user-info" *ngIf="isUserLoggedIn || isUserLoading" (click)="copyUserName()">
+   <div *ngIf="isUserLoggedIn">Welcome {{ username }}!</div>
+   <mat-spinner *ngIf="isUserLoading" class="spinner"></mat-spinner>
+</div>
