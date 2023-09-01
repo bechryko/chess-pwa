@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { RouteUrls } from 'src/app/shared/enums/routes';
 
 @Component({
    selector: 'app-not-found',
@@ -13,6 +14,6 @@ export class NotFoundComponent {
    constructor(private router: Router) { }
 
    public toMenu() {
-      this.router.navigateByUrl('/menu');
+      this.router.navigateByUrl(RouteUrls.MENU);
    }
 }

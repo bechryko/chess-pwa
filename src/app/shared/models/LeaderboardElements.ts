@@ -1,4 +1,4 @@
-import { Gamemode } from "../Gamemode";
+import { Gamemode } from "./Gamemode";
 
 export interface LeaderboardElement {
    gamemode: Gamemode;

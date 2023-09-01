@@ -1,19 +1,32 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { RouteUrls } from './shared/enums/routes';
+import { Gamemodes } from './shared/models/Gamemode';
+import { ChessPreloadingStrategyService } from './shared/services/chess-preloading-strategy.service';
 
 const routes: Routes = [
    {
-      path: 'menu',
-      loadChildren: () => import('./pages/menu/menu.module').then(m => m.MenuModule)
-   },
-   {
       path: '',
-      redirectTo: '/menu',
+      redirectTo: RouteUrls.MENU,
       pathMatch: 'full'
    },
-   { path: 'profile', loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfileModule) },
-   { path: 'game', loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule) },
-   { path: 'leaderboards', loadChildren: () => import('./pages/leaderboards/leaderboards.module').then(m => m.LeaderboardsModule) },
+   {
+      path: RouteUrls.GAME,
+      redirectTo: RouteUrls.GAME + "/" + Gamemodes[0],
+      pathMatch: 'full'
+   },
+   {
+      path: RouteUrls.MENU,
+      loadChildren: () => import('./pages/menu/menu.module').then(m => m.MenuModule)
+   },
+   { 
+      path: 'game/:mode', 
+      loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule) 
+   },
+   { 
+      path: RouteUrls.UNAUTHORIZED, 
+      loadComponent: () => import('./pages/unauthorized/unauthorized.component').then(m => m.UnauthorizedComponent) 
+   },
    {
       path: '**',
       loadComponent: () => import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent)
@@ -21,7 +34,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-   imports: [RouterModule.forRoot(routes)],
+   imports: [RouterModule.forRoot(routes, {
+      preloadingStrategy: ChessPreloadingStrategyService
+   })],
    exports: [RouterModule]
 })
 export class AppRoutingModule { }

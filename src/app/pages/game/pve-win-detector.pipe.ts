@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Gamemode } from 'src/app/shared/Gamemode';
+import { Gamemode } from 'src/app/shared/models/Gamemode';
 import { CheckType } from 'src/assets/chess/Game';
 import { PieceColor } from 'src/assets/chess/utility';
 

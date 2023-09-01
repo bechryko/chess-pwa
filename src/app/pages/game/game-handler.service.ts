@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { GameData } from 'src/app/shared/models/GameData';
 import { Gamemode } from 'src/app/shared/models/Gamemode';
-import { GamemodeService } from 'src/app/shared/services/gamemode.service';
 import { ChessAI } from 'src/assets/chess/AI';
 import { Game } from 'src/assets/chess/Game';
 import { Move } from 'src/assets/chess/Move';
@@ -16,13 +16,11 @@ export class GameHandlerService {
    private humanPlayers: PieceColor[] = [PieceColor.BLACK, PieceColor.WHITE];
    private initialized = false;
 
-   constructor(
-      private gamemodeService: GamemodeService
-   ) {
+   constructor() {
       this.newGame();
    }
 
-   public newGame() {
+   public newGame(): void {
       this.game = new Game();
       this.displayBoard = [];
       this.announcement = "";
@@ -35,8 +33,8 @@ export class GameHandlerService {
       this.updateDisplayBoard();
    }
 
-   public init(): void {
-      this.gamemode = this.gamemodeService.lastGamemode();
+   public init(gamemode: Gamemode): void {
+      this.gamemode = gamemode;
       if(this.initialized) {
          return;
       }
@@ -59,7 +57,7 @@ export class GameHandlerService {
       return success;
    }
 
-   public getGameData() {
+   public getGameData(): GameData {
       return {
          displayBoard: this.displayBoard,
          announcement: this.announcement,

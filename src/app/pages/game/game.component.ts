@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RouteUrls } from 'src/app/shared/enums/routes';
+import { GameData } from 'src/app/shared/models/GameData';
+import { Gamemodes } from 'src/app/shared/models/Gamemode';
 import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
 import { DatabaseSyncService } from 'src/app/shared/services/database-sync.service';
 import { LocalDatabaseService } from 'src/app/shared/services/local-database.service';
@@ -15,25 +18,35 @@ import { GameHandlerService } from './game-handler.service';
 })
 export class GameComponent implements OnInit {
    private selectedPosition: Position | null = null;
-   public gameData;
+   public gameData: GameData;
    public highlighted: Position[] = [];
+   public isInitialized = false;
+   private movesMade = false;
 
    constructor(
-      private router: Router, 
+      private router: Router,
       private dbService: LocalDatabaseService,
       private syncService: DatabaseSyncService,
       private gameHandlerService: GameHandlerService,
-      private cdr: ChangeDetectorRef
+      private cdr: ChangeDetectorRef,
+      private activatedRoute: ActivatedRoute
    ) {
       this.gameData = this.gameHandlerService.getGameData();
    }
 
    ngOnInit() {
-      this.gameHandlerService.init();
+      if(!this.initialize()) {
+         this.router.navigateByUrl(RouteUrls.GAMEMODE_CHOOSER);
+      }
       this.syncGameData();
       if(!this.gameHandlerService.isHumanTurn()) {
          this.requestAIMove(0);
+         this.movesMade = true;
       }
+   }
+
+   canDeactivate(): boolean {
+      return !this.movesMade;
    }
 
    public onTileClick(position: Position): void {
@@ -51,6 +64,7 @@ export class GameComponent implements OnInit {
          const playerMove = new Move(this.selectedPosition, { x, y });
          if(this.gameHandlerService.isMoveValid(playerMove)) {
             this.gameHandlerService.makeMove(playerMove);
+            this.movesMade = true;
             this.syncGameData();
             this.highlightMove(playerMove);
             if(this.gameData.gamemode === "pve" && this.gameData.winner === "none") {
@@ -65,7 +79,7 @@ export class GameComponent implements OnInit {
    }
 
    public backToMenu(): void {
-      this.router.navigateByUrl('/menu/gamemode-chooser');
+      this.router.navigateByUrl(RouteUrls.GAMEMODE_CHOOSER);
    }
 
    public isGameWonVsAI(): boolean {
@@ -82,7 +96,19 @@ export class GameComponent implements OnInit {
       if(navigator.onLine) {
          this.syncService.syncLeaderboardEntries();
       }
-      this.router.navigateByUrl('/leaderboards');
+      this.router.navigateByUrl(RouteUrls.LEADERBOARDS);
+   }
+
+   private initialize(): boolean {
+      const gamemode = this.activatedRoute.snapshot.paramMap.get('mode');
+      return Gamemodes.some(mode => {
+         if(gamemode === mode) {
+            this.gameHandlerService.init(gamemode);
+            this.isInitialized = true;
+            return true;
+         }
+         return false;
+      });
    }
 
    private requestAIMove(delay: number): void {

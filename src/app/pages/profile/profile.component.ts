@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { RouteUrls } from 'src/app/shared/enums/routes';
 import { User } from 'src/app/shared/models/User';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UserService } from 'src/app/shared/services/user.service';
@@ -19,7 +20,7 @@ export class ProfileComponent {
       const { email, password } = userData;
       this.authService.login(email, password)
          .then((userCredential) => {
-            this.router.navigateByUrl('/menu');
+            this.router.navigateByUrl(RouteUrls.MENU);
          })
          .catch((error) => {
             console.error(error);
@@ -30,7 +31,7 @@ export class ProfileComponent {
       const { email, username, password } = userData;
       this.authService.register(email, password)
          .then((userCredential) => {
-            this.router.navigateByUrl('/menu');
+            this.router.navigateByUrl(RouteUrls.MENU);
             const user: User = {
                id: userCredential.user?.uid ?? "",
                name: username,

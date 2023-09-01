@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { RouteUrls } from 'src/app/shared/enums/routes';
 import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
 import { LocalDatabaseService } from 'src/app/shared/services/local-database.service';
 
@@ -21,6 +22,6 @@ export class LeaderboardsComponent implements OnInit {
    }
 
    public toMenu() {
-      this.router.navigateByUrl('/menu');
+      this.router.navigateByUrl(RouteUrls.MENU);
    }
 }
