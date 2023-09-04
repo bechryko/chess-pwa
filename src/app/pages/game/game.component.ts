@@ -79,6 +79,9 @@ export class GameComponent implements OnInit {
    }
 
    public backToMenu(): void {
+      if(this.gameData.winner !== "none") {
+         this.gameHandlerService.newGame(this.gameData.gamemode);
+      }
       this.router.navigateByUrl(RouteUrls.GAMEMODE_CHOOSER);
    }
 

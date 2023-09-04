@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GameData } from 'src/app/shared/models/GameData';
-import { Gamemode } from 'src/app/shared/models/Gamemode';
+import { Gamemode, Gamemodes } from 'src/app/shared/models/Gamemode';
 import { ChessAI } from 'src/assets/chess/AI';
 import { Game } from 'src/assets/chess/Game';
 import { Move } from 'src/assets/chess/Move';
@@ -9,41 +9,37 @@ import { ChessMoveValidatorUtils } from './chess-move-validator.utils';
 
 @Injectable()
 export class GameHandlerService {
-   private game = new Game();
-   private displayBoard: string[][] = [];
+   private gameSaves: Record<Gamemode, Game> = this.createGameSavesRecord();
+   private displayBoard: string[][] = Array(8).fill("empty").map(element => Array(8).fill(element));
    private announcement: string = "";
-   private gamemode: Gamemode = "pvp";
+   private currentGamemode: Gamemode = "pvp";
    private humanPlayers: PieceColor[] = [PieceColor.BLACK, PieceColor.WHITE];
    private initialized = false;
 
-   constructor() {
-      this.newGame();
+   constructor() { }
+
+   private get game(): Game {
+      return this.gameSaves[this.currentGamemode];
    }
 
-   public newGame(): void {
-      this.game = new Game();
-      this.displayBoard = [];
-      this.announcement = "";
-      for (let i = 0; i < 8; i++) {
-         this.displayBoard.push([]);
-         for (let j = 0; j < 8; j++) {
-            this.displayBoard[i].push("");
-         }
-      }
+   public newGame(gamemode: Gamemode) {
+      this.currentGamemode = gamemode;
+      this.gameSaves[this.currentGamemode] = new Game();
       this.updateDisplayBoard();
    }
 
    public init(gamemode: Gamemode): void {
-      this.gamemode = gamemode;
-      if(this.initialized) {
+      this.currentGamemode = gamemode;
+      this.updateDisplayBoard();
+      if (this.initialized) {
          return;
       }
-      switch(this.gamemode) {
+      switch (this.currentGamemode) {
          case 'pvp':
-            this.humanPlayers = [ PieceColor.BLACK, PieceColor.WHITE ];
+            this.humanPlayers = [PieceColor.BLACK, PieceColor.WHITE];
             break;
          case 'pve':
-            this.humanPlayers = [ Math.random() < .5 ? PieceColor.BLACK : PieceColor.WHITE ];
+            this.humanPlayers = [Math.random() < .5 ? PieceColor.BLACK : PieceColor.WHITE];
             break;
       }
       this.initialized = true;
@@ -51,7 +47,7 @@ export class GameHandlerService {
 
    public makeMove(move: Move): boolean {
       const success = this.game.makeMove(move);
-      if(success) {
+      if (success) {
          this.updateDisplayBoard();
       }
       return success;
@@ -61,7 +57,7 @@ export class GameHandlerService {
       return {
          displayBoard: this.displayBoard,
          announcement: this.announcement,
-         gamemode: this.gamemode,
+         gamemode: this.currentGamemode,
          winner: this.game.getWinner(),
          turnNumber: this.game.turn + 1,
          humanPlayers: this.humanPlayers as PieceColor[]
@@ -73,7 +69,7 @@ export class GameHandlerService {
       setTimeout(() => {
          const move = ChessAI.getBestMove(this.game);
          this.makeMove(move);
-         if(callback) callback(move);
+         if (callback) callback(move);
       }, delay);
    }
 
@@ -88,7 +84,7 @@ export class GameHandlerService {
    public getPossibleMoves(pos: Position): Position[] {
       return ChessMoveValidatorUtils.getPossibleMoves(this.game, pos);
    }
-   
+
    private updateDisplayBoard(): void {
       for (let i = 0; i < 8; i++) {
          for (let j = 0; j < 8; j++) {
@@ -109,5 +105,13 @@ export class GameHandlerService {
             this.announcement = this.game.getWinner() == PieceColor.BLACK ? "Black wins!" : "White wins!";
          }
       }
+   }
+
+   private createGameSavesRecord(): Record<Gamemode, Game> {
+      const record = {} as Record<Gamemode, Game>;
+      for(const mode of Gamemodes) {
+         record[mode] = new Game();
+      }
+      return record;
    }
 }
