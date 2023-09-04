@@ -46,7 +46,7 @@ export class GameComponent implements OnInit {
    }
 
    canDeactivate(): boolean {
-      return !this.movesMade;
+      return !this.movesMade || this.gameData.winner !== 'none';
    }
 
    public onTileClick(position: Position): void {
