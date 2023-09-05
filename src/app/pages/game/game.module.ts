@@ -1,20 +1,32 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ReversePipe } from 'src/app/shared/pipes/reverse.pipe';
+import { ChessboardComponent } from './chessboard/chessboard.component';
+import { HighlightPipe } from './chessboard/highlight.pipe';
+import { GameHandlerService } from './game-handler.service';
 import { GameRoutingModule } from './game-routing.module';
 import { GameComponent } from './game.component';
-import { ReversePipe } from '../../reverse.pipe';
-import { MatButtonModule } from '@angular/material/button';
+import { PveWinDetectorPipe } from './pve-win-detector.pipe';
 
 @NgModule({
-  declarations: [
-    GameComponent,
-    ReversePipe
-  ],
-  imports: [
-    CommonModule,
-    GameRoutingModule,
-    MatButtonModule,
-  ]
+   declarations: [
+      GameComponent,
+      ChessboardComponent
+   ],
+   imports: [
+      CommonModule,
+      GameRoutingModule,
+      MatButtonModule,
+      HighlightPipe,
+      ReversePipe,
+      PveWinDetectorPipe,
+      MatProgressSpinnerModule
+   ],
+   providers: [
+      GameHandlerService
+   ]
 })
 export class GameModule { }

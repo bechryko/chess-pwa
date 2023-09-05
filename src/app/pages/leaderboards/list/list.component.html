@@ -1,0 +1,18 @@
+<mat-spinner class="spinner" *ngIf="!leaderboardElements; else elements"></mat-spinner>
+<ng-template #elements>
+   <table *ngIf="leaderboardElements?.length; else empty">
+      <tr>
+         <th>Place</th>
+         <th>Name</th>
+         <th>Turns took to win</th>
+      </tr>
+      <tr *ngFor="let element of leaderboardElements; let idx = index" class="leaderboardElement">
+         <td>{{ idx + 1 }}.</td>
+         <td>{{ element.name }}</td>
+         <td>{{ element.score }}</td>
+      </tr>
+   </table>
+   <ng-template #empty>
+      <p class="error">No one on the leaderboard... Be the first!</p>
+   </ng-template>
+</ng-template>

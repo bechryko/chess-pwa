@@ -1,21 +1,21 @@
 @use 'src/assets/styles/colors' as *;
 
 h2 {
-    color: $error;
-    font-size: 2.75rem;
-    line-height: 3rem;
+   color: $error;
+   font-size: 2.75rem;
+   line-height: 3rem;
 }
 
 p {
-    text-align: center;
-    font-size: 2rem;
-    line-height: 2.5rem;
-    margin-top: 2rem;
-    font-weight: bold;
-    color: $primary-900;
+   text-align: center;
+   font-size: 2rem;
+   line-height: 2.5rem;
+   margin-top: 2rem;
+   font-weight: bold;
+   color: $primary-900;
 
-    span {
-        color: $secondary-mixed-black;
-        cursor: pointer;
-    }
+   span {
+      color: $secondary-mixed-black;
+      cursor: pointer;
+   }
 }

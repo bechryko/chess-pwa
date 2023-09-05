@@ -1,12 +1,12 @@
 <div class="center-content">
-    <h2>Choose a gamemode!</h2>
-    <div class="buttons center-content">
-        <button mat-flat-button color="accent" (click)="startPvP()">2 Players</button>
-        <button mat-flat-button color="accent" (click)="startPvE()">Versus AI</button>
-        <button mat-flat-button color="accent" disabled>Challanges</button>
-    </div>
-    <div class="buttons center-content">
-        <button mat-flat-button color="accent" routerLink="/menu">Back to menu</button>
-    </div>
-    <p class="error" *ngIf="loggedInUser === null">You can only show up on the leaderboards if you are logged in!</p>
+   <h2>Choose a gamemode!</h2>
+   <div class="buttons center-content">
+      <button mat-flat-button color="accent" routerLink="/game/pvp">2 Players</button>
+      <button mat-flat-button color="accent" routerLink="/game/pve">Versus AI</button>
+      <button mat-flat-button color="accent" disabled>Challenges</button>
+   </div>
+   <div class="buttons center-content">
+      <button mat-flat-button color="accent" routerLink="/menu">Back to menu</button>
+   </div>
+   <p loggedOff>You can only show up on the leaderboards if you are logged in!</p>
 </div>

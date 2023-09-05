@@ -1,13 +1,12 @@
-<div class="center-content">
-    <p class="announcement">{{announcement}}</p>
-    <table class="chessBoard">
-        <tr *ngFor="let row of displayBoard | reverse; let y = index" class="chessRow">
-            <td *ngFor="let piece of row; let x = index" (click)="onTileClick(x, 7 - y)" class="chessTile">
-                <img src="assets/images/chess-{{piece}}.png" alt="" class="chessPieceIcon">
-            </td>
-        </tr>
-    </table>
-    <p class="announcement">Turn {{game.turn + 1}}</p>
-    <button mat-flat-button color="accent" (click)="onWin()" *ngIf="isGameWonVsAI()">To the leaderboards</button>
-    <button mat-flat-button color="accent" (click)="backToMenu()" class="alignBottom" *ngIf="!isGameWonVsAI()">Leave game</button>
+<div class="center-content" *ngIf="isInitialized; else loading">
+   <p class="announcement">{{ gameData.announcement }}</p>
+   <app-chessboard [displayBoard]="gameData.displayBoard" [highlightedTiles]="highlighted" (tileClick)="onTileClick($event)"></app-chessboard>
+   <p class="announcement">Turn {{ gameData.turnNumber }}</p>
+   <ng-container *ngIf="{ pveWin: gameData | pveWinDetector } as data">
+      <button mat-flat-button color="accent" (click)="onPvEWin()" *ngIf="data.pveWin">To the leaderboards</button>
+      <button mat-flat-button color="accent" (click)="backToMenu()" *ngIf="!data.pveWin" class="alignBottom">Leave game</button>
+   </ng-container>
 </div>
+<ng-template #loading>
+   <mat-spinner></mat-spinner>
+</ng-template>

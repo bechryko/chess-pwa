@@ -1,36 +1,13 @@
 @use 'src/assets/styles/colors' as *;
-@use 'src/assets/styles/breakpoints' as *;
 
 $padding-size: 3rem;
 
 main {
-    width: 100%;
-    height: 100%;
-    background-color: rgba($primary-200, 0.7);
-    border: $primary-800 solid 0.3rem;
-    border-radius: $padding-size;
-    padding: $padding-size;
-    position: relative;
-}
-
-.user-div {
-    height: $padding-size * 2;
-    width: 33%;
-    border-radius: $padding-size;
-    border: $primary-800 solid 0.15rem;
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: $secondary-600;
-    transform: translate(20%, -50%);
-    text-align: center;
-    vertical-align: middle;
-    font-size: $padding-size * 0.45;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: $primary-mixed-black;
-    @media (max-height: $bp-small-height) {
-        transform: translate(70%, 0%);
-    }
+   width: 100%;
+   height: 100%;
+   background-color: rgba($primary-200, 0.7);
+   border: $primary-800 solid 0.3rem;
+   border-radius: $padding-size;
+   padding: $padding-size;
+   position: relative;
 }
