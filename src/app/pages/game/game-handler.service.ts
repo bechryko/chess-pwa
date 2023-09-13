@@ -15,7 +15,20 @@ export class GameHandlerService {
    private announcement: string = "";
    private currentGamemode: Gamemode = "pvp";
 
-   constructor() { }
+   private webWorkerEnabled: boolean;
+   private aiWorker?: Worker;
+
+   constructor() {
+      this.webWorkerEnabled = typeof Worker !== undefined;
+      if(this.webWorkerEnabled) {
+         try {
+            this.aiWorker = new Worker(new URL('./ai.worker', import.meta.url));
+            console.log("web worker working!!!")
+         } catch(error) {
+            console.error(error);
+         }
+      }
+   }
 
    private get game(): Game {
       return this.gameSaves[this.currentGamemode].game;
@@ -52,11 +65,20 @@ export class GameHandlerService {
 
    public requestAIMove(delay: number, callback?: (move: Move) => void): void {
       this.announcement += ", thinking...";
-      setTimeout(() => {
-         const move = ChessAI.getBestMove(this.game);
-         this.makeMove(move);
-         if (callback) callback(move);
-      }, delay);
+      if(this.webWorkerEnabled && this.aiWorker) {
+         this.aiWorker.postMessage(this.game);
+         this.aiWorker.onmessage = (event: MessageEvent<Move>) => {
+            const move = event.data;
+            this.makeMove(move);
+            if(callback) callback(move);
+         }
+      } else {
+         setTimeout(() => {
+            const move = ChessAI.getBestMove(this.game);
+            this.makeMove(move);
+            if(callback) callback(move);
+         }, delay);
+      }
    }
 
    public isHumanTurn(): boolean {
