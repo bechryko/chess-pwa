@@ -31,9 +31,12 @@ export class ProfileComponent {
       const { email, username, password } = userData;
       this.authService.register(email, password)
          .then((userCredential) => {
+            if(!userCredential.user || !userCredential.user.uid) {
+               throw new Error("Registration error!");
+            }
             this.router.navigateByUrl(RouteUrls.MENU);
             const user: ChessUser = {
-               id: userCredential.user?.uid ?? "",
+               id: userCredential.user.uid,
                name: username,
             };
             this.userService.createUser(user).catch((error) => { console.warn(error); });

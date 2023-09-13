@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { BuiltInUsernamesUtils } from 'src/app/shared/utils/built-in-usernames.utils';
 import { SimpleUser } from '../profile.model';
 
 @Component({
@@ -32,9 +33,10 @@ export class RegisterComponent implements OnInit {
 
    onRegisterSubmit() {
       console.log(this.registerForm.errors)
+      const name = this.registerForm.value.username;
       this.registerEvent.emit({
          email: this.registerForm.value.email ?? "",
-         username: this.registerForm.value.username ?? "Anonymous",
+         username: (name && name.trim()) || BuiltInUsernamesUtils.USERNAMES.DEFAULT,
          password: this.registerForm.value.password ?? ""
       });
    }

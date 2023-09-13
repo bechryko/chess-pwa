@@ -20,7 +20,6 @@ export class MenuComponent {
    }
 
    public logout() {
-      localStorage.setItem("chessPWA-user", "Unknown user");
       this.authService.logout()
          .catch((error) => {
             console.error(error);
