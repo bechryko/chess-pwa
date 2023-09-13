@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { BehaviorSubject, Observable, Subject, merge, scan, share } from 'rxjs';
 import { LeaderboardElement } from '../models/LeaderboardElements';
+import { ErrorService } from './error.service';
 
 @Injectable({
    providedIn: 'root'
@@ -18,7 +19,8 @@ export class LocalDatabaseService {
    private loadingQueue: LeaderboardElement[] = [];
 
    constructor(
-      private swUpdate: SwUpdate
+      private swUpdate: SwUpdate,
+      private errService: ErrorService
    ) {
       this.swUpdate.checkForUpdate().then(isUpdate => {
          if(isUpdate) {
@@ -50,6 +52,7 @@ export class LocalDatabaseService {
          const request = objectStore.add(item);
          request.onerror = (event: any) => {
             console.error('Error adding item: ', event.target.error);
+            this.errService.popupError("Error while saving to local database!");
          };
          request.onsuccess = () => this.storeItems$.next(item);
       });
@@ -59,6 +62,7 @@ export class LocalDatabaseService {
       const request = indexedDB.open(LocalDatabaseService.OBJECT_STORE_NAME + '-db', LocalDatabaseService.OBJECT_STORE_VERSION);
       request.onerror = (event: any) => {
          this.loadItems$.error(event.target.error);
+         this.errService.popupError("Failed to open local database!");
       };
       request.onupgradeneeded = (event: any) => {
          this.createObjectStore(event.target.result as IDBDatabase);

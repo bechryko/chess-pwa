@@ -7,6 +7,7 @@ import { Gamemodes } from 'src/app/shared/models/Gamemode';
 import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { DatabaseSyncService } from 'src/app/shared/services/database-sync.service';
+import { ErrorService } from 'src/app/shared/services/error.service';
 import { LocalDatabaseService } from 'src/app/shared/services/local-database.service';
 import { BuiltInUsernamesUtils } from 'src/app/shared/utils/built-in-usernames.utils';
 import { Move } from 'src/assets/chess/Move';
@@ -35,7 +36,8 @@ export class GameComponent implements OnInit {
       private gameHandlerService: GameHandlerService,
       private cdr: ChangeDetectorRef,
       private activatedRoute: ActivatedRoute,
-      authService: AuthService
+      authService: AuthService,
+      private errService: ErrorService
    ) {
       this.gameData = this.gameHandlerService.getGameData();
       this.username$ = authService.username$;
@@ -98,7 +100,7 @@ export class GameComponent implements OnInit {
 
    public onPvEWin(name: string | null): void {
       if(!name) {
-         console.error("Cannot fetch username!");
+         this.errService.popupError("Cannot fetch username!");
          return;
       }
       const leaderboardElement: LeaderboardElement = {

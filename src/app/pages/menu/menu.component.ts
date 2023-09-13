@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { ErrorService } from 'src/app/shared/services/error.service';
 
 @Component({
    selector: 'app-menu',
@@ -13,7 +14,8 @@ export class MenuComponent {
    public isUserLoading$: Observable<boolean>;
 
    constructor(
-      private authService: AuthService
+      private authService: AuthService,
+      private errService: ErrorService
    ) {
       this.isUserLoading$ = this.authService.isLoading$;
       this.isUserLoggedIn$ = this.authService.isUserLoggedIn$;
@@ -21,8 +23,8 @@ export class MenuComponent {
 
    public logout() {
       this.authService.logout()
-         .catch((error) => {
-            console.error(error);
+         .catch((error: Error) => {
+            this.errService.popupError(error.message);
          });
    }
 }

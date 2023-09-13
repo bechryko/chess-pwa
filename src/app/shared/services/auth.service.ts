@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { BehaviorSubject, Observable, ReplaySubject, distinctUntilChanged, filter, map, of, share, switchMap, tap } from 'rxjs';
 import { ChessUser } from '../models/ChessUser';
+import { ErrorService } from './error.service';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -17,7 +18,8 @@ export class AuthService {
 
    constructor(
       private auth: AngularFireAuth,
-      userService: UserService
+      userService: UserService,
+      private errService: ErrorService
    ) {
       this.loggedInUser$ = this.auth.user.pipe(
          switchMap(user => user ? (
@@ -73,6 +75,6 @@ export class AuthService {
 
    public errorAuth(error: Error): void {
       this.loadingHandlerSubject$.next(false);
-      console.error(error.message);
+      this.errService.popupError(error.message, 40 * error.message.length);
    }
 }

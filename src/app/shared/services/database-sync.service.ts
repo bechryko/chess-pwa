@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { EmptyError, Observable, combineLatest, first, map } from 'rxjs';
 import { LeaderboardElement, LeaderboardElementWithId } from '../models/LeaderboardElements';
 import { LeaderboardUtils } from '../utils/leaderboard.utils';
+import { ErrorService } from './error.service';
 import { LocalDatabaseService } from './local-database.service';
 
 @Injectable({
@@ -14,7 +15,8 @@ export class DatabaseSyncService {
 
    constructor(
       private localDbService: LocalDatabaseService, 
-      private firestore: AngularFirestore
+      private firestore: AngularFirestore,
+      private errService: ErrorService
    ) {
       this.leaderboardCollection = this.firestore.collection<LeaderboardElementWithId>(this.LEADERBOARD_TABLE_NAME);
    }
@@ -29,8 +31,8 @@ export class DatabaseSyncService {
          next: ([storedElements, localElements]) => {
             this.syncDatabases(storedElements, localElements);
          },
-         error: (error: EmptyError) => {
-            console.error(error);
+         error: (_: EmptyError) => {
+            this.errService.popupError("Failed synchronizing with cloud database!");
          }
       });
    }
@@ -50,7 +52,10 @@ export class DatabaseSyncService {
       }).forEach((element, index) => {
          const newElement = element as LeaderboardElementWithId;
          newElement.id = storedElements.length + index;
-         this.storeLeaderboardElement(newElement).catch(error => { console.error(error); });
+         this.storeLeaderboardElement(newElement).catch(error => { 
+            console.error(error);
+            this.errService.popupError("Failed to save to cloud database!");
+         });
       });
    }
 
