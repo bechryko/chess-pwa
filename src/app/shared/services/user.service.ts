@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from 'src/environments/environment';
-import { User } from '../models/User';
+import { ChessUser } from '../models/ChessUser';
 
 @Injectable({
    providedIn: 'root'
@@ -18,7 +18,7 @@ export class UserService {
       );
    }
 
-   async createUser(user: User) {
+   async createUser(user: ChessUser) {
       return this.supabase.from(this.userTableName).insert(user);
    }
 

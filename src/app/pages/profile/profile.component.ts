@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouteUrls } from 'src/app/shared/enums/routes';
-import { User } from 'src/app/shared/models/User';
+import { ChessUser } from 'src/app/shared/models/ChessUser';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { SimpleUser, SimpleUserWithoutUsername } from './profile.model';
@@ -22,8 +22,8 @@ export class ProfileComponent {
          .then((userCredential) => {
             this.router.navigateByUrl(RouteUrls.MENU);
          })
-         .catch((error) => {
-            console.error(error);
+         .catch((error: Error) => {
+            this.authService.errorAuth(error);
          });
    }
 
@@ -32,14 +32,14 @@ export class ProfileComponent {
       this.authService.register(email, password)
          .then((userCredential) => {
             this.router.navigateByUrl(RouteUrls.MENU);
-            const user: User = {
+            const user: ChessUser = {
                id: userCredential.user?.uid ?? "",
                name: username,
             };
-            this.userService.createUser(user).catch((error) => { console.error(error); });
+            this.userService.createUser(user).catch((error) => { console.warn(error); });
          })
-         .catch((error) => {
-            console.error(error);
+         .catch((error: Error) => {
+            this.authService.errorAuth(error);
          });
    }
 
