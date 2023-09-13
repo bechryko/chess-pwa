@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -12,13 +12,11 @@ import { LocalDatabaseService } from 'src/app/shared/services/local-database.ser
    styleUrls: ['./leaderboards.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LeaderboardsComponent implements OnInit {
+export class LeaderboardsComponent {
    public leaderboardElements$?: Observable<LeaderboardElement[]>;
 
-   constructor(private router: Router, private dbService: LocalDatabaseService) { }
-
-   ngOnInit(): void {
-      this.leaderboardElements$ = this.dbService.loadItems();
+   constructor(private router: Router, localDbService: LocalDatabaseService) {
+      this.leaderboardElements$ = localDbService.storedItems$;
    }
 
    public toMenu() {

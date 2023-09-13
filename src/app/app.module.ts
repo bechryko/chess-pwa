@@ -12,6 +12,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
 import { UserInfoComponent } from './shared/components/user-info/user-info.component';
+import { LocalDatabaseService } from './shared/services/local-database.service';
 
 @NgModule({
    declarations: [
@@ -36,4 +37,11 @@ import { UserInfoComponent } from './shared/components/user-info/user-info.compo
    ],
    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+   constructor(
+      dbService: LocalDatabaseService
+   ) {
+      dbService.openDatabase();
+   }
+}

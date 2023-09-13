@@ -1,75 +1,66 @@
 import { Injectable } from '@angular/core';
-import { SupabaseClient, createClient } from '@supabase/supabase-js';
-import { firstValueFrom } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { EmptyError, Observable, combineLatest, first, map } from 'rxjs';
 import { LeaderboardElement, LeaderboardElementWithId } from '../models/LeaderboardElements';
+import { LeaderboardUtils } from '../utils/leaderboard.utils';
 import { LocalDatabaseService } from './local-database.service';
 
 @Injectable({
    providedIn: 'root'
 })
 export class DatabaseSyncService {
-   private readonly leaderboardTableName = 'Leaderboard';
-   private supabase: SupabaseClient;
+   private readonly LEADERBOARD_TABLE_NAME = 'Leaderboards';
+   private leaderboardCollection: AngularFirestoreCollection<LeaderboardElementWithId>;
 
-   constructor(private dbService: LocalDatabaseService) {
-      this.supabase = createClient(
-         environment.supabaseUrl,
-         environment.supabaseKey
-      );
+   constructor(
+      private localDbService: LocalDatabaseService, 
+      private firestore: AngularFirestore
+   ) {
+      this.leaderboardCollection = this.firestore.collection<LeaderboardElementWithId>(this.LEADERBOARD_TABLE_NAME);
    }
 
    public syncLeaderboardEntries(): void {
-      console.log("syncing leaderboard entries")
-      this.getLeaderboardEntriesOnServer().then(serverEntries => {
-         this.getLeaderboardEntriesOnClient().then(clientEntries => {
-            const newOnServer = serverEntries.filter(serverEntry => {
-               return !clientEntries.some(clientEntry => {
-                  return DatabaseSyncService.equals(clientEntry, serverEntry);
-               });
-            });
-            const newOnClient = clientEntries.filter(clientEntry => {
-               return !serverEntries.some(serverEntry => {
-                  return DatabaseSyncService.equals(clientEntry, serverEntry);
-               });
-            });
-            newOnServer.forEach(entry => {
-               this.dbService.addItem(entry);
-            });
-            for(let i = 0; i < newOnClient.length; i++) {
-               const newEntry = newOnClient[i] as LeaderboardElementWithId;
-               const numberOfServerEntries = serverEntries.length;
-               newEntry.id = numberOfServerEntries + i;
-               this.addLeaderboardElement(newEntry).catch(error => { console.error(error); });
-            }
-         });
+      combineLatest([
+         this.getStoredLeaderboardElements(),
+         this.localDbService.storedItems$
+      ]).pipe(
+         first()
+      ).subscribe({
+         next: ([storedElements, localElements]) => {
+            this.syncDatabases(storedElements, localElements);
+         },
+         error: (error: EmptyError) => {
+            console.error(error);
+         }
       });
    }
 
-   private async getLeaderboardEntriesOnServer(): Promise<LeaderboardElement[]> {
-      const data = await this.supabase.from(this.leaderboardTableName).select('*');
-      return data.data as LeaderboardElement[];
+   private syncDatabases(storedElements: LeaderboardElement[], localElements: LeaderboardElement[]): void {
+      storedElements.filter(storedElement => {
+         return !localElements.some(localElement => {
+            return LeaderboardUtils.equals(localElement, storedElement);
+         });
+      }).forEach(element => {
+         this.localDbService.addItems(element);
+      });
+      localElements.filter(clientEntry => {
+         return !storedElements.some(serverEntry => {
+            return LeaderboardUtils.equals(clientEntry, serverEntry);
+         });
+      }).forEach((element, index) => {
+         const newElement = element as LeaderboardElementWithId;
+         newElement.id = storedElements.length + index;
+         this.storeLeaderboardElement(newElement).catch(error => { console.error(error); });
+      });
    }
 
-   private async getLeaderboardEntriesOnClient(): Promise<LeaderboardElement[]> {
-      let entries: LeaderboardElement[] = [];
-      if(this.dbService.isLoaded) {
-         entries = await firstValueFrom(this.dbService.loadItems()) as LeaderboardElement[];
-      } else {
-         setTimeout(async () => {
-            entries = await this.getLeaderboardEntriesOnClient();
-         }, 500);
-      }
-      return entries;
+   private getStoredLeaderboardElements(): Observable<LeaderboardElement[]> {
+      return this.leaderboardCollection.get().pipe(
+         map((elements) => elements.docs.map(doc => doc.data()))
+      );
    }
 
-   private async addLeaderboardElement(newEntry: LeaderboardElementWithId) {
-      return this.supabase.from(this.leaderboardTableName).insert(newEntry);
-   }
-
-   private static equals(entry1: LeaderboardElement, entry2: LeaderboardElement): boolean {
-      return entry1.gamemode === entry2.gamemode
-         && entry1.name === entry2.name
-         && entry1.score === entry2.score;
+   private storeLeaderboardElement(newEntry: LeaderboardElementWithId): Promise<void> {
+      return this.leaderboardCollection.doc(newEntry.id.toString()).set(newEntry);
    }
 }

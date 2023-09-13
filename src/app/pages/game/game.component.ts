@@ -109,7 +109,7 @@ export class GameComponent implements OnInit {
       if(leaderboardElement.name.trim() === "") {
          leaderboardElement.name = BuiltInUsernamesUtils.USERNAMES.MISSING;
       }
-      this.dbService.addItem(leaderboardElement);
+      this.dbService.addItems(leaderboardElement);
       if(navigator.onLine) {
          this.syncService.syncLeaderboardEntries();
       }

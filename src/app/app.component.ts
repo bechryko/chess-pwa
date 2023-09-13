@@ -24,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
          this.syncService.syncLeaderboardEntries();
       });
       this.cheatCodeService.registerSecretCode("leaderboardtest", () => {
-         this.localDbService.addItem({
+         this.localDbService.addItems({
             gamemode: "pve",
             name: "cheat",
             score: +(window.prompt("Enter your score:") ?? 0)
