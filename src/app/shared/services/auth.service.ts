@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { BehaviorSubject, Observable, ReplaySubject, distinctUntilChanged, filter, map, of, share, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, distinctUntilChanged, filter, map, of, switchMap, tap } from 'rxjs';
 import { ChessUser } from '../models/ChessUser';
+import { multicast } from '../operators/multicast';
 import { ErrorService } from './error.service';
 import { UserService } from './user.service';
 
@@ -31,30 +32,22 @@ export class AuthService {
             )
          ) : of(null)),
          tap(_ => this.loadingHandlerSubject$.next(false)),
-         share({
-            connector: () => new ReplaySubject(1)
-         })
+         multicast()
       );
       this.isUserLoggedIn$ = this.loggedInUser$.pipe(
          map(user => !!user),
          distinctUntilChanged(),
-         share({
-            connector: () => new ReplaySubject(1)
-         })
+         multicast()
       );
       this.username$ = this.loggedInUser$.pipe(
          filter(user => user !== null),
          map(user => user!.name),
          distinctUntilChanged(),
-         share({
-            connector: () => new ReplaySubject(1)
-         })
+         multicast()
       );
       this.isLoading$ = this.loadingHandlerSubject$.pipe(
          distinctUntilChanged(),
-         share({
-            connector: () => new ReplaySubject(1)
-         })
+         multicast()
       );
    }
 

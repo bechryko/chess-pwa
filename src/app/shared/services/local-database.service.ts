@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { BehaviorSubject, Observable, Subject, merge, scan, share } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, merge, scan } from 'rxjs';
 import { LeaderboardElement } from '../models/LeaderboardElements';
+import { multicast } from '../operators/multicast';
 import { ErrorService } from './error.service';
 
 @Injectable({
@@ -33,11 +34,9 @@ export class LocalDatabaseService {
       this.loadItems$ = new Subject<LeaderboardElement>();
       this.storedItems$ = merge(this.loadItems$, this.storeItems$).pipe(
          scan((acc, curr) => ([...acc, curr]), [] as LeaderboardElement[]),
-         share({
+         multicast({
             connector: () => new BehaviorSubject<LeaderboardElement[]>([]),
-            resetOnRefCountZero: false,
-            resetOnComplete: false,
-            resetOnError: false
+            resetOnRefCountZero: false
          })
       );
    }

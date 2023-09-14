@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Subject, Subscription, bufferCount, filter, fromEvent, pluck, share } from 'rxjs';
+import { Subscription, bufferCount, filter, fromEvent, pluck } from 'rxjs';
+import { multicast } from '../operators/multicast';
 
 @Injectable({
    providedIn: 'root'
@@ -8,9 +9,7 @@ export class CheatCodeService {
 
    private keyDownObservable$ = fromEvent<KeyboardEvent>(document, 'keydown').pipe(
       pluck('key'),
-      share({
-         connector: () => new Subject<string>()
-      })
+      multicast()
    );
    private registeredCodes: Record<string, Subscription> = {};
 
