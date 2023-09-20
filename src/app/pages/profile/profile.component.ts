@@ -14,7 +14,12 @@ import { SimpleUser, SimpleUserWithoutUsername } from './profile.model';
 })
 export class ProfileComponent {
 
-   constructor(private router: Router, private location: Location, private authService: AuthService, private userService: UserService) { }
+   constructor(
+      private router: Router, 
+      private location: Location, 
+      private authService: AuthService, 
+      private userService: UserService
+   ) { }
 
    loginSubmit(userData: SimpleUserWithoutUsername) {
       const { email, password } = userData;

@@ -15,8 +15,11 @@ import { LocalDatabaseService } from 'src/app/shared/services/local-database.ser
 export class LeaderboardsComponent {
    public leaderboardElements$?: Observable<LeaderboardElement[]>;
 
-   constructor(private router: Router, localDbService: LocalDatabaseService) {
-      this.leaderboardElements$ = localDbService.storedItems$;
+   constructor(
+      private router: Router, 
+      private localDbService: LocalDatabaseService
+   ) {
+      this.leaderboardElements$ = this.localDbService.storedItems$;
    }
 
    public toMenu() {

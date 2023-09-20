@@ -12,9 +12,9 @@ export class GamemodeChooserComponent {
    public loggedOut$: Observable<boolean>;
    
    constructor(
-      authService: AuthService
+      private authService: AuthService
    ) {
-      this.loggedOut$ = authService.isUserLoggedIn$.pipe(
+      this.loggedOut$ = this.authService.isUserLoggedIn$.pipe(
          map(value => !value)
       );
    }

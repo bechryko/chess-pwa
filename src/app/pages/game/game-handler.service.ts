@@ -15,8 +15,6 @@ export class GameHandlerService {
    private announcement: string = "";
    private currentGamemode: Gamemode = "pvp";
 
-   constructor() { }
-
    private get game(): Game {
       return this.gameSaves[this.currentGamemode].game;
    }

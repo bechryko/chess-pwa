@@ -36,11 +36,11 @@ export class GameComponent implements OnInit {
       private gameHandlerService: GameHandlerService,
       private cdr: ChangeDetectorRef,
       private activatedRoute: ActivatedRoute,
-      authService: AuthService,
+      private authService: AuthService,
       private errService: ErrorService
    ) {
       this.gameData = this.gameHandlerService.getGameData();
-      this.username$ = authService.username$;
+      this.username$ = this.authService.username$;
    }
 
    ngOnInit() {

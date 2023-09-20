@@ -12,7 +12,9 @@ import { RouteUrls } from 'src/app/shared/enums/routes';
    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UnauthorizedComponent {
-   constructor(private router: Router) { }
+   constructor(
+      private router: Router
+   ) { }
 
    public toMenu(): void {
       this.router.navigateByUrl(RouteUrls.MENU);

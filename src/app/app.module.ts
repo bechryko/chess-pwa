@@ -40,8 +40,8 @@ import { LocalDatabaseService } from './shared/services/local-database.service';
 export class AppModule {
 
    constructor(
-      dbService: LocalDatabaseService
+      private dbService: LocalDatabaseService
    ) {
-      dbService.openDatabase();
+      this.dbService.openDatabase();
    }
 }

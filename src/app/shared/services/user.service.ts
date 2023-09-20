@@ -11,8 +11,10 @@ export class UserService {
    private readonly USER_TABLE_NAME = 'Users';
    private userCollection: AngularFirestoreCollection<ChessUser>;
 
-   constructor(firestore: AngularFirestore) {
-      this.userCollection = firestore.collection<ChessUser>(this.USER_TABLE_NAME);
+   constructor(
+      private firestore: AngularFirestore
+   ) {
+      this.userCollection = this.firestore.collection<ChessUser>(this.USER_TABLE_NAME);
    }
 
    public createUser(user: ChessUser): Promise<void> {

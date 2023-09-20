@@ -19,12 +19,12 @@ export class AuthService {
 
    constructor(
       private auth: AngularFireAuth,
-      userService: UserService,
+      private userService: UserService,
       private errService: ErrorService
    ) {
       this.loggedInUser$ = this.auth.user.pipe(
          switchMap(user => user ? (
-            userService.getUsername(user.uid).pipe(
+            this.userService.getUsername(user.uid).pipe(
                map(name => ({
                   id: user.uid,
                   name: name
