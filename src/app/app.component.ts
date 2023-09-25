@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { CheatCodeService } from './shared/services/cheat-code.service';
 import { DatabaseSyncService } from './shared/services/database-sync.service';
+import { LocalDatabaseService } from './shared/services/local-database.service';
 
 @Component({
    selector: 'app-root',
@@ -7,9 +9,11 @@ import { DatabaseSyncService } from './shared/services/database-sync.service';
    styleUrls: ['./app.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
    constructor(
       private syncService: DatabaseSyncService,
+      private cheatCodeService: CheatCodeService,
+      private localDbService: LocalDatabaseService
    ) { }
 
    ngOnInit(): void {
@@ -17,8 +21,21 @@ export class AppComponent {
          this.syncService.syncLeaderboardEntries();
       }
       addEventListener('online', () => {
-         console.log("online")
          this.syncService.syncLeaderboardEntries();
       });
+      this.cheatCodeService.registerSecretCode("leaderboardtest", () => {
+         this.localDbService.addItems({
+            gamemode: "pve",
+            name: "cheat",
+            score: +(window.prompt("Enter your score:") ?? 0)
+         });
+      });
+      this.cheatCodeService.registerSecretCode("syncdatabases", () => {
+         this.syncService.syncLeaderboardEntries();
+      })
+   }
+
+   ngOnDestroy(): void {
+      this.cheatCodeService.destroy();
    }
 }

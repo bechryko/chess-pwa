@@ -1,4 +1,10 @@
-<div class="user-info" *ngIf="isUserLoggedIn || isUserLoading" (click)="copyUserName()">
-   <div *ngIf="isUserLoggedIn">Welcome {{ username }}!</div>
-   <mat-spinner *ngIf="isUserLoading" class="spinner"></mat-spinner>
-</div>
+<ng-container *ngIf="{ 
+   loading: authService.isLoading$ | async, 
+   loggedIn: authService.isUserLoggedIn$ | async,
+   username: authService.username$ | async
+} as user">
+      <div class="user-info" *ngIf="user.loggedIn || user.loading" (click)="user.username && copyUserName(user.username)">
+         <div *ngIf="!user.loading">Welcome {{ user.username }}!</div>
+         <mat-spinner *ngIf="user.loading" class="spinner"></mat-spinner>
+      </div>
+</ng-container>

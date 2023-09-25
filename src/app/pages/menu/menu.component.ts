@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { ErrorService } from 'src/app/shared/services/error.service';
 
 @Component({
    selector: 'app-menu',
@@ -7,32 +9,22 @@ import { AuthService } from 'src/app/shared/services/auth.service';
    styleUrls: ['./menu.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MenuComponent implements OnInit {
-   loggedInUser?: firebase.default.User | null;
+export class MenuComponent {
+   public isUserLoggedIn$: Observable<boolean>;
+   public isUserLoading$: Observable<boolean>;
 
    constructor(
       private authService: AuthService,
-      private cdr: ChangeDetectorRef
-   ) { }
-
-   ngOnInit(): void {
-      this.authService.isUserLoggedIn().subscribe({
-         next: user => {
-            this.loggedInUser = user;
-            this.cdr.markForCheck();
-         },
-         error: error => {
-            console.error(error);
-         }
-      });
+      private errService: ErrorService
+   ) {
+      this.isUserLoading$ = this.authService.isLoading$;
+      this.isUserLoggedIn$ = this.authService.isUserLoggedIn$;
    }
 
    public logout() {
-      localStorage.setItem("chessPWA-user", "Unknown user");
       this.authService.logout()
-         .catch((error) => {
-            console.error(error);
+         .catch((error: Error) => {
+            this.errService.popupError(error.message);
          });
-      this.cdr.markForCheck();
    }
 }

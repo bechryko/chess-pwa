@@ -8,5 +8,5 @@
    <div class="buttons center-content">
       <button mat-flat-button color="accent" routerLink="/menu">Back to menu</button>
    </div>
-   <p loggedOff>You can only show up on the leaderboards if you are logged in!</p>
+   <p *ngIf="loggedOut$ | async" class="error">You can only show up on the leaderboards if you are logged in!</p>
 </div>

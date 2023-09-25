@@ -11,7 +11,9 @@ import { RouteUrls } from 'src/app/shared/enums/routes';
 })
 export class NotFoundComponent {
 
-   constructor(private router: Router) { }
+   constructor(
+      private router: Router
+   ) { }
 
    public toMenu() {
       this.router.navigateByUrl(RouteUrls.MENU);

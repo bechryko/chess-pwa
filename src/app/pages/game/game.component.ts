@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { RouteUrls } from 'src/app/shared/enums/routes';
 import { GameData } from 'src/app/shared/models/GameData';
 import { Gamemodes } from 'src/app/shared/models/Gamemode';
 import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { DatabaseSyncService } from 'src/app/shared/services/database-sync.service';
+import { ErrorService } from 'src/app/shared/services/error.service';
 import { LocalDatabaseService } from 'src/app/shared/services/local-database.service';
+import { BuiltInUsernamesUtils } from 'src/app/shared/utils/built-in-usernames.utils';
 import { Move } from 'src/assets/chess/Move';
 import { PieceColor, Position } from 'src/assets/chess/utility';
 import { GameHandlerService } from './game-handler.service';
@@ -23,15 +27,20 @@ export class GameComponent implements OnInit {
    public isInitialized = false;
    private movesMade = false;
 
+   public username$: Observable<string>;
+
    constructor(
       private router: Router,
       private dbService: LocalDatabaseService,
       private syncService: DatabaseSyncService,
       private gameHandlerService: GameHandlerService,
       private cdr: ChangeDetectorRef,
-      private activatedRoute: ActivatedRoute
+      private activatedRoute: ActivatedRoute,
+      private authService: AuthService,
+      private errService: ErrorService
    ) {
       this.gameData = this.gameHandlerService.getGameData();
+      this.username$ = this.authService.username$;
    }
 
    ngOnInit() {
@@ -89,13 +98,20 @@ export class GameComponent implements OnInit {
       return this.gameData.gamemode === "pve" && this.gameData.winner === PieceColor.WHITE;
    }
 
-   public onPvEWin(): void {
+   public onPvEWin(name: string | null): void {
+      if(!name) {
+         this.errService.popupError("Cannot fetch username!");
+         return;
+      }
       const leaderboardElement: LeaderboardElement = {
          gamemode: "pve",
-         name: JSON.parse(localStorage.getItem("chessPWA-user") ?? '"Unknown user"'),
+         name,
          score: this.gameData.turnNumber
       };
-      this.dbService.addItem(leaderboardElement);
+      if(leaderboardElement.name.trim() === "") {
+         leaderboardElement.name = BuiltInUsernamesUtils.USERNAMES.MISSING;
+      }
+      this.dbService.addItems(leaderboardElement);
       if(navigator.onLine) {
          this.syncService.syncLeaderboardEntries();
       }

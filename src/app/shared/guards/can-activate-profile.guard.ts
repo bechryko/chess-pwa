@@ -7,11 +7,12 @@ import { AuthService } from '../services/auth.service';
 export const CanActivateProfile: CanActivateFn = () => {
    const authService = inject(AuthService);
    const router = inject(Router);
-   return authService.isUserLoggedIn().pipe(map(user => {
-      const access = user === null;
-      if(!access) {
-         router.navigateByUrl(RouteUrls.UNAUTHORIZED);
-      }
-      return access;
-   }));
+   return authService.isUserLoggedIn$.pipe(
+      map(isLoggedIn => {
+         if (isLoggedIn) {
+            router.navigateByUrl(RouteUrls.UNAUTHORIZED);
+         }
+         return !isLoggedIn;
+      })
+   );
 }
