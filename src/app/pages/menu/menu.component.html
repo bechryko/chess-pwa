@@ -11,7 +11,7 @@
       <button mat-flat-button color="accent" routerLink="./leaderboards">Leaderboards</button>
       <ng-container *ngIf="{ loggedIn: isUserLoggedIn$ | async, loading: isUserLoading$ | async } as data">
          <button mat-flat-button color="accent" routerLink="./profile" *ngIf="!data.loggedIn && !data.loading">Login</button>
-         <button mat-flat-button color="accent" (click)="logout()" *ngIf="data.loggedIn">Logout</button>
+         <button mat-flat-button color="accent" (click)="logout()" *ngIf="data.loggedIn" [disabled]="data.loading">Logout</button>
       </ng-container>
    </div>
 </div>

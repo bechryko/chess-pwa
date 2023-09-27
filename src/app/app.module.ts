@@ -10,9 +10,13 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { environment } from '../environments/environment';
 import { UserInfoComponent } from './shared/components/user-info/user-info.component';
 import { LocalDatabaseService } from './shared/services/local-database.service';
+import { AuthEffects } from './store/effects/auth.effects';
+import { authReducer } from './store/reducers/auth.reducer';
 
 @NgModule({
    declarations: [
@@ -33,7 +37,13 @@ import { LocalDatabaseService } from './shared/services/local-database.service';
       provideAuth(() => getAuth()),
       provideFirestore(() => getFirestore()),
       provideStorage(() => getStorage()),
-      UserInfoComponent
+      UserInfoComponent,
+      StoreModule.forRoot({
+         auth: authReducer
+      }, {}),
+      EffectsModule.forRoot([
+         AuthEffects
+      ])
    ],
    bootstrap: [AppComponent]
 })

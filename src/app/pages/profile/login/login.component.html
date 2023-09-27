@@ -7,5 +7,5 @@
       <mat-label>Password:</mat-label>
       <input matInput placeholder="Password" formControlName="password" type="password">
    </mat-form-field>
-   <button mat-flat-button color="accent" type="submit" [disabled]="!loginForm.valid">Login</button>
+   <button mat-flat-button color="accent" type="submit" [disabled]="!loginForm.valid || disableSubmit">Login</button>
 </form>

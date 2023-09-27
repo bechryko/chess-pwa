@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Observable, map } from 'rxjs';
+import { Observable, map, take } from 'rxjs';
 import { ChessUser } from '../models/ChessUser';
 import { BuiltInUsernamesUtils } from '../utils/built-in-usernames.utils';
 
@@ -23,6 +23,7 @@ export class UserService {
 
    public getUsername(uid: string): Observable<string> {
       return this.userCollection.doc(uid).get().pipe(
+         take(1),
          map(doc => doc.data()),
          map(user => user?.name ?? BuiltInUsernamesUtils.USERNAMES.MISSING)
       );

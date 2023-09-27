@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { SimpleUserWithoutUsername } from '../profile.model';
+import { AuthUserWithoutName } from 'src/app/shared/models/authUsers';
 
 @Component({
    selector: 'app-login',
@@ -9,9 +9,10 @@ import { SimpleUserWithoutUsername } from '../profile.model';
 })
 export class LoginComponent {
 
-   @Output() loginEvent: EventEmitter<SimpleUserWithoutUsername> = new EventEmitter();
+   @Input() disableSubmit: boolean = true;
+   @Output() loginEvent: EventEmitter<AuthUserWithoutName> = new EventEmitter();
 
-   loginForm = new FormGroup({
+   public loginForm = new FormGroup({
       email: new FormControl('', [
          Validators.required, 
          Validators.email
@@ -22,7 +23,7 @@ export class LoginComponent {
       ])
    });
 
-   onLoginSubmit() {
+   public onLoginSubmit(): void {
       this.loginEvent.emit({
          email: this.loginForm.value.email ?? "",
          password: this.loginForm.value.password ?? ""
