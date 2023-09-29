@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { BehaviorSubject, Observable, Subject, merge, scan } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { BehaviorSubject, Observable, Subject, filter, merge, scan, take } from 'rxjs';
+import { selectLocalDatabase } from 'src/app/store/selectors/core.selectors';
 import { LeaderboardElement } from '../models/LeaderboardElements';
 import { multicast } from '../operators/multicast';
+import { DatabaseInfoUtils } from '../utils/database-info.utils';
 import { ErrorService } from './error.service';
 
 @Injectable({
    providedIn: 'root'
 })
 export class LocalDatabaseService {
-   private static readonly OBJECT_STORE_NAME = 'chessPWA';
-   private static readonly OBJECT_STORE_VERSION = 1;
-
    public storedItems$: Observable<LeaderboardElement[]>;
    private loadItems$: Subject<LeaderboardElement>;
    private storeItems$: Subject<LeaderboardElement>;
@@ -21,13 +21,23 @@ export class LocalDatabaseService {
 
    constructor(
       private swUpdate: SwUpdate,
-      private errService: ErrorService
+      private errService: ErrorService,
+      private store: Store
    ) {
       this.swUpdate.checkForUpdate().then(isUpdate => {
          if(isUpdate) {
             alert("New version of the app is available. Click OK to reload the app.");
             window.location.reload();
          }
+      });
+
+      this.store.select(selectLocalDatabase).pipe(
+         filter(value => !!value),
+         take(1)
+      ).subscribe(value => {
+         this.database = value!;
+         this.addItems(...this.loadingQueue);
+         this.loadItems();
       });
 
       this.storeItems$ = new Subject<LeaderboardElement>();
@@ -46,7 +56,7 @@ export class LocalDatabaseService {
          this.loadingQueue.push(...newItems);
          return;
       }
-      const objectStore = this.database.transaction(LocalDatabaseService.OBJECT_STORE_NAME, 'readwrite').objectStore(LocalDatabaseService.OBJECT_STORE_NAME);
+      const objectStore = this.database.transaction(DatabaseInfoUtils.LOCAL_OBJECT_STORE_NAME, 'readwrite').objectStore(DatabaseInfoUtils.LOCAL_OBJECT_STORE_NAME);
       newItems.forEach(item => {
          const request = objectStore.add(item);
          request.onerror = (event: any) => {
@@ -57,27 +67,11 @@ export class LocalDatabaseService {
       });
    }
 
-   public openDatabase(): void {
-      const request = indexedDB.open(LocalDatabaseService.OBJECT_STORE_NAME + '-db', LocalDatabaseService.OBJECT_STORE_VERSION);
-      request.onerror = (event: any) => {
-         this.loadItems$.error(event.target.error);
-         this.errService.popupError("Failed to open local database!");
-      };
-      request.onupgradeneeded = (event: any) => {
-         this.createObjectStore(event.target.result as IDBDatabase);
-      };
-      request.onsuccess = (event: any) => {
-         this.database = event.target.result as IDBDatabase;
-         this.addItems(...this.loadingQueue);
-         this.loadItems();
-      };
-   }
-
    private loadItems(): void {
       if(!this.database) {
          throw new Error("Local database not initialized!");
       }
-      const objectStore = this.database.transaction(LocalDatabaseService.OBJECT_STORE_NAME).objectStore(LocalDatabaseService.OBJECT_STORE_NAME);
+      const objectStore = this.database.transaction(DatabaseInfoUtils.LOCAL_OBJECT_STORE_NAME).objectStore(DatabaseInfoUtils.LOCAL_OBJECT_STORE_NAME);
       objectStore.openCursor().onsuccess = (event: any) => {
          const cursor = event.target.result;
          if(cursor) {
@@ -87,15 +81,5 @@ export class LocalDatabaseService {
             this.loadItems$.complete();
          }
       };
-   }
-
-   private createObjectStore(database: IDBDatabase): void {
-      const objectStore = database.createObjectStore(LocalDatabaseService.OBJECT_STORE_NAME, {
-         keyPath: 'id',
-         autoIncrement: true,
-      });
-      objectStore.createIndex('gamemode', 'gamemode', { unique: false });
-      objectStore.createIndex('name', 'name', { unique: false });
-      objectStore.createIndex('score', 'score', { unique: false });
    }
 }
