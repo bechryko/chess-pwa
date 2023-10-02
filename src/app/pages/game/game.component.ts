@@ -6,9 +6,8 @@ import { GameData } from 'src/app/shared/models/GameData';
 import { Gamemodes } from 'src/app/shared/models/Gamemode';
 import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { DatabaseSyncService } from 'src/app/shared/services/database-sync.service';
 import { ErrorService } from 'src/app/shared/services/error.service';
-import { LocalDatabaseService } from 'src/app/shared/services/local-database.service';
+import { LeaderboardStoreService } from 'src/app/shared/services/leaderboard-store.service';
 import { BuiltInUsernamesUtils } from 'src/app/shared/utils/built-in-usernames.utils';
 import { Move } from 'src/assets/chess/Move';
 import { PieceColor, Position } from 'src/assets/chess/utility';
@@ -31,13 +30,12 @@ export class GameComponent implements OnInit {
 
    constructor(
       private router: Router,
-      private dbService: LocalDatabaseService,
-      private syncService: DatabaseSyncService,
       private gameHandlerService: GameHandlerService,
       private cdr: ChangeDetectorRef,
       private activatedRoute: ActivatedRoute,
       private authService: AuthService,
-      private errService: ErrorService
+      private errService: ErrorService,
+      private leaderboardStore: LeaderboardStoreService
    ) {
       this.gameData = this.gameHandlerService.getGameData();
       this.username$ = this.authService.username$;
@@ -111,10 +109,7 @@ export class GameComponent implements OnInit {
       if(leaderboardElement.name.trim() === "") {
          leaderboardElement.name = BuiltInUsernamesUtils.USERNAMES.MISSING;
       }
-      this.dbService.addItems(leaderboardElement);
-      if(navigator.onLine) {
-         this.syncService.syncLeaderboardEntries();
-      }
+      this.leaderboardStore.storeItem(leaderboardElement);
       this.router.navigateByUrl(RouteUrls.LEADERBOARDS);
    }
 

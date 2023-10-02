@@ -23,8 +23,7 @@ export class AppInitializationUtils {
 
    private static createObjectStore(database: IDBDatabase): void {
       const objectStore = database.createObjectStore(DatabaseInfoUtils.LOCAL_OBJECT_STORE_NAME, {
-         keyPath: 'id',
-         autoIncrement: true,
+         keyPath: 'id'
       });
       objectStore.createIndex('gamemode', 'gamemode', { unique: false });
       objectStore.createIndex('name', 'name', { unique: false });

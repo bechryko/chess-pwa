@@ -16,8 +16,10 @@ import { environment } from '../environments/environment';
 import { UserInfoComponent } from './shared/components/user-info/user-info.component';
 import { AppInitializationUtils } from './shared/utils/app-initialization.utils';
 import { AuthEffects } from './store/effects/auth.effects';
+import { LeaderboardEffects } from './store/effects/leaderboard.effects';
 import { authReducer } from './store/reducers/auth.reducer';
 import { coreReducer } from './store/reducers/core.reducer';
+import { leaderboardReducer } from './store/reducers/leaderboard.reducer';
 
 @NgModule({
    declarations: [
@@ -41,10 +43,12 @@ import { coreReducer } from './store/reducers/core.reducer';
       UserInfoComponent,
       StoreModule.forRoot({
          core: coreReducer,
-         auth: authReducer
+         auth: authReducer,
+         leaderboard: leaderboardReducer
       }, {}),
       EffectsModule.forRoot([
-         AuthEffects
+         AuthEffects,
+         LeaderboardEffects
       ])
    ],
    bootstrap: [AppComponent],
