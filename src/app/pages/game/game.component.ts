@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { RouteUrls } from 'src/app/shared/enums/routes';
@@ -19,7 +19,7 @@ import { GameHandlerService } from './game-handler.service';
    styleUrls: ['./game.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
    private selectedPosition: Position | null = null;
    public gameData: GameData;
    public highlighted: Position[] = [];
@@ -41,19 +41,25 @@ export class GameComponent implements OnInit {
       this.username$ = this.authService.username$;
    }
 
-   ngOnInit() {
-      if(!this.initialize()) {
+   public ngOnInit(): void {
+      if (!this.initialize()) {
          this.router.navigateByUrl(RouteUrls.GAMEMODE_CHOOSER);
       }
       this.syncGameData();
-      if(!this.gameHandlerService.isHumanTurn()) {
+      if (!this.gameHandlerService.isHumanTurn()) {
          this.requestAIMove(0);
          this.movesMade = true;
       }
    }
 
-   canDeactivate(): boolean {
+   public canDeactivate(): boolean {
       return !this.movesMade || this.gameData.winner !== 'none';
+   }
+
+   public ngOnDestroy(): void {
+      if(this.gameData.winner === "none") {
+         this.gameHandlerService.saveGame();
+      }
    }
 
    public onTileClick(position: Position): void {
@@ -69,12 +75,12 @@ export class GameComponent implements OnInit {
          this.highlighted = [];
       } else {
          const playerMove = new Move(this.selectedPosition, { x, y });
-         if(this.gameHandlerService.isMoveValid(playerMove)) {
+         if (this.gameHandlerService.isMoveValid(playerMove)) {
             this.gameHandlerService.makeMove(playerMove);
             this.movesMade = true;
             this.syncGameData();
             this.highlightMove(playerMove);
-            if(this.gameData.gamemode === "pve" && this.gameData.winner === "none") {
+            if (this.gameData.gamemode === "pve" && this.gameData.winner === "none") {
                this.requestAIMove(0);
             }
          } else {
@@ -86,9 +92,6 @@ export class GameComponent implements OnInit {
    }
 
    public backToMenu(): void {
-      if(this.gameData.winner !== "none") {
-         this.gameHandlerService.newGame(this.gameData.gamemode);
-      }
       this.router.navigateByUrl(RouteUrls.GAMEMODE_CHOOSER);
    }
 
@@ -97,7 +100,7 @@ export class GameComponent implements OnInit {
    }
 
    public onPvEWin(name: string | null): void {
-      if(!name) {
+      if (!name) {
          this.errService.popupError("Cannot fetch username!");
          return;
       }
@@ -106,7 +109,7 @@ export class GameComponent implements OnInit {
          name,
          score: this.gameData.turnNumber
       };
-      if(leaderboardElement.name.trim() === "") {
+      if (leaderboardElement.name.trim() === "") {
          leaderboardElement.name = BuiltInUsernamesUtils.USERNAMES.MISSING;
       }
       this.leaderboardStore.storeItem(leaderboardElement);
@@ -116,7 +119,7 @@ export class GameComponent implements OnInit {
    private initialize(): boolean {
       const gamemode = this.activatedRoute.snapshot.paramMap.get('mode');
       return Gamemodes.some(mode => {
-         if(gamemode === mode) {
+         if (gamemode === mode) {
             this.gameHandlerService.init(gamemode);
             this.isInitialized = true;
             return true;
@@ -133,8 +136,8 @@ export class GameComponent implements OnInit {
    }
 
    private highlightPossibleMoves(): void {
-      this.highlighted = this.selectedPosition ? 
-         [this.selectedPosition, ...this.gameHandlerService.getPossibleMoves(this.selectedPosition)] : 
+      this.highlighted = this.selectedPosition ?
+         [this.selectedPosition, ...this.gameHandlerService.getPossibleMoves(this.selectedPosition)] :
          [];
    }
 

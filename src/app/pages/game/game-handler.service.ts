@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { first } from 'rxjs';
+import { gameActions } from 'src/app/pages/game/store/actions/game.actions';
+import { selectSaveByMode } from 'src/app/pages/game/store/selectors/game.selectors';
 import { GameData } from 'src/app/shared/models/GameData';
 import { GameSave } from 'src/app/shared/models/GameSave';
-import { Gamemode, Gamemodes } from 'src/app/shared/models/Gamemode';
+import { Gamemode } from 'src/app/shared/models/Gamemode';
 import { ChessAI } from 'src/assets/chess/AI';
 import { Game } from 'src/assets/chess/Game';
 import { Move } from 'src/assets/chess/Move';
@@ -10,23 +14,29 @@ import { ChessMoveValidatorUtils } from './chess-move-validator.utils';
 
 @Injectable()
 export class GameHandlerService {
-   private gameSaves: Record<Gamemode, GameSave> = this.createGameSavesRecord();
+   private currentSave: GameSave = this.createNewGame("pvp");
    private displayBoard: string[][] = Array(8).fill("empty").map(element => Array(8).fill(element));
    private announcement: string = "";
-   private currentGamemode: Gamemode = "pvp";
+
+   constructor(
+      private store: Store
+   ) { }
 
    private get game(): Game {
-      return this.gameSaves[this.currentGamemode].game;
-   }
-
-   public newGame(gamemode: Gamemode) {
-      this.currentGamemode = gamemode;
-      this.gameSaves[this.currentGamemode] = this.createNewGame(this.currentGamemode);
+      return this.currentSave.game;
    }
 
    public init(gamemode: Gamemode): void {
-      this.currentGamemode = gamemode;
-      this.updateDisplayBoard();
+      this.store.select(selectSaveByMode[gamemode]).pipe(
+         first()
+      ).subscribe({
+         next: save => this.currentSave = save ? {
+            game: save.game.copy(),
+            humanPlayers: [...save.humanPlayers],
+            mode: save.mode
+         } : this.createNewGame(gamemode),
+         complete: () => this.updateDisplayBoard()
+      });
    }
 
    public makeMove(move: Move): boolean {
@@ -41,10 +51,10 @@ export class GameHandlerService {
       return {
          displayBoard: this.displayBoard,
          announcement: this.announcement,
-         gamemode: this.currentGamemode,
+         gamemode: this.currentSave.mode,
          winner: this.game.getWinner(),
          turnNumber: this.game.turn + 1,
-         humanPlayers: this.gameSaves[this.currentGamemode].humanPlayers
+         humanPlayers: this.currentSave.humanPlayers
       };
    }
 
@@ -58,7 +68,7 @@ export class GameHandlerService {
    }
 
    public isHumanTurn(): boolean {
-      return this.gameSaves[this.currentGamemode].humanPlayers.includes(this.game.current);
+      return this.currentSave.humanPlayers.includes(this.game.current);
    }
 
    public isMoveValid(move: Move): boolean {
@@ -72,7 +82,8 @@ export class GameHandlerService {
    private createNewGame(gamemode: Gamemode): GameSave {
       const save: GameSave = {
          game: new Game(),
-         humanPlayers: []
+         humanPlayers: [],
+         mode: gamemode
       };
       switch (gamemode) {
          case 'pvp':
@@ -83,6 +94,10 @@ export class GameHandlerService {
             break;
       }
       return save;
+   }
+
+   public saveGame(): void {
+      this.store.dispatch(gameActions.updateSave({ save: this.currentSave }));
    }
 
    private updateDisplayBoard(): void {
@@ -104,14 +119,7 @@ export class GameHandlerService {
          } else {
             this.announcement = this.game.getWinner() == PieceColor.BLACK ? "Black wins!" : "White wins!";
          }
+         this.store.dispatch(gameActions.endGame({ mode: this.currentSave.mode }));
       }
-   }
-
-   private createGameSavesRecord(): Record<Gamemode, GameSave> {
-      const record = {} as Record<Gamemode, GameSave>;
-      for(const mode of Gamemodes) {
-         record[mode] = this.createNewGame(mode);
-      }
-      return record;
    }
 }
