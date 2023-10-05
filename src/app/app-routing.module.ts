@@ -20,6 +20,10 @@ const routes: Routes = [
       loadChildren: () => import('./pages/menu/menu.module').then(m => m.MenuModule)
    },
    { 
+      path: RouteUrls.SETTINGS, 
+      loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsModule) 
+   },
+   { 
       path: 'game/:mode', 
       loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule) 
    },

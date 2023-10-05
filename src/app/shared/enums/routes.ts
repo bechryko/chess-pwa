@@ -4,5 +4,6 @@ export enum RouteUrls {
    LEADERBOARDS = 'menu/leaderboards',
    GAMEMODE_CHOOSER = 'menu/gamemode-chooser',
    UNAUTHORIZED = 'access-denied',
-   GAME = 'game'
+   GAME = 'game',
+   SETTINGS = 'menu/settings'
 }

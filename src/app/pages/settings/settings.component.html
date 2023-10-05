@@ -1,0 +1,16 @@
+<div class="center-content settings-container">
+   <h2>Settings</h2>
+   <div>
+      <h3>Language</h3>
+      <mat-chip-listbox aria-label="Language selection">
+         <mat-chip-option color="accent" 
+            *ngFor="let language of availableLanguages; let idx = index" 
+            [selected]="idx === 0" 
+            [value]="language.code"
+            [selectable]="selectedLanguageIdx !== idx"
+            (selectionChange)="selectedLanguageIdx = idx"
+         >{{ language.name }}</mat-chip-option>
+      </mat-chip-listbox>
+   </div>
+   <button mat-flat-button color="accent" (click)="goBack()" class="alignBottom">Back to menu</button>
+</div>
