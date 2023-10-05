@@ -1,0 +1,101 @@
+{
+   "shared": {
+      "subtitle": "A Progressive Web Application",
+      "welcome": "Welcome {{ name }}!",
+      "swAppUpdate": "New version of the app is available. Click OK to reload the app.",
+      "builtInUsernames": {
+         "missing": "Unknown user",
+         "default": "Anonymous"
+      },
+      "backToMenu": "Back to menu",
+      "gamemodes": {
+         "pvp": "2 Players",
+         "pve": "Versus AI",
+         "eve": "Spectate AIs",
+         "challenge": "Challenges"
+      },
+      "snackbar": {
+         "dismiss": "Dismiss"
+      }
+   },
+   "game": {
+      "turn": "Turn {{ turnNumber }}",
+      "colors": {
+         "black": "black",
+         "white": "white"
+      },
+      "turnAnnouncement": "{{ color }}'s turn",
+      "thinkingAnnouncementSuffix": ", thinking...",
+      "checkAnnouncementSuffix": ", check!",
+      "drawAnnouncement": "Draw!",
+      "winAnnouncement": "{{ color }} won!",
+      "linkToLeaderboards": "To the leaderboards",
+      "linkToExit": "Leave game",
+      "exitNotice": "Are you sure you want to leave the game?"
+   },
+   "leaderboards": {
+      "title": "Leaderboards",
+      "tableColumns": {
+         "place": "Place",
+         "name": "Name",
+         "turns": "Turns took to win"
+      },
+      "emptyLeaderboard": "No one on the leaderboard... Be the first!"
+   },
+   "menu": {
+      "buttons": {
+         "play": "Play",
+         "leaderboards": "Leaderboards",
+         "settings": "Settings",
+         "login": "Login",
+         "logout": "Logout"
+      }
+   },
+   "gamemodeChooser": {
+      "chooseNotice": "Choose a gamemode!",
+      "notLoggedInForLeaderboardWarning": "You can only show up on the leaderboards if you are logged in!"
+   },
+   "auth": {
+      "title": "Login or register",
+      "inputFields": {
+         "email": "Email",
+         "password": "Password",
+         "passwordConfirmation": "Confirm password",
+         "name": "Display name"
+      },
+      "inputPlaceholders": {
+         "email": "Email",
+         "password": "Password",
+         "passwordConfirmation": "Password again",
+         "name": "Username"
+      },
+      "buttons": {
+         "login": "Login",
+         "register": "Signup"
+      }
+   },
+   "settings": {
+      "title": "Settings",
+      "language": {
+         "title": "Language",
+         "options": {
+            "en-US": "English",
+            "hu-HU": "Hungarian"
+         }
+      }
+   },
+   "errorPages": {
+      "notFound": {
+         "title": "Page not found!"
+      },
+      "accessDenied": {
+         "title": "Unauthorized access!",
+         "description": "You have no access to this page!"
+      },
+      "navigationLinkText": "Click here to navigate back to the main menu!"
+   },
+   "errors": {
+      "database-c1": "IndexedDB database not initialized!",
+      "user-c1": "Cannot fetch username!"
+   }
+}
