@@ -1,5 +1,7 @@
 import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Languages } from 'src/app/shared/enums/languages';
 
 @Component({
    selector: 'app-settings',
@@ -8,21 +10,18 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsComponent {
-   public readonly availableLanguages = [
-      {
-         name: "English",
-         code: "en-US"
-      },
-      {
-         name: "Hungarian",
-         code: "hu-HU"
-      }
-   ];
-   public selectedLanguageIdx = 0;
+   public readonly availableLanguages = Object.values(Languages);
+   public selectedLanguageIdx = this.availableLanguages.indexOf(this.translate.currentLang as Languages);
 
    constructor(
-      private location: Location
+      private location: Location,
+      private translate: TranslateService
    ) { }
+
+   public changeLanguage(idx: number): void {
+      this.selectedLanguageIdx = idx;
+      this.translate.use(this.availableLanguages[idx]);
+   }
 
    public goBack(): void {
       this.location.back();
