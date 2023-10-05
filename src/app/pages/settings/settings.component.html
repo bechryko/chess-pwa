@@ -1,16 +1,16 @@
 <div class="center-content settings-container">
-   <h2>Settings</h2>
+   <h2>{{ "settings.title" | translate }}</h2>
    <div>
-      <h3>Language</h3>
+      <h3>{{ "settings.language.title" | translate }}</h3>
       <mat-chip-listbox aria-label="Language selection">
          <mat-chip-option color="accent" 
             *ngFor="let language of availableLanguages; let idx = index" 
             [selected]="idx === 0" 
-            [value]="language.code"
+            [value]="language"
             [selectable]="selectedLanguageIdx !== idx"
             (selectionChange)="selectedLanguageIdx = idx"
-         >{{ language.name }}</mat-chip-option>
+         >{{ "settings.language.options." + language | translate }}</mat-chip-option>
       </mat-chip-listbox>
    </div>
-   <button mat-flat-button color="accent" (click)="goBack()" class="alignBottom">Back to menu</button>
+   <button mat-flat-button color="accent" (click)="goBack()" class="alignBottom">{{ "shared.backToMenu" | translate }}</button>
 </div>

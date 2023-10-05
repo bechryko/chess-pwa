@@ -1,9 +1,9 @@
 <div class="center-content">
-   <h2>Leaderboards</h2>
+   <h2>{{ "leaderboards.title" | translate }}</h2>
    <mat-tab-group>
-      <mat-tab label="Versus AI">
+      <mat-tab label="{{ 'shared.gamemodes.pve' | translate }}">
          <app-list [leaderboardElements]="leaderboardElements$ | async | sort: 'score'"></app-list>
       </mat-tab>
    </mat-tab-group>
-   <button mat-flat-button color="accent" (click)="toMenu()" class="alignBottom">Back to menu</button>
+   <button mat-flat-button color="accent" (click)="toMenu()" class="alignBottom">{{ "shared.backToMenu" | translate }}</button>
 </div>

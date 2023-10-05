@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
 
@@ -15,7 +16,8 @@ import { SettingsComponent } from './settings.component';
       CommonModule,
       SettingsRoutingModule,
       MatChipsModule,
-      MatButtonModule
+      MatButtonModule,
+      TranslateModule
    ]
 })
 export class SettingsModule { }

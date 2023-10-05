@@ -1,12 +1,13 @@
 <div class="center-content">
-   <h2>Choose a gamemode!</h2>
+   <h2>{{ "gamemodeChooser.chooseNotice" | translate }}</h2>
    <div class="buttons center-content">
-      <button mat-flat-button color="accent" routerLink="/game/pvp">2 Players</button>
-      <button mat-flat-button color="accent" routerLink="/game/pve">Versus AI</button>
-      <button mat-flat-button color="accent" disabled>Challenges</button>
+      <button mat-flat-button color="accent" routerLink="/game/pvp">{{ "shared.gamemodes.pvp" | translate }}</button>
+      <button mat-flat-button color="accent" routerLink="/game/pve">{{ "shared.gamemodes.pve" | translate }}</button>
+      <button mat-flat-button color="accent" disabled>{{ "shared.gamemodes.eve" | translate }}</button>
+      <button mat-flat-button color="accent" disabled>{{ "shared.gamemodes.challenge" | translate }}</button>
    </div>
    <div class="buttons center-content">
-      <button mat-flat-button color="accent" routerLink="/menu">Back to menu</button>
+      <button mat-flat-button color="accent" routerLink="/menu">{{ "shared.backToMenu" | translate }}</button>
    </div>
-   <p *ngIf="loggedOut$ | async" class="error">You can only show up on the leaderboards if you are logged in!</p>
+   <p *ngIf="loggedOut$ | async" class="error">{{ "gamemodeChooser.notLoggedInForLeaderboardWarning" | translate }}</p>
 </div>

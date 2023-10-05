@@ -4,7 +4,7 @@
    username: authService.username$ | async
 } as user">
       <div class="user-info" *ngIf="user.loggedIn || user.loading" (click)="user.username && copyUserName(user.username)">
-         <div *ngIf="!user.loading">Welcome {{ user.username }}!</div>
+         <div *ngIf="!user.loading">{{ "shared.welcome" | translate:{name: user.username} }}</div>
          <mat-spinner *ngIf="user.loading" class="spinner"></mat-spinner>
       </div>
 </ng-container>

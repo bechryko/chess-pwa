@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
+import { TranslateService } from '@ngx-translate/core';
 import { LeaderboardElementWithId } from '../models/LeaderboardElements';
 import { DatabaseInfoUtils } from '../utils/database-info.utils';
 import { FirestoreHandlerService } from './firestore-handler.service';
@@ -14,11 +15,12 @@ export class DatabaseProxyService {
    constructor(
       private swUpdate: SwUpdate,
       private firestoreHandler: FirestoreHandlerService,
-      private idbService: IdbService
+      private idbService: IdbService,
+      private translate: TranslateService
    ) {
       this.swUpdate.checkForUpdate().then(isUpdate => {
          if (isUpdate) {
-            alert("New version of the app is available. Click OK to reload the app.");
+            alert(this.translate.instant("shared.swAppUpdate"));
             window.location.reload();
          }
       });

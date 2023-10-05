@@ -4,8 +4,10 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { StoreModule } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
 import { gameReducer } from 'src/app/pages/game/store/reducers/game.reducer';
 import { ReversePipe } from 'src/app/shared/pipes/reverse.pipe';
+import { SentenceCasePipe } from 'src/app/shared/pipes/sentence-case.pipe';
 import { ChessboardComponent } from './chessboard/chessboard.component';
 import { HighlightPipe } from './chessboard/highlight.pipe';
 import { GameHandlerService } from './game-handler.service';
@@ -27,7 +29,9 @@ import { GameState } from './store/states/game.state';
       ReversePipe,
       PveWinDetectorPipe,
       MatProgressSpinnerModule,
-      StoreModule.forFeature<GameState>("game", gameReducer)
+      StoreModule.forFeature<GameState>("game", gameReducer),
+      TranslateModule,
+      SentenceCasePipe
    ],
    providers: [
       GameHandlerService

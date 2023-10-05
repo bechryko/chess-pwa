@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { RouteUrls } from 'src/app/shared/enums/routes';
 import { GameData } from 'src/app/shared/models/GameData';
@@ -35,7 +36,8 @@ export class GameComponent implements OnInit, OnDestroy {
       private activatedRoute: ActivatedRoute,
       private authService: AuthService,
       private errService: ErrorService,
-      private leaderboardStore: LeaderboardStoreService
+      private leaderboardStore: LeaderboardStoreService,
+      public translate: TranslateService
    ) {
       this.gameData = this.gameHandlerService.getGameData();
       this.username$ = this.authService.username$;
@@ -101,7 +103,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
    public onPvEWin(name: string | null): void {
       if (!name) {
-         this.errService.popupError("Cannot fetch username!");
+         this.errService.popupError(this.translate.instant("errors.user-c1"));
          return;
       }
       const leaderboardElement: LeaderboardElement = {

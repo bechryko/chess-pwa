@@ -14,8 +14,7 @@ p {
    font-weight: bold;
    color: $primary-900;
 
-   span {
-      color: $secondary-mixed-black;
+   &.link {
       cursor: pointer;
    }
 }

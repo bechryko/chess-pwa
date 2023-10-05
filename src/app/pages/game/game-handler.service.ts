@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { first } from 'rxjs';
 import { gameActions } from 'src/app/pages/game/store/actions/game.actions';
 import { selectSaveByMode } from 'src/app/pages/game/store/selectors/game.selectors';
@@ -19,7 +20,8 @@ export class GameHandlerService {
    private announcement: string = "";
 
    constructor(
-      private store: Store
+      private store: Store,
+      private translate: TranslateService
    ) { }
 
    private get game(): Game {
@@ -59,7 +61,7 @@ export class GameHandlerService {
    }
 
    public requestAIMove(delay: number, callback?: (move: Move) => void): void {
-      this.announcement += ", thinking...";
+      this.announcement += this.translateInstant("thinkingAnnouncementSuffix");
       setTimeout(() => {
          const move = ChessAI.getBestMove(this.game);
          this.makeMove(move);
@@ -109,17 +111,25 @@ export class GameHandlerService {
       for (const piece of this.game.pieces) {
          this.displayBoard[piece.pos.y][piece.pos.x] = piece.getIcon();
       }
-      this.announcement = this.game.current == "white" ? "White's turn" : "Black's turn";
+      this.announcement = this.translateInstant("turnAnnouncement", {
+         color: this.translateInstant(`colors.${this.game.current}`)
+      });
       if (this.game.isInCheck(this.game.current)) {
-         this.announcement += ", check";
+         this.announcement += this.translateInstant("checkAnnouncementSuffix");
       }
       if (this.game.ended) {
          if (this.game.getWinner() === "stalemate") {
-            this.announcement = "Draw!";
+            this.announcement = this.translateInstant("drawAnnouncement");
          } else {
-            this.announcement = this.game.getWinner() == PieceColor.BLACK ? "Black wins!" : "White wins!";
+            this.announcement = this.translateInstant("winAnnouncement", {
+               color: this.translateInstant(`colors.${this.game.getWinner()}`)
+            });
          }
          this.store.dispatch(gameActions.endGame({ mode: this.currentSave.mode }));
       }
+   }
+
+   private translateInstant(key: string | string[], interpolateParams?: Object | undefined): string {
+      return this.translate.instant("game." + key, interpolateParams);
    }
 }
