@@ -1,7 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AuthUser } from 'src/app/shared/models/authUsers';
 import { BuiltInUsernamesUtils } from 'src/app/shared/utils/built-in-usernames.utils';
-import { SimpleUser } from '../profile.model';
 
 @Component({
    selector: 'app-register',
@@ -10,9 +10,10 @@ import { SimpleUser } from '../profile.model';
 })
 export class RegisterComponent implements OnInit {
 
-   @Output() registerEvent: EventEmitter<SimpleUser> = new EventEmitter();
+   @Input() disableSubmit: boolean = true;
+   @Output() registerEvent: EventEmitter<AuthUser> = new EventEmitter();
 
-   registerForm = new FormGroup({
+   public registerForm = new FormGroup({
       email: new FormControl('', [
          Validators.required,
          Validators.email
@@ -31,12 +32,11 @@ export class RegisterComponent implements OnInit {
       this.registerForm.controls.confirmPassword.addValidators(this.confirmPasswordValidator());
    }
 
-   onRegisterSubmit() {
-      console.log(this.registerForm.errors)
-      const name = this.registerForm.value.username;
+   public onRegisterSubmit(): void {
+      const name = this.registerForm.value.username ?? BuiltInUsernamesUtils.USERNAMES.DEFAULT;
       this.registerEvent.emit({
          email: this.registerForm.value.email ?? "",
-         username: (name && name.trim()) || BuiltInUsernamesUtils.USERNAMES.DEFAULT,
+         name: name.trim(),
          password: this.registerForm.value.password ?? ""
       });
    }

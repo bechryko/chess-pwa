@@ -1,11 +1,8 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { RouteUrls } from 'src/app/shared/enums/routes';
-import { ChessUser } from 'src/app/shared/models/ChessUser';
+import { Observable } from 'rxjs';
+import { AuthUser, AuthUserWithoutName } from 'src/app/shared/models/authUsers';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { UserService } from 'src/app/shared/services/user.service';
-import { SimpleUser, SimpleUserWithoutUsername } from './profile.model';
 
 @Component({
    selector: 'app-profile',
@@ -14,44 +11,24 @@ import { SimpleUser, SimpleUserWithoutUsername } from './profile.model';
 })
 export class ProfileComponent {
 
+   public isLoading$: Observable<boolean>;
+
    constructor(
-      private router: Router, 
-      private location: Location, 
-      private authService: AuthService, 
-      private userService: UserService
-   ) { }
-
-   loginSubmit(userData: SimpleUserWithoutUsername) {
-      const { email, password } = userData;
-      this.authService.login(email, password)
-         .then((userCredential) => {
-            this.router.navigateByUrl(RouteUrls.MENU);
-         })
-         .catch((error: Error) => {
-            this.authService.errorAuth(error);
-         });
+      private location: Location,
+      private authService: AuthService
+   ) {
+      this.isLoading$ = this.authService.isLoading$;
    }
 
-   registerSubmit(userData: SimpleUser) {
-      const { email, username, password } = userData;
-      this.authService.register(email, password)
-         .then((userCredential) => {
-            if(!userCredential.user || !userCredential.user.uid) {
-               throw new Error("Registration error!");
-            }
-            this.router.navigateByUrl(RouteUrls.MENU);
-            const user: ChessUser = {
-               id: userCredential.user.uid,
-               name: username,
-            };
-            this.userService.createUser(user).catch((error) => { console.warn(error); });
-         })
-         .catch((error: Error) => {
-            this.authService.errorAuth(error);
-         });
+   public loginSubmit(userData: AuthUserWithoutName): void {
+      this.authService.login(userData);
    }
 
-   goBack() {
+   public registerSubmit(userData: AuthUser): void {
+      this.authService.register(userData);
+   }
+
+   public goBack(): void {
       this.location.back();
    }
 }

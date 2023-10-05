@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { RouteUrls } from 'src/app/shared/enums/routes';
 import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
-import { LocalDatabaseService } from 'src/app/shared/services/local-database.service';
+import { LeaderboardStoreService } from 'src/app/shared/services/leaderboard-store.service';
 
 @Component({
    selector: 'app-leaderboards',
@@ -17,9 +17,9 @@ export class LeaderboardsComponent {
 
    constructor(
       private router: Router, 
-      private localDbService: LocalDatabaseService
+      private leaderboardStoreService: LeaderboardStoreService
    ) {
-      this.leaderboardElements$ = this.localDbService.storedItems$;
+      this.leaderboardElements$ = this.leaderboardStoreService.storedItems$;
    }
 
    public toMenu() {

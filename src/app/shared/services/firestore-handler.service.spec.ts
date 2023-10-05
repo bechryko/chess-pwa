@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DatabaseSyncService } from './database-sync.service';
+import { FirestoreHandlerService } from './firestore-handler.service';
 
 describe('DatabaseSyncService', () => {
-  let service: DatabaseSyncService;
+  let service: FirestoreHandlerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DatabaseSyncService);
+    service = TestBed.inject(FirestoreHandlerService);
   });
 
   it('should be created', () => {

@@ -1,11 +1,11 @@
 <div class="center-content">
    <h2>Login or register</h2>
-   <mat-tab-group>
+   <mat-tab-group *ngIf="{ loading: (isLoading$ | async) ?? true } as data">
       <mat-tab label="Login">
-         <app-login (loginEvent)="loginSubmit($event)"></app-login>
+         <app-login (loginEvent)="loginSubmit($event)" [disableSubmit]="data.loading"></app-login>
       </mat-tab>
       <mat-tab label="Signup">
-         <app-register (registerEvent)="registerSubmit($event)"></app-register>
+         <app-register (registerEvent)="registerSubmit($event)" [disableSubmit]="data.loading"></app-register>
       </mat-tab>
    </mat-tab-group>
    <button mat-flat-button color="accent" (click)="goBack()" class="alignBottom">Back</button>
