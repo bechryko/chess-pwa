@@ -1,0 +1,101 @@
+{
+   "shared": {
+      "subtitle": "Egy Progresszív Webalkalmazás",
+      "welcome": "Üdv, {{ name }}!",
+      "swAppUpdate": "Az alkalmazás új verziója érhető el. Kattints az OK gombra, hogy újratöltsd az alkalmazást!",
+      "builtInUsernames": {
+         "missing": "Ismeretlen felhasználó",
+         "default": "Névtelen harcos"
+      },
+      "backToMenu": "Vissza a menübe",
+      "gamemodes": {
+         "pvp": "Kétjátékos",
+         "pve": "Gép ellen",
+         "eve": "Gépek figyelése",
+         "challenge": "Kihívások"
+      },
+      "snackbar": {
+         "dismiss": "Értettem"
+      }
+   },
+   "game": {
+      "turn": "{{ turnNumber }}. kör",
+      "colors": {
+         "black": "sötét",
+         "white": "világos"
+      },
+      "turnAnnouncement": "{{ color }} köre",
+      "thinkingAnnouncementSuffix": ", gondolkozik...",
+      "checkAnnouncementSuffix": ", sakk!",
+      "drawAnnouncement": "Döntetlen!",
+      "winAnnouncement": "{{ color }} győzött!",
+      "linkToLeaderboards": "A ranglistákhoz",
+      "linkToExit": "Játék elhagyása",
+      "exitNotice": "Biztosan el akarod hagyni a játékot?"
+   },
+   "leaderboards": {
+      "title": "Ranglisták",
+      "tableColumns": {
+         "place": "Helyezés",
+         "name": "Név",
+         "turns": "Körök száma a győzelemhez"
+      },
+      "emptyLeaderboard": "Üres a ranglista... Légy te az első!"
+   },
+   "menu": {
+      "buttons": {
+         "play": "Játék",
+         "leaderboards": "Ranglisták",
+         "settings": "Beállítások",
+         "login": "Bejelentkezés",
+         "logout": "Kijelentkezés"
+      }
+   },
+   "gamemodeChooser": {
+      "chooseNotice": "Válassz játékmódot!",
+      "notLoggedInForLeaderboardWarning": "Csak akkor kerülhetsz fel a ranglistákra, ha be vagy jelentkezve!"
+   },
+   "auth": {
+      "title": "Bejelentkezés vagy regisztráció",
+      "inputFields": {
+         "email": "E-mail cím",
+         "password": "Jelszó",
+         "passwordConfirmation": "Jelszó megerősítése",
+         "name": "Név"
+      },
+      "inputPlaceholders": {
+         "email": "E-mail",
+         "password": "Jelszó",
+         "passwordConfirmation": "Jelszó újra",
+         "name": "Felhasználónév"
+      },
+      "buttons": {
+         "login": "Bejelentkezés",
+         "register": "Regisztráció"
+      }
+   },
+   "settings": {
+      "title": "Beállítások",
+      "language": {
+         "title": "Nyelv",
+         "options": {
+            "en-US": "Angol",
+            "hu-HU": "Magyar"
+         }
+      }
+   },
+   "errorPages": {
+      "notFound": {
+         "title": "Az oldal nem található!"
+      },
+      "accessDenied": {
+         "title": "Jogosulatlan hozzáférés!",
+         "description": "Számodra ez az oldal nem elérhető!"
+      },
+      "navigationLinkText": "Kattints ide, hogy visszatérj a főmenübe!"
+   },
+   "errors": {
+      "database-c1": "IndexedDB adatbázis nincs betöltve!",
+      "user-c1": "Sikertelen felhasználónév lekérés!"
+   }
+}
