@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslocoModule } from '@ngneat/transloco';
 import { RouteUrls } from 'src/app/shared/enums/routes';
 
 @Component({
@@ -9,7 +9,7 @@ import { RouteUrls } from 'src/app/shared/enums/routes';
    standalone: true,
    imports: [
       CommonModule,
-      TranslateModule
+      TranslocoModule
    ],
    templateUrl: './unauthorized.component.html',
    styleUrls: ['../not-found/not-found.component.scss'],

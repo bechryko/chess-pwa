@@ -6,24 +6,22 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { environment } from '../environments/environment';
 import { UserInfoComponent } from './shared/components/user-info/user-info.component';
-import { Languages } from './shared/enums/languages';
 import { AppInitializationUtils } from './shared/utils/app-initialization.utils';
 import { AuthEffects } from './store/effects/auth.effects';
 import { LeaderboardEffects } from './store/effects/leaderboard.effects';
 import { authReducer } from './store/reducers/auth.reducer';
 import { coreReducer } from './store/reducers/core.reducer';
 import { leaderboardReducer } from './store/reducers/leaderboard.reducer';
+import { TranslocoRootModule } from './transloco-root.module';
 
 @NgModule({
    declarations: [
@@ -55,14 +53,7 @@ import { leaderboardReducer } from './store/reducers/leaderboard.reducer';
          LeaderboardEffects
       ]),
       HttpClientModule,
-      TranslateModule.forRoot({
-         loader: {
-            provide: TranslateLoader,
-            deps: [HttpClient],
-            useFactory: (http: HttpClient) => new TranslateHttpLoader(http)
-         },
-         defaultLanguage: Languages.ENGLISH
-      })
+      TranslocoRootModule
    ],
    bootstrap: [AppComponent],
    providers: [{

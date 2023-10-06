@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslocoModule } from '@ngneat/transloco';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
@@ -28,7 +28,7 @@ import { RegisterComponent } from './register/register.component';
       MatFormFieldModule,
       MatInputModule,
       MatButtonModule,
-      TranslateModule
+      TranslocoModule
    ]
 })
 export class ProfileModule { }

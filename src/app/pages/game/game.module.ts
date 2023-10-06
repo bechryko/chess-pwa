@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TranslocoModule } from '@ngneat/transloco';
 import { StoreModule } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
 import { gameReducer } from 'src/app/pages/game/store/reducers/game.reducer';
 import { ReversePipe } from 'src/app/shared/pipes/reverse.pipe';
 import { SentenceCasePipe } from 'src/app/shared/pipes/sentence-case.pipe';
@@ -30,7 +30,7 @@ import { GameState } from './store/states/game.state';
       PveWinDetectorPipe,
       MatProgressSpinnerModule,
       StoreModule.forFeature<GameState>("game", gameReducer),
-      TranslateModule,
+      TranslocoModule,
       SentenceCasePipe
    ],
    providers: [

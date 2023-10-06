@@ -4,7 +4,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { MatButtonModule } from '@angular/material/button';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslocoModule } from '@ngneat/transloco';
 import { SortPipe } from 'src/app/shared/pipes/sort.pipe';
 import { LeaderboardsRoutingModule } from './leaderboards-routing.module';
 import { LeaderboardsComponent } from './leaderboards.component';
@@ -23,7 +23,7 @@ import { ListComponent } from './list/list.component';
       MatButtonModule,
       MatProgressSpinnerModule,
       SortPipe,
-      TranslateModule
+      TranslocoModule
    ]
 })
 export class LeaderboardsModule { }

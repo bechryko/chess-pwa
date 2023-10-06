@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import { first } from 'rxjs';
 import { gameActions } from 'src/app/pages/game/store/actions/game.actions';
 import { selectSaveByMode } from 'src/app/pages/game/store/selectors/game.selectors';
@@ -21,7 +21,7 @@ export class GameHandlerService {
 
    constructor(
       private store: Store,
-      private translate: TranslateService
+      private transloco: TranslocoService
    ) { }
 
    private get game(): Game {
@@ -130,6 +130,6 @@ export class GameHandlerService {
    }
 
    private translateInstant(key: string | string[], interpolateParams?: Object | undefined): string {
-      return this.translate.instant("game." + key, interpolateParams);
+      return this.transloco.translate("game." + key, interpolateParams);
    }
 }

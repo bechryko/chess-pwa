@@ -1,10 +1,10 @@
 <div class="center-content" *ngIf="isInitialized; else loading">
    <p class="announcement">{{ gameData.announcement | sentencecase }}</p>
    <app-chessboard [displayBoard]="gameData.displayBoard" [highlightedTiles]="highlighted" (tileClick)="onTileClick($event)"></app-chessboard>
-   <p class="announcement">{{ "game.turn" | translate:{ turnNumber: gameData.turnNumber } }}</p>
+   <p class="announcement">{{ "game.turn" | transloco:{ turnNumber: gameData.turnNumber } }}</p>
    <ng-container *ngIf="{ pveWin: gameData | pveWinDetector, username: username$ | async } as data">
-      <button mat-flat-button color="accent" (click)="onPvEWin(data.username)" *ngIf="data.pveWin">{{ "game.linkToLeaderboards" | translate }}</button>
-      <button mat-flat-button color="accent" (click)="backToMenu()" *ngIf="!data.pveWin" class="alignBottom">{{ "game.linkToExit" | translate }}</button>
+      <button mat-flat-button color="accent" (click)="onPvEWin(data.username)" *ngIf="data.pveWin">{{ "game.linkToLeaderboards" | transloco }}</button>
+      <button mat-flat-button color="accent" (click)="backToMenu()" *ngIf="!data.pveWin" class="alignBottom">{{ "game.linkToExit" | transloco }}</button>
    </ng-container>
 </div>
 <ng-template #loading>

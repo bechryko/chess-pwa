@@ -5,7 +5,7 @@ import { MenuRoutingModule } from './menu-routing.module';
 import { MenuComponent } from './menu.component';
 
 import { MatButtonModule } from '@angular/material/button';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslocoModule } from '@ngneat/transloco';
 
 
 @NgModule({
@@ -16,7 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
       CommonModule,
       MenuRoutingModule,
       MatButtonModule,
-      TranslateModule
+      TranslocoModule
    ]
 })
 export class MenuModule { }
