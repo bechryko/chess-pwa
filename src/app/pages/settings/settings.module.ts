@@ -1,22 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
-import { MenuRoutingModule } from './menu-routing.module';
-import { MenuComponent } from './menu.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
+import { SettingsRoutingModule } from './settings-routing.module';
+import { SettingsComponent } from './settings.component';
 
 
 @NgModule({
    declarations: [
-      MenuComponent
+      SettingsComponent
    ],
    imports: [
       CommonModule,
-      MenuRoutingModule,
+      SettingsRoutingModule,
+      MatChipsModule,
       MatButtonModule,
       TranslateModule
    ]
 })
-export class MenuModule { }
+export class SettingsModule { }

@@ -5,4 +5,4 @@ const popUpText = "Are you sure you want to leave the game?";
 
 export const CanDeactivateGame: CanDeactivateFn<GameComponent> = (
    component: GameComponent
-) => component.canDeactivate() || window.confirm(popUpText);
+) => component.canDeactivate() || window.confirm(component.translate.instant("game.exitNotice"));

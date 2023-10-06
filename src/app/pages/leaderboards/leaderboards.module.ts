@@ -4,6 +4,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { MatButtonModule } from '@angular/material/button';
+import { TranslateModule } from '@ngx-translate/core';
 import { SortPipe } from 'src/app/shared/pipes/sort.pipe';
 import { LeaderboardsRoutingModule } from './leaderboards-routing.module';
 import { LeaderboardsComponent } from './leaderboards.component';
@@ -21,7 +22,8 @@ import { ListComponent } from './list/list.component';
       MatTabsModule,
       MatButtonModule,
       MatProgressSpinnerModule,
-      SortPipe
+      SortPipe,
+      TranslateModule
    ]
 })
 export class LeaderboardsModule { }

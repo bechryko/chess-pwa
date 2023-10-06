@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { filter, take } from 'rxjs';
 import { selectLocalDatabase } from 'src/app/store/selectors/core.selectors';
 import { LeaderboardElementWithId } from '../models/LeaderboardElements';
@@ -9,12 +10,12 @@ import { DatabaseInfoUtils } from '../utils/database-info.utils';
    providedIn: 'root'
 })
 export class IdbService {
-   private static readonly DB_NOT_INITIALIZED_MESSAGE = "IndexedDB database not initialized!";
 
    private database?: IDBDatabase;
 
    constructor(
-      private store: Store
+      private store: Store,
+      private translate: TranslateService
    ) {
       this.store.select(selectLocalDatabase).pipe(
          filter(value => !!value),
@@ -27,7 +28,7 @@ export class IdbService {
    public storeItem(item: LeaderboardElementWithId): Promise<number> {
       return new Promise<number>((resolve, reject) => {
          if (!this.database) {
-            reject(IdbService.DB_NOT_INITIALIZED_MESSAGE);
+            reject(this.translate.instant("errors.database-c1"));
          }
          const objectStore = this.database!.transaction(DatabaseInfoUtils.LOCAL_OBJECT_STORE_NAME, 'readwrite').objectStore(DatabaseInfoUtils.LOCAL_OBJECT_STORE_NAME);
          const request = objectStore.put(item);
@@ -39,7 +40,7 @@ export class IdbService {
    public readItems(): Promise<LeaderboardElementWithId[]> {
       return new Promise<LeaderboardElementWithId[]>((resolve, reject) => {
          if (!this.database) {
-            reject(IdbService.DB_NOT_INITIALIZED_MESSAGE);
+            reject(this.translate.instant("errors.database-c1"));
          }
          const elements: LeaderboardElementWithId[] = [];
          const objectStore = this.database!.transaction(DatabaseInfoUtils.LOCAL_OBJECT_STORE_NAME).objectStore(DatabaseInfoUtils.LOCAL_OBJECT_STORE_NAME);
@@ -57,7 +58,7 @@ export class IdbService {
 
    public setItems(items: LeaderboardElementWithId[]): void {
       if (!this.database) {
-         throw new Error(IdbService.DB_NOT_INITIALIZED_MESSAGE);
+         throw new Error(this.translate.instant("errors.database-c1"));
       }
       const objectStore = this.database!.transaction(DatabaseInfoUtils.LOCAL_OBJECT_STORE_NAME, 'readwrite').objectStore(DatabaseInfoUtils.LOCAL_OBJECT_STORE_NAME);
       const request = objectStore.clear();

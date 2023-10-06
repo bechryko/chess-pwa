@@ -1,4 +1,4 @@
 <div class="center-content">
-   <h2>Page not found!</h2>
-   <p>Click <span (click)="toMenu()">here</span> to navigate back to the main menu!</p>
+   <h2>{{ "errorPages.notFound.title" | translate }}</h2>
+   <p class="link" (click)="toMenu()">{{ "errorPages.navigationLinkText" | translate }}</p>
 </div>

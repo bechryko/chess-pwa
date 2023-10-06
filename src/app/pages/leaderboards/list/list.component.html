@@ -2,9 +2,9 @@
 <ng-template #elements>
    <table *ngIf="leaderboardElements?.length; else empty">
       <tr>
-         <th>Place</th>
-         <th>Name</th>
-         <th>Turns took to win</th>
+         <th>{{ "leaderboards.tableColumns.place" | translate }}</th>
+         <th>{{ "leaderboards.tableColumns.name" | translate }}</th>
+         <th>{{ "leaderboards.tableColumns.turns" | translate }}</th>
       </tr>
       <tr *ngFor="let element of leaderboardElements; let idx = index" class="leaderboardElement">
          <td>{{ idx + 1 }}.</td>
@@ -13,6 +13,6 @@
       </tr>
    </table>
    <ng-template #empty>
-      <p class="error">No one on the leaderboard... Be the first!</p>
+      <p class="error">{{ "leaderboards.emptyLeaderboard" | translate }}</p>
    </ng-template>
 </ng-template>

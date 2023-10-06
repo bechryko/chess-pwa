@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -11,7 +12,8 @@ import { AuthService } from '../../services/auth.service';
    imports: [
       CommonModule,
       MatProgressSpinnerModule,
-      MatSnackBarModule
+      MatSnackBarModule,
+      TranslateModule
    ],
    templateUrl: './user-info.component.html',
    styleUrls: ['./user-info.component.scss'],

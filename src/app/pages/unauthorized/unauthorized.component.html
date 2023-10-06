@@ -1,5 +1,5 @@
 <div class="center-content">
-   <h2>Unauthorized access!</h2>
-   <p>You have no access to this page!</p>
-   <p>Click <span (click)="toMenu()">here</span> to navigate back to the main menu!</p>
+   <h2>{{ "errorPages.accessDenied.title" | translate }}</h2>
+   <p>{{ "errorPages.accessDenied.description" | translate }}</p>
+   <p class="link" (click)="toMenu()">{{ "errorPages.navigationLinkText" | translate }}</p>
 </div>
