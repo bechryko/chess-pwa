@@ -80,7 +80,8 @@
          "title": "Nyelv",
          "options": {
             "en-US": "Angol",
-            "hu-HU": "Magyar"
+            "hu-HU": "Magyar",
+            "de-DE": "Német"
          }
       }
    },

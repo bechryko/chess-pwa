@@ -1,0 +1,102 @@
+{
+   "shared": {
+      "subtitle": "Eine Progressive Webanwendung",
+      "welcome": "Willkommen, {{ name }}!",
+      "swAppUpdate": "Eine neue Version der App ist verfügbar. Klicken Sie auf OK, um die App neu zu laden.",
+      "builtInUsernames": {
+         "missing": "Unbekannter Benutzer",
+         "default": "Anonym"
+      },
+      "backToMenu": "Zurück zum Menü",
+      "gamemodes": {
+         "pvp": "2 Spieler",
+         "pve": "Gegen KI",
+         "eve": "KI-Zuschauer",
+         "challenge": "Herausforderungen"
+      },
+      "snackbar": {
+         "dismiss": "Schließen"
+      }
+   },
+   "game": {
+      "turn": "Zug {{ turnNumber }}",
+      "colors": {
+         "black": "schwarz",
+         "white": "weiß"
+      },
+      "turnAnnouncement": "{{ color }} ist am Zug",
+      "thinkingAnnouncementSuffix": ", denkt nach...",
+      "checkAnnouncementSuffix": ", Schach!",
+      "drawAnnouncement": "Unentschieden!",
+      "winAnnouncement": "{{ color }} hat gewonnen!",
+      "linkToLeaderboards": "Zu den Bestenlisten",
+      "linkToExit": "Spiel verlassen",
+      "exitNotice": "Sind Sie sicher, dass Sie das Spiel verlassen möchten?"
+   },
+   "leaderboards": {
+      "title": "Bestenlisten",
+      "tableColumns": {
+         "place": "Platz",
+         "name": "Name",
+         "turns": "Benötigte Züge zum Gewinnen"
+      },
+      "emptyLeaderboard": "Niemand in der Bestenliste... Sei der Erste!"
+   },
+   "menu": {
+      "buttons": {
+         "play": "Spielen",
+         "leaderboards": "Bestenlisten",
+         "settings": "Einstellungen",
+         "login": "Anmelden",
+         "logout": "Abmelden"
+      }
+   },
+   "gamemodeChooser": {
+      "chooseNotice": "Wähle einen Spielmodus!",
+      "notLoggedInForLeaderboardWarning": "Du kannst nur in den Bestenlisten erscheinen, wenn du angemeldet bist!"
+   },
+   "auth": {
+      "title": "Anmelden oder registrieren",
+      "inputFields": {
+         "email": "E-Mail",
+         "password": "Passwort",
+         "passwordConfirmation": "Passwort bestätigen",
+         "name": "Anzeigename"
+      },
+      "inputPlaceholders": {
+         "email": "E-Mail",
+         "password": "Passwort",
+         "passwordConfirmation": "Passwort erneut eingeben",
+         "name": "Benutzername"
+      },
+      "buttons": {
+         "login": "Anmelden",
+         "register": "Registrieren"
+      }
+   },
+   "settings": {
+      "title": "Einstellungen",
+      "language": {
+         "title": "Sprache",
+         "options": {
+            "en-US": "Englisch",
+            "hu-HU": "Ungarisch",
+            "de-DE": "Deutsch"
+         }
+      }
+   },
+   "errorPages": {
+      "notFound": {
+         "title": "Seite nicht gefunden!"
+      },
+      "accessDenied": {
+         "title": "Unberechtigter Zugriff!",
+         "description": "Sie haben keinen Zugriff auf diese Seite!"
+      },
+      "navigationLinkText": "Klicken Sie hier, um zur Hauptmenü zurückzukehren!"
+   },
+   "errors": {
+      "database-c1": "Die IndexedDB-Datenbank ist nicht initialisiert!",
+      "user-c1": "Benutzername kann nicht abgerufen werden!"
+   }
+}

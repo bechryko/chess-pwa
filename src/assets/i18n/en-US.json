@@ -80,7 +80,8 @@
          "title": "Language",
          "options": {
             "en-US": "English",
-            "hu-HU": "Hungarian"
+            "hu-HU": "Hungarian",
+            "de-DE": "German"
          }
       }
    },
