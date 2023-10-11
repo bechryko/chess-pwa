@@ -15,5 +15,7 @@
       <mat-label>{{ "auth.inputFields.passwordConfirmation" | transloco }}:</mat-label>
       <input matInput placeholder="{{ 'auth.inputPlaceholders.passwordConfirmation' | transloco }}" formControlName="confirmPassword" type="password">
    </mat-form-field>
-   <button mat-flat-button color="accent" type="submit" [disabled]="!registerForm.valid || disableSubmit">{{ "auth.buttons.register" | transloco }}</button>
+   <button mat-flat-button color="accent" type="submit" [disabled]="!registerForm.valid || disableSubmit" [class.spinner]="registerForm.pending">
+      {{ "auth.buttons.register" | transloco }}
+   </button>
 </form>
