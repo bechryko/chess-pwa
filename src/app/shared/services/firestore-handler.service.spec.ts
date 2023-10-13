@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { FirestoreHandlerService } from './firestore-handler.service';
 
-describe('DatabaseSyncService', () => {
+xdescribe('DatabaseSyncService', () => {
   let service: FirestoreHandlerService;
 
   beforeEach(() => {

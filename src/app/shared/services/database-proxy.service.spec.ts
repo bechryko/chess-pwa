@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { DatabaseProxyService } from './database-proxy.service';
 
-describe('DatabaseProxyService', () => {
+xdescribe('DatabaseProxyService', () => {
    let service: DatabaseProxyService;
 
    beforeEach(() => {

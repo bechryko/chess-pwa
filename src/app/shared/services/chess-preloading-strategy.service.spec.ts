@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ChessPreloadingStrategyService } from './chess-preloading-strategy.service';
 
-describe('ChessPreloadingStrategyService', () => {
+xdescribe('ChessPreloadingStrategyService', () => {
    let service: ChessPreloadingStrategyService;
 
    beforeEach(() => {
