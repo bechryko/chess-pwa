@@ -1,19 +1,21 @@
 <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()" class="center-content tab">
    <mat-form-field>
       <mat-label>{{ "auth.inputFields.email" | transloco }}:</mat-label>
-      <input matInput placeholder="{{ 'auth.inputPlaceholders.email' | transloco }}" formControlName="email" type="email" required>
+      <input matInput placeholder="{{ 'auth.inputPlaceholders.email' | transloco }}" formControlName="email" type="email">
    </mat-form-field>
    <mat-form-field>
       <mat-label>{{ "auth.inputFields.name" | transloco }}:</mat-label>
-      <input matInput placeholder="{{ 'auth.inputPlaceholders.name' | transloco }}" formControlName="username" type="text" required>
+      <input matInput placeholder="{{ 'auth.inputPlaceholders.name' | transloco }}" formControlName="username" type="text">
    </mat-form-field>
    <mat-form-field>
       <mat-label>{{ "auth.inputFields.password" | transloco }}:</mat-label>
-      <input matInput placeholder="{{ 'auth.inputPlaceholders.password' | transloco }}" formControlName="password" type="password" required>
+      <input matInput placeholder="{{ 'auth.inputPlaceholders.password' | transloco }}" formControlName="password" type="password">
    </mat-form-field>
    <mat-form-field>
       <mat-label>{{ "auth.inputFields.passwordConfirmation" | transloco }}:</mat-label>
-      <input matInput placeholder="{{ 'auth.inputPlaceholders.passwordConfirmation' | transloco }}" formControlName="confirmPassword" type="password" required>
+      <input matInput placeholder="{{ 'auth.inputPlaceholders.passwordConfirmation' | transloco }}" formControlName="confirmPassword" type="password">
    </mat-form-field>
-   <button mat-flat-button color="accent" type="submit" [disabled]="disableSubmit">{{ "auth.buttons.register" | transloco }}</button>
+   <button mat-flat-button color="accent" type="submit" [disabled]="!registerForm.valid || disableSubmit" [class.spinner]="registerForm.pending">
+      {{ "auth.buttons.register" | transloco }}
+   </button>
 </form>

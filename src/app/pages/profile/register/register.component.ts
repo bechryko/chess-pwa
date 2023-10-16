@@ -1,35 +1,37 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AbstractControl, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { AuthUser } from 'src/app/shared/models/authUsers';
 import { BuiltInUsernamesUtils } from 'src/app/shared/utils/built-in-usernames.utils';
+import { RegisterFormGroup } from './register-form-group.model';
+import { UniqueUsernameValidator } from './unique-username-validator';
 
 @Component({
    selector: 'app-register',
    templateUrl: './register.component.html',
-   styleUrls: ['../profile.component.scss']
+   styleUrls: ['../profile.component.scss'],
+   providers: [
+      UniqueUsernameValidator
+   ]
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
 
    @Input() disableSubmit: boolean = true;
    @Output() registerEvent: EventEmitter<AuthUser> = new EventEmitter();
 
-   public registerForm = new FormGroup({
-      email: new FormControl('', [
-         Validators.required,
-         Validators.email
-      ]),
-      username: new FormControl('', []),
-      password: new FormControl('', [
-         Validators.required,
-         Validators.minLength(6)
-      ]),
-      confirmPassword: new FormControl('', [
-         Validators.required
-      ])
-   });
+   public registerForm: RegisterFormGroup;
 
-   ngOnInit() {
-      this.registerForm.controls.confirmPassword.addValidators(this.confirmPasswordValidator());
+   constructor(
+      private formBuilder: NonNullableFormBuilder,
+      private usernameValidator: UniqueUsernameValidator
+   ) {
+      this.registerForm = this.formBuilder.group({
+         email: ['', [Validators.required, Validators.email]],
+         username: ['', [], [(control: AbstractControl) => this.usernameValidator.validate(control)]],
+         password: ['', [Validators.required, Validators.minLength(6)]],
+         confirmPassword: ['', [Validators.required]]
+      }, {
+         validators: [this.confirmPasswordMatchValidator]
+      });
    }
 
    public onRegisterSubmit(): void {
@@ -41,9 +43,7 @@ export class RegisterComponent implements OnInit {
       });
    }
 
-   private confirmPasswordValidator(): ValidatorFn { //TODO
-      return (control: AbstractControl): ValidationErrors | null => {
-         return this.registerForm.value.password === control.value ? null : { notMatchingPasswords: { value: control.value } };
-      };
+   private confirmPasswordMatchValidator(control: AbstractControl): ValidationErrors | null {
+      return control.value.password === control.value.confirmPassword ? null : { notMatchingPasswords: true };
    }
 }

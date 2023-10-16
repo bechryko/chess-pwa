@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { AuthUserWithoutName } from 'src/app/shared/models/authUsers';
+import { LoginFormGroup } from './login-form-group.model';
 
 @Component({
    selector: 'app-login',
@@ -12,16 +13,16 @@ export class LoginComponent {
    @Input() disableSubmit: boolean = true;
    @Output() loginEvent: EventEmitter<AuthUserWithoutName> = new EventEmitter();
 
-   public loginForm = new FormGroup({
-      email: new FormControl('', [
-         Validators.required, 
-         Validators.email
-      ]),
-      password: new FormControl('', [
-         Validators.required,
-         Validators.minLength(6)
-      ])
-   });
+   public loginForm: LoginFormGroup;
+
+   constructor(
+      private formBuilder: NonNullableFormBuilder
+   ) {
+      this.loginForm = this.formBuilder.group({
+         email: ['', [Validators.required, Validators.email]],
+         password: ['', [Validators.required, Validators.minLength(6)]]
+      });
+   }
 
    public onLoginSubmit(): void {
       this.loginEvent.emit({

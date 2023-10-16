@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Observable, map, take } from 'rxjs';
+import { Observable, first, map, take } from 'rxjs';
 import { ChessUser } from '../models/ChessUser';
 import { BuiltInUsernamesUtils } from '../utils/built-in-usernames.utils';
 
@@ -26,6 +26,13 @@ export class UserService {
          take(1),
          map(doc => doc.data()),
          map(user => user?.name ?? BuiltInUsernamesUtils.USERNAMES.MISSING)
+      );
+   }
+
+   public getAllUsernames(): Observable<string[]> {
+      return this.userCollection.valueChanges().pipe(
+         first(),
+         map(users => users.map(user => user.name))
       );
    }
 

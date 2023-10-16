@@ -14,3 +14,25 @@ mat-tab-group {
    position: relative;
    height: 100%;
 }
+
+@keyframes spinner {
+   to {transform: rotate(360deg);}
+}
+
+$spinner-radius: 1rem;
+
+.spinner:before {
+   content: '';
+   box-sizing: border-box;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   width: $spinner-radius * 2;
+   height: $spinner-radius * 2;
+   margin-top: -$spinner-radius;
+   margin-left: -$spinner-radius;
+   border-radius: 50%;
+   border: 2px solid $primary-900;
+   border-top-color: $secondary-300;
+   animation: spinner 1s linear infinite;
+}
