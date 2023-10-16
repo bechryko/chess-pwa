@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslocoModule } from '@ngneat/transloco';
 import { RouteUrls } from 'src/app/shared/enums/routes';
 
 @Component({
@@ -10,7 +10,7 @@ import { RouteUrls } from 'src/app/shared/enums/routes';
    changeDetection: ChangeDetectionStrategy.OnPush,
    standalone: true,
    imports: [
-      TranslateModule
+      TranslocoModule
    ]
 })
 export class NotFoundComponent {

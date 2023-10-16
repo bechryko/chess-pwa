@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslocoService } from '@ngneat/transloco';
 import { Languages } from 'src/app/shared/enums/languages';
 
 @Component({
@@ -11,16 +11,16 @@ import { Languages } from 'src/app/shared/enums/languages';
 })
 export class SettingsComponent {
    public readonly availableLanguages = Object.values(Languages);
-   public selectedLanguageIdx = this.availableLanguages.indexOf(this.translate.currentLang as Languages);
+   public selectedLanguageIdx = this.availableLanguages.indexOf(this.transloco.getActiveLang() as Languages);
 
    constructor(
       private location: Location,
-      private translate: TranslateService
+      private transloco: TranslocoService
    ) { }
 
    public changeLanguage(idx: number): void {
       this.selectedLanguageIdx = idx;
-      this.translate.use(this.availableLanguages[idx]);
+      this.transloco.setActiveLang(this.availableLanguages[idx]);
    }
 
    public goBack(): void {

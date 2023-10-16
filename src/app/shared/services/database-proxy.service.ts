@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslocoService } from '@ngneat/transloco';
 import { LeaderboardElementWithId } from '../models/LeaderboardElements';
 import { DatabaseInfoUtils } from '../utils/database-info.utils';
 import { FirestoreHandlerService } from './firestore-handler.service';
@@ -16,11 +16,11 @@ export class DatabaseProxyService {
       private swUpdate: SwUpdate,
       private firestoreHandler: FirestoreHandlerService,
       private idbService: IdbService,
-      private translate: TranslateService
+      private transloco: TranslocoService
    ) {
       this.swUpdate.checkForUpdate().then(isUpdate => {
          if (isUpdate) {
-            alert(this.translate.instant("shared.swAppUpdate"));
+            alert(this.transloco.translate("shared.swAppUpdate"));
             window.location.reload();
          }
       });

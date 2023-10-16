@@ -5,7 +5,7 @@ import { GamemodeChooserRoutingModule } from './gamemode-chooser-routing.module'
 import { GamemodeChooserComponent } from './gamemode-chooser.component';
 
 import { MatButtonModule } from '@angular/material/button';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslocoModule } from '@ngneat/transloco';
 
 
 @NgModule({
@@ -16,7 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
       CommonModule,
       GamemodeChooserRoutingModule,
       MatButtonModule,
-      TranslateModule
+      TranslocoModule
    ]
 })
 export class GamemodeChooserModule { }

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 
 import { MatButtonModule } from '@angular/material/button';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslocoModule } from '@ngneat/transloco';
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
 
@@ -17,7 +17,7 @@ import { SettingsComponent } from './settings.component';
       SettingsRoutingModule,
       MatChipsModule,
       MatButtonModule,
-      TranslateModule
+      TranslocoModule
    ]
 })
 export class SettingsModule { }

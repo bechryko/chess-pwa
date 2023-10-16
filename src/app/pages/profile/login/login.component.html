@@ -1,11 +1,11 @@
 <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" class="center-content tab">
    <mat-form-field>
-      <mat-label>{{ "auth.inputFields.email" | translate }}:</mat-label>
-      <input matInput placeholder="{{ 'auth.inputPlaceholders.email' | translate }}" formControlName="email" type="email">
+      <mat-label>{{ "auth.inputFields.email" | transloco }}:</mat-label>
+      <input matInput placeholder="{{ 'auth.inputPlaceholders.email' | transloco }}" formControlName="email" type="email">
    </mat-form-field>
    <mat-form-field>
-      <mat-label>{{ "auth.inputFields.password" | translate }}:</mat-label>
-      <input matInput placeholder="{{ 'auth.inputPlaceholders.password' | translate }}" formControlName="password" type="password">
+      <mat-label>{{ "auth.inputFields.password" | transloco }}:</mat-label>
+      <input matInput placeholder="{{ 'auth.inputPlaceholders.password' | transloco }}" formControlName="password" type="password">
    </mat-form-field>
-   <button mat-flat-button color="accent" type="submit" [disabled]="!loginForm.valid || disableSubmit">{{ "auth.buttons.login" | translate }}</button>
+   <button mat-flat-button color="accent" type="submit" [disabled]="!loginForm.valid || disableSubmit">{{ "auth.buttons.login" | transloco }}</button>
 </form>
