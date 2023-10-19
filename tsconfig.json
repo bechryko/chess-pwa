@@ -24,7 +24,18 @@
       "dom"
     ],
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@chess-components/*": ["src/app/shared/components/*"],
+      "@chess-enums": ["src/app/shared/enums"],
+      "@chess-guards": ["src/app/shared/guards"],
+      "@chess-models": ["src/app/shared/models"],
+      "@chess-operators": ["src/app/shared/operators"],
+      "@chess-pipes": ["src/app/shared/pipes"],
+      "@chess-services": ["src/app/shared/services"],
+      "@chess-utils": ["src/app/shared/utils"],
+      "@chess-store/*": ["src/app/store/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
