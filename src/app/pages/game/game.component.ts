@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { GameHandlerService } from './game-handler.service';
 
 @Component({
-   selector: 'app-game',
+   selector: 'chess-game',
    templateUrl: './game.component.html',
    styleUrls: ['./game.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush

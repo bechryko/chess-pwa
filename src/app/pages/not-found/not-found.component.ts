@@ -4,7 +4,7 @@ import { Route } from '@chess-enums';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
-   selector: 'app-not-found',
+   selector: 'chess-not-found',
    templateUrl: './not-found.component.html',
    styleUrls: ['./not-found.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush,

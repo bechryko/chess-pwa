@@ -6,7 +6,7 @@ import { LeaderboardStoreService } from '@chess-services';
 import { Observable } from 'rxjs';
 
 @Component({
-   selector: 'app-leaderboards',
+   selector: 'chess-leaderboards',
    templateUrl: './leaderboards.component.html',
    styleUrls: ['./leaderboards.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush

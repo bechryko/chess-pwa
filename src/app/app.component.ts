@@ -3,7 +3,7 @@ import { CheatCodeService, LeaderboardStoreService } from '@chess-services';
 import { Gamemode } from './shared/enums/Gamemode';
 
 @Component({
-   selector: 'app-root',
+   selector: 'chess-root',
    templateUrl: './app.component.html',
    styleUrls: ['./app.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush

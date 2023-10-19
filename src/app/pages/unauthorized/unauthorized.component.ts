@@ -5,7 +5,7 @@ import { Route } from '@chess-enums';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
-   selector: 'app-unauthorized',
+   selector: 'chess-unauthorized',
    standalone: true,
    imports: [
       CommonModule,

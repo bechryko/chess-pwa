@@ -3,7 +3,7 @@ import { AuthService } from '@chess-services';
 import { Observable, map } from 'rxjs';
 
 @Component({
-   selector: 'app-gamemode-chooser',
+   selector: 'chess-gamemode-chooser',
    templateUrl: './gamemode-chooser.component.html',
    styleUrls: ['./gamemode-chooser.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush

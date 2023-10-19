@@ -3,7 +3,7 @@ import { AuthService } from '@chess-services';
 import { Observable } from 'rxjs';
 
 @Component({
-   selector: 'app-menu',
+   selector: 'chess-menu',
    templateUrl: './menu.component.html',
    styleUrls: ['./menu.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush

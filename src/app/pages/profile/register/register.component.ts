@@ -6,7 +6,7 @@ import { RegisterFormGroup } from './register-form-group.model';
 import { UniqueUsernameValidator } from './unique-username-validator';
 
 @Component({
-   selector: 'app-register',
+   selector: 'chess-register',
    templateUrl: './register.component.html',
    styleUrls: ['../profile.component.scss'],
    providers: [

@@ -5,7 +5,7 @@ import { AuthService } from '@chess-services';
 import { Observable } from 'rxjs';
 
 @Component({
-   selector: 'app-profile',
+   selector: 'chess-profile',
    templateUrl: './profile.component.html',
    styleUrls: ['./profile.component.scss']
 })

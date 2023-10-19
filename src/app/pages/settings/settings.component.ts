@@ -4,7 +4,7 @@ import { Language } from '@chess-enums';
 import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
-   selector: 'app-settings',
+   selector: 'chess-settings',
    templateUrl: './settings.component.html',
    styleUrls: ['./settings.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush

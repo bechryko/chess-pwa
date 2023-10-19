@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { LeaderboardElement } from '@chess-models';
 
 @Component({
-   selector: 'app-list',
+   selector: 'chess-list',
    templateUrl: './list.component.html',
    styleUrls: ['../leaderboards.component.scss']
 })
