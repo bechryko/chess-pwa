@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Languages } from '@chess-enums';
 import { TranslocoService } from '@ngneat/transloco';
-import { Languages } from 'src/app/shared/enums/languages';
 
 @Component({
    selector: 'app-settings',

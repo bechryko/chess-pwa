@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { leaderboardActions } from '@chess-store/actions';
+import { selectLeaderboardElements } from '@chess-store/selectors';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { leaderboardActions } from 'src/app/store/actions/leaderboard.actions';
-import { selectLeaderboardElements } from 'src/app/store/selectors/leaderboard.selectors';
 import { LeaderboardElement, LeaderboardElementWithId } from '../models/LeaderboardElements';
 
 @Injectable({

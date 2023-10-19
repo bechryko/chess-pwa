@@ -1,8 +1,8 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
+import { AuthUser, AuthUserWithoutName } from '@chess-models';
+import { AuthService } from '@chess-services';
 import { Observable } from 'rxjs';
-import { AuthUser, AuthUserWithoutName } from 'src/app/shared/models/authUsers';
-import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
    selector: 'app-profile',

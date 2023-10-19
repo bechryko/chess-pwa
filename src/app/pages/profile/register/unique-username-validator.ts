@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AbstractControl, AsyncValidator, ValidationErrors } from "@angular/forms";
+import { UserService } from "@chess-services";
 import { Observable, catchError, map, of } from "rxjs";
-import { UserService } from "src/app/shared/services/user.service";
 
 @Injectable()
 export class UniqueUsernameValidator implements AsyncValidator {

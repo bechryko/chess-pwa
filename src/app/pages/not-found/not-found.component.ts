@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { RouteUrls } from '@chess-enums';
 import { TranslocoModule } from '@ngneat/transloco';
-import { RouteUrls } from 'src/app/shared/enums/routes';
 
 @Component({
    selector: 'app-not-found',

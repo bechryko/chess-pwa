@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AuthService } from '@chess-services';
 import { Observable, map } from 'rxjs';
-import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
    selector: 'app-gamemode-chooser',

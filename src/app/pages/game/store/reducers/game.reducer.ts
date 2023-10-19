@@ -1,6 +1,6 @@
+import { GameSave } from "@chess-models";
 import { createEntityAdapter } from "@ngrx/entity";
 import { createReducer, on } from "@ngrx/store";
-import { GameSave } from "src/app/shared/models/GameSave";
 import { gameActions } from "../actions/game.actions";
 
 export const gameAdapter = createEntityAdapter<GameSave>({

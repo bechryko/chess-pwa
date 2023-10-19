@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { selectLocalDatabase } from '@chess-store/selectors';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { filter, take } from 'rxjs';
-import { selectLocalDatabase } from 'src/app/store/selectors/core.selectors';
 import { LeaderboardElementWithId } from '../models/LeaderboardElements';
 import { DatabaseInfoUtils } from '../utils/database-info.utils';
 

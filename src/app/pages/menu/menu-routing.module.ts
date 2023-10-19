@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RouteUrls } from 'src/app/shared/enums/routes';
-import { CanActivateProfile } from 'src/app/shared/guards/can-activate-profile.guard';
+import { RouteUrls } from '@chess-enums';
+import { CanActivateProfile } from '@chess-guards';
 import { MenuComponent } from './menu.component';
 
 const routes: Routes = [

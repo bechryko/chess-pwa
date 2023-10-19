@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControl, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
-import { AuthUser } from 'src/app/shared/models/authUsers';
-import { BuiltInUsernamesUtils } from 'src/app/shared/utils/built-in-usernames.utils';
+import { AuthUser } from '@chess-models';
+import { BuiltInUsernamesUtils } from '@chess-utils';
 import { RegisterFormGroup } from './register-form-group.model';
 import { UniqueUsernameValidator } from './unique-username-validator';
 

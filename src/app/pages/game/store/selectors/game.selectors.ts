@@ -1,7 +1,7 @@
+import { GameSave, Gamemode } from "@chess-models";
 import { Dictionary } from "@ngrx/entity";
 import { MemoizedSelector, createFeatureSelector, createSelector } from "@ngrx/store";
-import { GameSave } from "src/app/shared/models/GameSave";
-import { Gamemode, Gamemodes } from "src/app/shared/models/Gamemode";
+import { Gamemodes } from "src/app/shared/models/Gamemode"; //TODO: util
 import { gameAdapter } from "../reducers/game.reducer";
 import { GameState } from "../states/game.state";
 

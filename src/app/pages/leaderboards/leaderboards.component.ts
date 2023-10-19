@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-
 import { Router } from '@angular/router';
+import { RouteUrls } from '@chess-enums';
+import { LeaderboardElement } from '@chess-models';
+import { LeaderboardStoreService } from '@chess-services';
 import { Observable } from 'rxjs';
-import { RouteUrls } from 'src/app/shared/enums/routes';
-import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
-import { LeaderboardStoreService } from 'src/app/shared/services/leaderboard-store.service';
 
 @Component({
    selector: 'app-leaderboards',

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { authActions } from '@chess-store/actions';
+import { selectIsLoading, selectIsLoggedIn, selectUsername } from '@chess-store/selectors';
+import { AppState } from '@chess-store/states';
 import { Store } from '@ngrx/store';
 import { Observable, distinctUntilChanged, filter, map, tap } from 'rxjs';
-import { authActions } from 'src/app/store/actions/auth.actions';
-import { selectIsLoading, selectIsLoggedIn, selectUsername } from 'src/app/store/selectors/auth.selectors';
-import { AppState } from 'src/app/store/states/app.state';
 import { AuthUser, AuthUserWithoutName } from '../models/authUsers';
 import { multicast } from '../operators/multicast';
 

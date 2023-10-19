@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
+import { LeaderboardElement } from '@chess-models';
 
 @Component({
    selector: 'app-list',

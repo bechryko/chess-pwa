@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
+import { GameData, GameSave, Gamemode } from '@chess-models';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { first } from 'rxjs';
 import { gameActions } from 'src/app/pages/game/store/actions/game.actions';
 import { selectSaveByMode } from 'src/app/pages/game/store/selectors/game.selectors';
-import { GameData } from 'src/app/shared/models/GameData';
-import { GameSave } from 'src/app/shared/models/GameSave';
-import { Gamemode } from 'src/app/shared/models/Gamemode';
 import { ChessAI } from 'src/assets/chess/AI';
 import { Game } from 'src/assets/chess/Game';
 import { Move } from 'src/assets/chess/Move';

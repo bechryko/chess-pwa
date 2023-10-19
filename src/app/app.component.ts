@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { CheatCodeService } from './shared/services/cheat-code.service';
-import { LeaderboardStoreService } from './shared/services/leaderboard-store.service';
+import { CheatCodeService, LeaderboardStoreService } from '@chess-services';
 
 @Component({
    selector: 'app-root',
