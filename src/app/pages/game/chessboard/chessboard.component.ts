@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Position } from 'src/assets/chess/utility';
+import { Position } from '@chess-core';
 
 @Component({
    selector: 'app-chessboard',

@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { CheckType, PieceColor } from '@chess-core';
 import { Gamemode } from '@chess-models';
-import { CheckType } from 'src/assets/chess/Game';
-import { PieceColor } from 'src/assets/chess/utility';
 
 @Pipe({
    name: 'pveWinDetector',

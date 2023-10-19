@@ -1,13 +1,14 @@
 import { Move } from './Move';
-import * as pieces from './Piece';
-import { PieceColor, PieceType, Position, filter } from './utility';
-
-export type CheckType = PieceColor | "none" | "stalemate";
+import { PieceColor, PieceType } from './enums';
+import { CastlingObject, Position } from './models';
+import { CheckType } from './models/CheckType';
+import * as pieces from './pieces';
+import { filter } from './utils';
 
 export class Game {
    public pieces: pieces.Piece[];
    public current: PieceColor = PieceColor.WHITE;
-   public castling = { white: { king: true, queen: true }, black: { king: true, queen: true } };
+   public castling: CastlingObject = { white: { king: true, queen: true }, black: { king: true, queen: true } };
    public turn = 0;
    public ended = false;
 

@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
+import { ChessAI, Game, Move, PieceColor, Position } from '@chess-core';
 import { GameData, GameSave, Gamemode } from '@chess-models';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { first } from 'rxjs';
 import { gameActions } from 'src/app/pages/game/store/actions/game.actions';
 import { selectSaveByMode } from 'src/app/pages/game/store/selectors/game.selectors';
-import { ChessAI } from 'src/assets/chess/AI';
-import { Game } from 'src/assets/chess/Game';
-import { Move } from 'src/assets/chess/Move';
-import { PieceColor, Position } from 'src/assets/chess/utility';
 import { ChessMoveValidatorUtils } from './chess-move-validator.utils';
 
 @Injectable()

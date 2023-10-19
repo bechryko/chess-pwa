@@ -34,7 +34,8 @@
       "@chess-pipes": ["src/app/shared/pipes"],
       "@chess-services": ["src/app/shared/services"],
       "@chess-utils": ["src/app/shared/utils"],
-      "@chess-store/*": ["src/app/store/*"]
+      "@chess-store/*": ["src/app/store/*"],
+      "@chess-core": ["src/app/core"]
     }
   },
   "angularCompilerOptions": {

@@ -1,5 +1,4 @@
-import { CheckType } from "src/assets/chess/Game";
-import { PieceColor } from "src/assets/chess/utility";
+import { CheckType, PieceColor } from "@chess-core";
 
 export interface GameData {
    displayBoard: string[][];

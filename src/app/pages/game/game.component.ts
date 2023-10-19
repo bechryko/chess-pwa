@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Move, PieceColor, Position } from '@chess-core';
 import { RouteUrls } from '@chess-enums';
 import { GameData, LeaderboardElement } from '@chess-models';
 import { AuthService, ErrorService, LeaderboardStoreService } from '@chess-services';
@@ -7,8 +8,6 @@ import { BuiltInUsernamesUtils } from '@chess-utils';
 import { TranslocoService } from '@ngneat/transloco';
 import { Observable } from 'rxjs';
 import { Gamemodes } from 'src/app/shared/models/Gamemode'; //TODO: util
-import { Move } from 'src/assets/chess/Move';
-import { PieceColor, Position } from 'src/assets/chess/utility';
 import { GameHandlerService } from './game-handler.service';
 
 @Component({
