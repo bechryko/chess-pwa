@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouteUrls } from '@chess-enums';
+import { Route } from '@chess-enums';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
@@ -20,6 +20,6 @@ export class NotFoundComponent {
    ) { }
 
    public toMenu() {
-      this.router.navigateByUrl(RouteUrls.MENU);
+      this.router.navigateByUrl(Route.MENU);
    }
 }

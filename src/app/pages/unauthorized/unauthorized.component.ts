@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouteUrls } from '@chess-enums';
+import { Route } from '@chess-enums';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
@@ -21,7 +21,7 @@ export class UnauthorizedComponent {
    ) { }
 
    public toMenu(): void {
-      this.router.navigateByUrl(RouteUrls.MENU);
+      this.router.navigateByUrl(Route.MENU);
    }
 
 }

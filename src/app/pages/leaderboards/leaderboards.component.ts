@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouteUrls } from '@chess-enums';
+import { Route } from '@chess-enums';
 import { LeaderboardElement } from '@chess-models';
 import { LeaderboardStoreService } from '@chess-services';
 import { Observable } from 'rxjs';
@@ -22,6 +22,6 @@ export class LeaderboardsComponent {
    }
 
    public toMenu() {
-      this.router.navigateByUrl(RouteUrls.MENU);
+      this.router.navigateByUrl(Route.MENU);
    }
 }

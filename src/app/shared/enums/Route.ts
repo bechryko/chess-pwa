@@ -1,4 +1,4 @@
-export enum RouteUrls {
+export enum Route {
    MENU = 'menu',
    PROFILE = 'menu/profile',
    LEADERBOARDS = 'menu/leaderboards',

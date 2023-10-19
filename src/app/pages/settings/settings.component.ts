@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Languages } from '@chess-enums';
+import { Language } from '@chess-enums';
 import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
@@ -10,8 +10,8 @@ import { TranslocoService } from '@ngneat/transloco';
    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsComponent {
-   public readonly availableLanguages = Object.values(Languages);
-   public selectedLanguageIdx = this.availableLanguages.indexOf(this.transloco.getActiveLang() as Languages);
+   public readonly availableLanguages = Object.values(Language);
+   public selectedLanguageIdx = this.availableLanguages.indexOf(this.transloco.getActiveLang() as Language);
 
    constructor(
       private location: Location,

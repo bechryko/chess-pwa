@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Move, PieceColor, Position } from '@chess-core';
-import { RouteUrls } from '@chess-enums';
+import { Route } from '@chess-enums';
 import { GameData, LeaderboardElement } from '@chess-models';
 import { AuthService, ErrorService, LeaderboardStoreService } from '@chess-services';
 import { BuiltInUsernamesUtils } from '@chess-utils';
@@ -41,7 +41,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
    public ngOnInit(): void {
       if (!this.initialize()) {
-         this.router.navigateByUrl(RouteUrls.GAMEMODE_CHOOSER);
+         this.router.navigateByUrl(Route.GAMEMODE_CHOOSER);
       }
       this.syncGameData();
       if (!this.gameHandlerService.isHumanTurn()) {
@@ -90,7 +90,7 @@ export class GameComponent implements OnInit, OnDestroy {
    }
 
    public backToMenu(): void {
-      this.router.navigateByUrl(RouteUrls.GAMEMODE_CHOOSER);
+      this.router.navigateByUrl(Route.GAMEMODE_CHOOSER);
    }
 
    public isGameWonVsAI(): boolean {
@@ -111,7 +111,7 @@ export class GameComponent implements OnInit, OnDestroy {
          leaderboardElement.name = BuiltInUsernamesUtils.USERNAMES.MISSING;
       }
       this.leaderboardStore.storeItem(leaderboardElement);
-      this.router.navigateByUrl(RouteUrls.LEADERBOARDS);
+      this.router.navigateByUrl(Route.LEADERBOARDS);
    }
 
    private initialize(): boolean {

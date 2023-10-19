@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { Router } from "@angular/router";
-import { RouteUrls } from "@chess-enums";
+import { Route } from "@chess-enums";
 import { ChessUser } from "@chess-models";
 import { ErrorService, UserService } from "@chess-services";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
@@ -67,7 +67,7 @@ export class AuthEffects {
    public authenticationSuccess$ = createEffect(() => this.actions$.pipe(
       ofType(authActions.loginSuccess),
       filter(({ doNavigate }) => doNavigate),
-      tap(_ => this.router.navigateByUrl(RouteUrls.MENU))
+      tap(_ => this.router.navigateByUrl(Route.MENU))
    ), { dispatch: false });
 
    constructor(
