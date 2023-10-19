@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CheatCodeService, LeaderboardStoreService } from '@chess-services';
+import { Gamemode } from './shared/enums/Gamemode';
 
 @Component({
    selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.leaderboardStore.pullDataFromCloud();
       this.cheatCodeService.registerSecretCode("leaderboardtest", () => {
          this.leaderboardStore.storeItem({
-            gamemode: "pve",
+            gamemode: Gamemode.PVE,
             name: "cheat",
             score: Number(window.prompt("Enter your score:") ?? 0)
          });

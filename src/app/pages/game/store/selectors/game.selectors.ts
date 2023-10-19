@@ -1,7 +1,7 @@
-import { GameSave, Gamemode } from "@chess-models";
+import { Gamemode } from "@chess-enums";
+import { GameSave } from "@chess-models";
 import { Dictionary } from "@ngrx/entity";
 import { MemoizedSelector, createFeatureSelector, createSelector } from "@ngrx/store";
-import { Gamemodes } from "src/app/shared/models/Gamemode"; //TODO: util
 import { gameAdapter } from "../reducers/game.reducer";
 import { GameState } from "../states/game.state";
 
@@ -16,7 +16,7 @@ type GameSelector = MemoizedSelector<object, GameSave | undefined, (s1: Dictiona
 type GameSelectorRecord = Record<Gamemode, GameSelector>;
 
 export const selectSaveByMode: GameSelectorRecord = {} as GameSelectorRecord;
-for(const mode of Gamemodes) {
+for(const mode of Object.values(Gamemode)) {
    const typedMode = mode as Gamemode;
    selectSaveByMode[typedMode] = createSelector(
       selectSaves,

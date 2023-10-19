@@ -2,7 +2,6 @@
 export { ChessUser } from './ChessUser';
 export { GameData } from './GameData';
 export { GameSave } from './GameSave';
-export { Gamemode } from './Gamemode';
 export { LeaderboardElement, LeaderboardElementWithId } from './LeaderboardElements';
 export { AuthUser, AuthUserWithoutName } from './authUsers';
 

@@ -1,5 +1,5 @@
 import { Game, PieceColor } from "@chess-core";
-import { Gamemode } from "./Gamemode";
+import { Gamemode } from "../enums/Gamemode";
 
 export interface GameSave {
    game: Game,

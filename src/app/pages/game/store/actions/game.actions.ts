@@ -1,4 +1,5 @@
-import { GameSave, Gamemode } from "@chess-models";
+import { Gamemode } from "@chess-enums";
+import { GameSave } from "@chess-models";
 import { createActionGroup, props } from "@ngrx/store";
 
 export const gameActions = createActionGroup({

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { Gamemode } from './shared/enums/Gamemode';
 import { Route } from './shared/enums/Route';
-import { Gamemodes } from './shared/models/Gamemode';
 import { ChessPreloadingStrategyService } from './shared/services/chess-preloading-strategy.service';
 
 const routes: Routes = [
@@ -12,7 +12,7 @@ const routes: Routes = [
    },
    {
       path: Route.GAME,
-      redirectTo: Route.GAME + "/" + Gamemodes[0],
+      redirectTo: Route.GAME + "/" + Gamemode.PVP,
       pathMatch: 'full'
    },
    {

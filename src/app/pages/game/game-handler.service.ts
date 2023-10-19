@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ChessAI, Game, Move, PieceColor, Position } from '@chess-core';
-import { GameData, GameSave, Gamemode } from '@chess-models';
+import { Gamemode } from '@chess-enums';
+import { GameData, GameSave } from '@chess-models';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { first } from 'rxjs';
@@ -10,7 +11,7 @@ import { ChessMoveValidatorUtils } from './chess-move-validator.utils';
 
 @Injectable()
 export class GameHandlerService {
-   private currentSave: GameSave = this.createNewGame("pvp");
+   private currentSave: GameSave = this.createNewGame(Gamemode.PVP);
    private displayBoard: string[][] = Array(8).fill("empty").map(element => Array(8).fill(element));
    private announcement: string = "";
 

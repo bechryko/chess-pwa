@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Move, PieceColor, Position } from '@chess-core';
-import { Route } from '@chess-enums';
+import { Gamemode, Route } from '@chess-enums';
 import { GameData, LeaderboardElement } from '@chess-models';
 import { AuthService, ErrorService, LeaderboardStoreService } from '@chess-services';
 import { BuiltInUsernamesUtils } from '@chess-utils';
 import { TranslocoService } from '@ngneat/transloco';
 import { Observable } from 'rxjs';
-import { Gamemodes } from 'src/app/shared/models/Gamemode'; //TODO: util
 import { GameHandlerService } from './game-handler.service';
 
 @Component({
@@ -103,7 +102,7 @@ export class GameComponent implements OnInit, OnDestroy {
          return;
       }
       const leaderboardElement: LeaderboardElement = {
-         gamemode: "pve",
+         gamemode: Gamemode.PVE,
          name,
          score: this.gameData.turnNumber
       };
@@ -116,7 +115,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
    private initialize(): boolean {
       const gamemode = this.activatedRoute.snapshot.paramMap.get('mode');
-      return Gamemodes.some(mode => {
+      return Object.values(Gamemode).some(mode => {
          if (gamemode === mode) {
             this.gameHandlerService.init(gamemode);
             this.isInitialized = true;
