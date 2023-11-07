@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AuthService } from '@chess-services';
 import { Observable } from 'rxjs';
-import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
-   selector: 'app-menu',
+   selector: 'chess-menu',
    templateUrl: './menu.component.html',
    styleUrls: ['./menu.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush

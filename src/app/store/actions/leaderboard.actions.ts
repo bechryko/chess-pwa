@@ -1,5 +1,5 @@
+import { LeaderboardElementWithId } from "@chess-models";
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
-import { LeaderboardElementWithId } from "src/app/shared/models/LeaderboardElements";
 
 export const leaderboardActions = createActionGroup({
    source: "Leaderboard",

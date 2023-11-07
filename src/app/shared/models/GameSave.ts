@@ -1,6 +1,5 @@
-import { Game } from "src/assets/chess/Game";
-import { PieceColor } from "src/assets/chess/utility";
-import { Gamemode } from "./Gamemode";
+import { Game, PieceColor } from "@chess-core";
+import { Gamemode } from "../enums/Gamemode";
 
 export interface GameSave {
    game: Game,

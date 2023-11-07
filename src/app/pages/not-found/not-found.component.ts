@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Route } from '@chess-enums';
 import { TranslocoModule } from '@ngneat/transloco';
-import { RouteUrls } from 'src/app/shared/enums/routes';
 
 @Component({
-   selector: 'app-not-found',
+   selector: 'chess-not-found',
    templateUrl: './not-found.component.html',
    styleUrls: ['./not-found.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,6 +20,6 @@ export class NotFoundComponent {
    ) { }
 
    public toMenu() {
-      this.router.navigateByUrl(RouteUrls.MENU);
+      this.router.navigateByUrl(Route.MENU);
    }
 }

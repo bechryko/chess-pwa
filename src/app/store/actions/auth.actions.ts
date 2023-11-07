@@ -1,6 +1,5 @@
+import { AuthUser, AuthUserWithoutName, ChessUser } from "@chess-models";
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
-import { ChessUser } from "src/app/shared/models/ChessUser";
-import { AuthUser, AuthUserWithoutName } from "src/app/shared/models/authUsers";
 
 export const authActions = createActionGroup({
    source: "Auth",

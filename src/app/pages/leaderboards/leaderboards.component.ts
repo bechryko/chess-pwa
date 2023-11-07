@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-
 import { Router } from '@angular/router';
+import { Route } from '@chess-enums';
+import { LeaderboardElement } from '@chess-models';
+import { LeaderboardStoreService } from '@chess-services';
 import { Observable } from 'rxjs';
-import { RouteUrls } from 'src/app/shared/enums/routes';
-import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
-import { LeaderboardStoreService } from 'src/app/shared/services/leaderboard-store.service';
 
 @Component({
-   selector: 'app-leaderboards',
+   selector: 'chess-leaderboards',
    templateUrl: './leaderboards.component.html',
    styleUrls: ['./leaderboards.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush
@@ -23,6 +22,6 @@ export class LeaderboardsComponent {
    }
 
    public toMenu() {
-      this.router.navigateByUrl(RouteUrls.MENU);
+      this.router.navigateByUrl(Route.MENU);
    }
 }

@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
+import { DatabaseProxyService } from "@chess-services";
 import { Actions, concatLatestFrom, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { catchError, exhaustMap, from, map, of } from "rxjs";
-import { DatabaseProxyService } from "src/app/shared/services/database-proxy.service";
 import { leaderboardActions } from "../actions/leaderboard.actions";
 import { selectIsOfflineQueueHandled } from "../selectors/leaderboard.selectors";
 

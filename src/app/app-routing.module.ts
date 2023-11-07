@@ -1,26 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RouteUrls } from './shared/enums/routes';
-import { Gamemodes } from './shared/models/Gamemode';
+import { Gamemode } from './shared/enums/Gamemode';
+import { Route } from './shared/enums/Route';
 import { ChessPreloadingStrategyService } from './shared/services/chess-preloading-strategy.service';
 
 const routes: Routes = [
    {
       path: '',
-      redirectTo: RouteUrls.MENU,
+      redirectTo: Route.MENU,
       pathMatch: 'full'
    },
    {
-      path: RouteUrls.GAME,
-      redirectTo: RouteUrls.GAME + "/" + Gamemodes[0],
+      path: Route.GAME,
+      redirectTo: Route.GAME + "/" + Gamemode.PVP,
       pathMatch: 'full'
    },
    {
-      path: RouteUrls.MENU,
+      path: Route.MENU,
       loadChildren: () => import('./pages/menu/menu.module').then(m => m.MenuModule)
    },
    { 
-      path: RouteUrls.SETTINGS, 
+      path: Route.SETTINGS, 
       loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsModule) 
    },
    { 
@@ -28,7 +28,7 @@ const routes: Routes = [
       loadChildren: () => import('./pages/game/game.module').then(m => m.GameModule) 
    },
    { 
-      path: RouteUrls.UNAUTHORIZED, 
+      path: Route.UNAUTHORIZED, 
       loadComponent: () => import('./pages/unauthorized/unauthorized.component').then(m => m.UnauthorizedComponent) 
    },
    {

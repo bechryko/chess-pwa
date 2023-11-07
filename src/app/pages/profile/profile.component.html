@@ -2,10 +2,10 @@
    <h2>{{ "auth.title" | transloco }}</h2>
    <mat-tab-group *ngIf="{ loading: (isLoading$ | async) ?? true } as data">
       <mat-tab label="{{ 'auth.buttons.login' | transloco }}">
-         <app-login (loginEvent)="loginSubmit($event)" [disableSubmit]="data.loading"></app-login>
+         <chess-login (loginEvent)="loginSubmit($event)" [disableSubmit]="data.loading"></chess-login>
       </mat-tab>
       <mat-tab label="{{ 'auth.buttons.register' | transloco }}">
-         <app-register (registerEvent)="registerSubmit($event)" [disableSubmit]="data.loading"></app-register>
+         <chess-register (registerEvent)="registerSubmit($event)" [disableSubmit]="data.loading"></chess-register>
       </mat-tab>
    </mat-tab-group>
    <button mat-flat-button color="accent" (click)="goBack()" class="alignBottom">{{ "shared.backToMenu" | transloco }}</button>

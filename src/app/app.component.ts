@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { CheatCodeService } from './shared/services/cheat-code.service';
-import { LeaderboardStoreService } from './shared/services/leaderboard-store.service';
+import { CheatCodeService, LeaderboardStoreService } from '@chess-services';
+import { Gamemode } from './shared/enums/Gamemode';
 
 @Component({
-   selector: 'app-root',
+   selector: 'chess-root',
    templateUrl: './app.component.html',
    styleUrls: ['./app.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.leaderboardStore.pullDataFromCloud();
       this.cheatCodeService.registerSecretCode("leaderboardtest", () => {
          this.leaderboardStore.storeItem({
-            gamemode: "pve",
+            gamemode: Gamemode.PVE,
             name: "cheat",
             score: Number(window.prompt("Enter your score:") ?? 0)
          });

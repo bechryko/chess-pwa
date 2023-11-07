@@ -7,7 +7,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-   selector: 'app-user-info',
+   selector: 'chess-user-info',
    standalone: true,
    imports: [
       CommonModule,

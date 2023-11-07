@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { AuthUserWithoutName } from 'src/app/shared/models/authUsers';
+import { AuthUserWithoutName } from '@chess-models';
 import { LoginFormGroup } from './login-form-group.model';
 
 @Component({
-   selector: 'app-login',
+   selector: 'chess-login',
    templateUrl: './login.component.html',
    styleUrls: ['../profile.component.scss']
 })

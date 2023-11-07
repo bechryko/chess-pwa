@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CanDeactivateGame } from 'src/app/shared/guards/can-deactivate-game.guard';
+import { CanDeactivateGame } from '@chess-guards';
 import { GameComponent } from './game.component';
 
 const routes: Routes = [

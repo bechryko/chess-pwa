@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Position } from 'src/assets/chess/utility';
+import { Position } from '@chess-core';
 
 @Pipe({
    name: 'isHighlighted',

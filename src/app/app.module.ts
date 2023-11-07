@@ -11,16 +11,16 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { UserInfoComponent } from '@chess-components/user-info/user-info.component';
+import { AuthEffects } from '@chess-store/effects/auth.effects';
+import { LeaderboardEffects } from '@chess-store/effects/leaderboard.effects';
+import { authReducer } from '@chess-store/reducers/auth.reducer';
+import { coreReducer } from '@chess-store/reducers/core.reducer';
+import { leaderboardReducer } from '@chess-store/reducers/leaderboard.reducer';
+import { AppInitializationUtils } from '@chess-utils';
 import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
 import { environment } from '../environments/environment';
-import { UserInfoComponent } from './shared/components/user-info/user-info.component';
-import { AppInitializationUtils } from './shared/utils/app-initialization.utils';
-import { AuthEffects } from './store/effects/auth.effects';
-import { LeaderboardEffects } from './store/effects/leaderboard.effects';
-import { authReducer } from './store/reducers/auth.reducer';
-import { coreReducer } from './store/reducers/core.reducer';
-import { leaderboardReducer } from './store/reducers/leaderboard.reducer';
 import { TranslocoRootModule } from './transloco-root.module';
 
 @NgModule({

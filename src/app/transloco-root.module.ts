@@ -8,7 +8,7 @@ import {
    TranslocoModule,
    translocoConfig
 } from '@ngneat/transloco';
-import { Languages } from './shared/enums/languages';
+import { Language } from './shared/enums/Language';
 
 
 @Injectable({ providedIn: 'root' })
@@ -26,8 +26,8 @@ export class TranslocoHttpLoader implements TranslocoLoader {
       {
          provide: TRANSLOCO_CONFIG,
          useValue: translocoConfig({
-            availableLangs: Object.values(Languages),
-            defaultLang: Languages.ENGLISH,
+            availableLangs: Object.values(Language),
+            defaultLang: Language.ENGLISH,
             // Remove this option if your application doesn't support changing language in runtime.
             reRenderOnLangChange: true,
             prodMode: !isDevMode(),

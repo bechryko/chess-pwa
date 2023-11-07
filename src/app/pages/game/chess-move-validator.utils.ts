@@ -1,6 +1,4 @@
-import { Game } from "src/assets/chess/Game";
-import { Move } from "src/assets/chess/Move";
-import { Position } from "src/assets/chess/utility";
+import { Game, Move, Position } from '@chess-core';
 
 export class ChessMoveValidatorUtils {
 

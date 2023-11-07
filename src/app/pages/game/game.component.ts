@@ -1,21 +1,16 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Move, PieceColor, Position } from '@chess-core';
+import { Gamemode, Route } from '@chess-enums';
+import { GameData, LeaderboardElement } from '@chess-models';
+import { AuthService, ErrorService, LeaderboardStoreService } from '@chess-services';
+import { BuiltInUsernamesUtils } from '@chess-utils';
 import { TranslocoService } from '@ngneat/transloco';
 import { Observable } from 'rxjs';
-import { RouteUrls } from 'src/app/shared/enums/routes';
-import { GameData } from 'src/app/shared/models/GameData';
-import { Gamemodes } from 'src/app/shared/models/Gamemode';
-import { LeaderboardElement } from 'src/app/shared/models/LeaderboardElements';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { ErrorService } from 'src/app/shared/services/error.service';
-import { LeaderboardStoreService } from 'src/app/shared/services/leaderboard-store.service';
-import { BuiltInUsernamesUtils } from 'src/app/shared/utils/built-in-usernames.utils';
-import { Move } from 'src/assets/chess/Move';
-import { PieceColor, Position } from 'src/assets/chess/utility';
 import { GameHandlerService } from './game-handler.service';
 
 @Component({
-   selector: 'app-game',
+   selector: 'chess-game',
    templateUrl: './game.component.html',
    styleUrls: ['./game.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush
@@ -45,7 +40,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
    public ngOnInit(): void {
       if (!this.initialize()) {
-         this.router.navigateByUrl(RouteUrls.GAMEMODE_CHOOSER);
+         this.router.navigateByUrl(Route.GAMEMODE_CHOOSER);
       }
       this.syncGameData();
       if (!this.gameHandlerService.isHumanTurn()) {
@@ -94,7 +89,7 @@ export class GameComponent implements OnInit, OnDestroy {
    }
 
    public backToMenu(): void {
-      this.router.navigateByUrl(RouteUrls.GAMEMODE_CHOOSER);
+      this.router.navigateByUrl(Route.GAMEMODE_CHOOSER);
    }
 
    public isGameWonVsAI(): boolean {
@@ -107,7 +102,7 @@ export class GameComponent implements OnInit, OnDestroy {
          return;
       }
       const leaderboardElement: LeaderboardElement = {
-         gamemode: "pve",
+         gamemode: Gamemode.PVE,
          name,
          score: this.gameData.turnNumber
       };
@@ -115,12 +110,12 @@ export class GameComponent implements OnInit, OnDestroy {
          leaderboardElement.name = BuiltInUsernamesUtils.USERNAMES.MISSING;
       }
       this.leaderboardStore.storeItem(leaderboardElement);
-      this.router.navigateByUrl(RouteUrls.LEADERBOARDS);
+      this.router.navigateByUrl(Route.LEADERBOARDS);
    }
 
    private initialize(): boolean {
       const gamemode = this.activatedRoute.snapshot.paramMap.get('mode');
-      return Gamemodes.some(mode => {
+      return Object.values(Gamemode).some(mode => {
          if (gamemode === mode) {
             this.gameHandlerService.init(gamemode);
             this.isInitialized = true;

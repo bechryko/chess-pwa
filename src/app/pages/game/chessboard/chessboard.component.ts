@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Position } from 'src/assets/chess/utility';
+import { Position } from '@chess-core';
 
 @Component({
-   selector: 'app-chessboard',
+   selector: 'chess-chessboard',
    templateUrl: './chessboard.component.html',
    styleUrls: ['./chessboard.component.scss'],
    changeDetection: ChangeDetectionStrategy.OnPush

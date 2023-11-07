@@ -1,10 +1,10 @@
-import { CheckType } from "src/assets/chess/Game";
-import { PieceColor } from "src/assets/chess/utility";
+import { CheckType, PieceColor } from "@chess-core";
+import { Gamemode } from "../enums/Gamemode";
 
 export interface GameData {
    displayBoard: string[][];
    announcement: string;
-   gamemode: "pvp" | "pve" | "eve";
+   gamemode: Gamemode;
    winner: CheckType;
    turnNumber: number;
    humanPlayers: PieceColor[];

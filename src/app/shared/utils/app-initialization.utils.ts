@@ -1,5 +1,5 @@
+import { initActions } from "@chess-store/actions";
 import { Store } from "@ngrx/store";
-import { initActions } from "src/app/store/actions/init.actions";
 import { DatabaseInfoUtils } from "./database-info.utils";
 
 export class AppInitializationUtils {

@@ -1,6 +1,6 @@
 import { Game } from './Game';
 import { Move } from './Move';
-import { PieceType } from './utility';
+import { PieceType } from './enums';
 
 interface NegamaxReturnValue {
    bestMove: Move | null,

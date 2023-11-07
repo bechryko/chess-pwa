@@ -1,4 +1,4 @@
-import { Gamemode } from "./Gamemode";
+import { Gamemode } from "../enums/Gamemode";
 
 export interface LeaderboardElement {
    gamemode: Gamemode;

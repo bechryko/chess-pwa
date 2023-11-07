@@ -1,6 +1,6 @@
+import { LeaderboardElementWithId } from "@chess-models";
 import { createEntityAdapter } from "@ngrx/entity";
 import { createReducer, on } from "@ngrx/store";
-import { LeaderboardElementWithId } from "src/app/shared/models/LeaderboardElements";
 import { leaderboardActions } from "../actions/leaderboard.actions";
 import { LeaderboardState } from "../states/leaderboard.state";
 
